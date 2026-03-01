@@ -241,7 +241,7 @@ hint里又说，先让一个CPU有全部的内存块</p>
 </span></span><span class="line"><span class="cl">    <span class="n">r</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">kmem</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">freelist</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="n">kmem</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">freelist</span> <span class="o">=</span> <span class="n">r</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="n">i</span><span class="o">++</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">i</span> <span class="o">%=</span><span class="n">NCPU</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">i</span> <span class="o">%=</span> <span class="mi">3</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">  <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><h2 id="kfree的修改">
@@ -251,7 +251,6 @@ hint里又说，先让一个CPU有全部的内存块</p>
     <span class="sr-only">链接到标题</span>
   </a>
 </h2>
-<p>这里可能有问题，现在通不过test3</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">void</span>
 </span></span><span class="line"><span class="cl"><span class="nf">kfree</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">pa</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="p">{</span>
@@ -281,62 +280,46 @@ hint里又说，先让一个CPU有全部的内存块</p>
     <span class="sr-only">链接到标题</span>
   </a>
 </h2>
-<p>这里可能有问题，test3通不过</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">void</span> <span class="o">*</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// Allocate one 4096-byte page of physical memory.
+</span></span></span><span class="line"><span class="cl"><span class="c1">// Returns a pointer that the kernel can use.
+</span></span></span><span class="line"><span class="cl"><span class="c1">// Returns 0 if the memory cannot be allocated.
+</span></span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="o">*</span>
 </span></span><span class="line"><span class="cl"><span class="nf">kalloc</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">struct</span> <span class="n">run</span> <span class="o">*</span><span class="n">r</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">  <span class="nf">push_off</span><span class="p">();</span>
 </span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">cpu_id</span> <span class="o">=</span> <span class="nf">cpuid</span><span class="p">();</span>
-</span></span><span class="line"><span class="cl">  <span class="k">struct</span> <span class="n">run</span> <span class="o">*</span><span class="n">r</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  <span class="c1">// 1. 尝试本地分配（必须加锁！）
-</span></span></span><span class="line"><span class="cl">  <span class="nf">acquire</span><span class="p">(</span><span class="o">&amp;</span><span class="n">kmem</span><span class="p">[</span><span class="n">cpu_id</span><span class="p">].</span><span class="n">lock</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">  <span class="n">r</span> <span class="o">=</span> <span class="n">kmem</span><span class="p">[</span><span class="n">cpu_id</span><span class="p">].</span><span class="n">freelist</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">  <span class="k">if</span><span class="p">(</span><span class="n">r</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">acquire</span><span class="p">(</span><span class="o">&amp;</span><span class="n">kmem</span><span class="p">[</span><span class="n">cpu_id</span><span class="p">].</span><span class="n">lock</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span><span class="p">(</span><span class="n">kmem</span><span class="p">[</span><span class="n">cpu_id</span><span class="p">].</span><span class="n">freelist</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">        <span class="n">r</span> <span class="o">=</span> <span class="n">kmem</span><span class="p">[</span><span class="n">cpu_id</span><span class="p">].</span><span class="n">freelist</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="n">kmem</span><span class="p">[</span><span class="n">cpu_id</span><span class="p">].</span><span class="n">freelist</span> <span class="o">=</span> <span class="n">r</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">//kmem[cpu_id].num--;
+</span></span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">release</span><span class="p">(</span><span class="o">&amp;</span><span class="n">kmem</span><span class="p">[</span><span class="n">cpu_id</span><span class="p">].</span><span class="n">lock</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">pop_off</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="c1">//这里可以关了，总之开偷了肯定会有冲突
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="p">(</span><span class="n">cpu_id</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">%</span><span class="n">NCPU</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">  <span class="c1">// 2. 本地失败，尝试窃取
 </span></span></span><span class="line"><span class="cl">  <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">r</span><span class="p">){</span>
-</span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">run</span> <span class="o">*</span> <span class="n">s_head</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">cpu_id</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">i</span> <span class="o">%=</span> <span class="n">NCPU</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="k">while</span><span class="p">(</span><span class="mi">1</span><span class="p">){</span>
-</span></span><span class="line"><span class="cl">      <span class="k">if</span><span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">cpu_id</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">      <span class="nf">acquire</span><span class="p">(</span><span class="o">&amp;</span><span class="n">kmem</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">lock</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">      <span class="c1">//一次偷多个
-</span></span></span><span class="line"><span class="cl">      <span class="k">if</span><span class="p">(</span><span class="n">kmem</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">freelist</span><span class="p">){</span>
-</span></span><span class="line"><span class="cl">        <span class="n">s_head</span> <span class="o">=</span> <span class="n">kmem</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">freelist</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="k">struct</span> <span class="n">run</span> <span class="o">*</span> <span class="n">tmp</span> <span class="o">=</span> <span class="n">kmem</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">freelist</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="k">while</span><span class="p">(</span> <span class="n">kmem</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">freelist</span> <span class="o">&amp;&amp;</span> <span class="n">kmem</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">freelist</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">){</span>
-</span></span><span class="line"><span class="cl">          <span class="n">kmem</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">freelist</span> <span class="o">=</span> <span class="n">kmem</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">freelist</span><span class="o">-&gt;</span><span class="n">next</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">          <span class="n">tmp</span> <span class="o">=</span> <span class="n">tmp</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}</span>
-</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">tmp</span><span class="p">){</span>
-</span></span><span class="line"><span class="cl">          <span class="n">kmem</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">freelist</span> <span class="o">=</span> <span class="n">tmp</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">          <span class="n">tmp</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}</span><span class="k">else</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">          <span class="n">kmem</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">freelist</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">NCPU</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">){</span><span class="c1">//这里用NCPU保证所有内存可以分配
+</span></span></span><span class="line"><span class="cl">      <span class="nf">acquire</span><span class="p">(</span><span class="o">&amp;</span><span class="n">kmem</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">lock</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span><span class="p">(</span> <span class="n">kmem</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">freelist</span> <span class="p">){</span>
+</span></span><span class="line"><span class="cl">        <span class="n">r</span> <span class="o">=</span> <span class="n">kmem</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">freelist</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">kmem</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">freelist</span> <span class="o">=</span> <span class="n">r</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">        <span class="nf">release</span><span class="p">(</span><span class="o">&amp;</span><span class="n">kmem</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">lock</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">        <span class="k">break</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">      <span class="p">}</span>
-</span></span><span class="line"><span class="cl">      <span class="nf">release</span><span class="p">(</span><span class="o">&amp;</span><span class="n">kmem</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">lock</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">      <span class="n">i</span><span class="o">++</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">      <span class="n">i</span><span class="o">%=</span><span class="n">NCPU</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">s_head</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">      <span class="n">kmem</span><span class="p">[</span><span class="n">cpu_id</span><span class="p">].</span><span class="n">freelist</span> <span class="o">=</span> <span class="n">s_head</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">      <span class="n">r</span> <span class="o">=</span> <span class="n">kmem</span><span class="p">[</span><span class="n">cpu_id</span><span class="p">].</span><span class="n">freelist</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">      <span class="n">kmem</span><span class="p">[</span><span class="n">cpu_id</span><span class="p">].</span><span class="n">freelist</span> <span class="o">=</span> <span class="n">r</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">release</span><span class="p">(</span><span class="o">&amp;</span><span class="n">kmem</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">lock</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">i</span><span class="o">++</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">i</span><span class="o">%=</span><span class="n">NCPU</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
 </span></span><span class="line"><span class="cl">  <span class="p">}</span>
-</span></span><span class="line"><span class="cl">  <span class="nf">release</span><span class="p">(</span><span class="o">&amp;</span><span class="n">kmem</span><span class="p">[</span><span class="n">cpu_id</span><span class="p">].</span><span class="n">lock</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="nf">memset</span><span class="p">((</span><span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="n">r</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">PGSIZE</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">  <span class="p">}</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  <span class="nf">pop_off</span><span class="p">();</span>
 </span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">)</span><span class="n">r</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><h1 id="已有优化">
@@ -347,20 +330,20 @@ hint里又说，先让一个CPU有全部的内存块</p>
   </a>
 </h1>
 <ul>
-<li>每个CPU在开始时均分内存</li>
+<li>每个CPU在开始时均分内存 //只有前3个，因为运行时实际上只有3个核</li>
 <li>kfree时看进程看自己在那个CPU上就将内存放在哪里</li>
 <li>kalloc在有时，只从自己身上拿，没有时窃取</li>
 </ul>
-<h1 id="问题">
-  问题
-  <a class="heading-link" href="#%e9%97%ae%e9%a2%98">
+<h1 id="坑">
+  坑
+  <a class="heading-link" href="#%e5%9d%91">
     <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
     <span class="sr-only">链接到标题</span>
   </a>
 </h1>
 <ul>
-<li>kalloc可能写错了逻辑, 导致3号以后的CPU压根没有内存用</li>
-<li>kfree总是要和kalloc里的steal来来竞争，看怎么降一点</li>
+<li>一定要在linux上跑，不能在wsl上，在wsl上永远过不了test3。</li>
+<li>KIMI跟我说要优化，一次偷别人的一半的内存搞得我走了好久弯路。</li>
 </ul>
 
       </div>
