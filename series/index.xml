@@ -15,12 +15,5 @@
       <guid>http://uogog.github.io/series/xv6/</guid>
       <description></description>
     </item>
-    <item>
-      <title>Test</title>
-      <link>http://uogog.github.io/series/test/</link>
-      <pubDate>Sat, 28 Feb 2026 14:43:32 +0800</pubDate>
-      <guid>http://uogog.github.io/series/test/</guid>
-      <description></description>
-    </item>
   </channel>
 </rss>
