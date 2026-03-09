@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Anaconda on UOG的BLOG</title>
+    <link>http://uogog.github.io/tags/anaconda/</link>
+    <description>Recent content in Anaconda on UOG的BLOG</description>
+    <generator>Hugo</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 09 Mar 2026 20:40:56 +0800</lastBuildDate>
+    <atom:link href="http://uogog.github.io/tags/anaconda/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>anaconda_安装</title>
+      <link>http://uogog.github.io/posts/anaconda_%E5%AE%89%E8%A3%85/</link>
+      <pubDate>Mon, 09 Mar 2026 20:40:56 +0800</pubDate>
+      <guid>http://uogog.github.io/posts/anaconda_%E5%AE%89%E8%A3%85/</guid>
+      <description>&lt;h1 id=&#34;anaconda_安装&#34;&gt;&#xA;  anaconda_安装&#xA;  &lt;a class=&#34;heading-link&#34; href=&#34;#anaconda_%e5%ae%89%e8%a3%85&#34;&gt;&#xA;    &lt;i class=&#34;fa-solid fa-link&#34; aria-hidden=&#34;true&#34; title=&#34;链接到标题&#34;&gt;&lt;/i&gt;&#xA;    &lt;span class=&#34;sr-only&#34;&gt;链接到标题&lt;/span&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;p&gt;直接去&lt;a href=&#34;https://www.anaconda.com/download/success?reg=skipped&#34;  class=&#34;external-link&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;官网&lt;/a&gt;装就好，可以用&lt;strong&gt;miniconda&lt;/strong&gt;这个就是没有GUI&lt;br&gt;&#xA;装的时候，Linux的话就搞他的3行命令就很好&lt;br&gt;&#xA;如果是windows，想要自定义位置的话，一定要记住&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;他自动生成的那两个prompt的快捷方式的属性里的东西要改&lt;/strong&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;属性里目标栏要改&lt;/strong&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;打开文件所在位置一定不要选自己安装conda的位置&lt;/strong&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;</description>
+    </item>
+  </channel>
+</rss>

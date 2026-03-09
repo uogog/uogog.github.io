@@ -6,8 +6,15 @@
     <description>Recent content in Series on UOG的BLOG</description>
     <generator>Hugo</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 28 Feb 2026 14:51:29 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 09 Mar 2026 20:40:56 +0800</lastBuildDate>
     <atom:link href="http://uogog.github.io/series/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Pytorch</title>
+      <link>http://uogog.github.io/series/pytorch/</link>
+      <pubDate>Mon, 09 Mar 2026 20:40:56 +0800</pubDate>
+      <guid>http://uogog.github.io/series/pytorch/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Xv6</title>
       <link>http://uogog.github.io/series/xv6/</link>

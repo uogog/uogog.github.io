@@ -6,8 +6,29 @@
     <description>Recent content in Tags on UOG的BLOG</description>
     <generator>Hugo</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 28 Feb 2026 14:51:29 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 09 Mar 2026 20:40:56 +0800</lastBuildDate>
     <atom:link href="http://uogog.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Anaconda</title>
+      <link>http://uogog.github.io/tags/anaconda/</link>
+      <pubDate>Mon, 09 Mar 2026 20:40:56 +0800</pubDate>
+      <guid>http://uogog.github.io/tags/anaconda/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>安装</title>
+      <link>http://uogog.github.io/tags/%E5%AE%89%E8%A3%85/</link>
+      <pubDate>Mon, 09 Mar 2026 20:40:56 +0800</pubDate>
+      <guid>http://uogog.github.io/tags/%E5%AE%89%E8%A3%85/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>坑</title>
+      <link>http://uogog.github.io/tags/%E5%9D%91/</link>
+      <pubDate>Mon, 09 Mar 2026 20:40:56 +0800</pubDate>
+      <guid>http://uogog.github.io/tags/%E5%9D%91/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Lock</title>
       <link>http://uogog.github.io/tags/lock/</link>
@@ -23,10 +44,10 @@
       <description></description>
     </item>
     <item>
-      <title>未解决</title>
-      <link>http://uogog.github.io/tags/%E6%9C%AA%E8%A7%A3%E5%86%B3/</link>
+      <title>解决</title>
+      <link>http://uogog.github.io/tags/%E8%A7%A3%E5%86%B3/</link>
       <pubDate>Sat, 28 Feb 2026 14:51:29 +0800</pubDate>
-      <guid>http://uogog.github.io/tags/%E6%9C%AA%E8%A7%A3%E5%86%B3/</guid>
+      <guid>http://uogog.github.io/tags/%E8%A7%A3%E5%86%B3/</guid>
       <description></description>
     </item>
   </channel>
