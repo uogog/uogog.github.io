@@ -267,7 +267,7 @@ hint里又说，先让一个CPU有全部的内存块</p>
 </span></span><span class="line"><span class="cl"> 
 </span></span><span class="line"><span class="cl">  <span class="nf">push_off</span><span class="p">();</span>
 </span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">cpu_id</span> <span class="o">=</span> <span class="nf">cpuid</span><span class="p">();</span>
-</span></span><span class="line"><span class="cl">	<span class="c1">//int cpu_id = (uint64)r % NCPU;
+</span></span><span class="line"><span class="cl"> <span class="c1">//int cpu_id = (uint64)r % NCPU;
 </span></span></span><span class="line"><span class="cl">  <span class="nf">acquire</span><span class="p">(</span><span class="o">&amp;</span><span class="n">kmem</span><span class="p">[</span><span class="n">cpu_id</span><span class="p">].</span><span class="n">lock</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">  <span class="n">r</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">kmem</span><span class="p">[</span><span class="n">cpu_id</span><span class="p">].</span><span class="n">freelist</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">  <span class="n">kmem</span><span class="p">[</span><span class="n">cpu_id</span><span class="p">].</span><span class="n">freelist</span> <span class="o">=</span> <span class="n">r</span><span class="p">;</span>
