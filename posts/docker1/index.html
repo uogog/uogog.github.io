@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+  <title>
+  docker_learn1 · UOG的BLOG
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="UOGOG">
+<meta name="description" content="docker的简单运用">
+<meta name="keywords" content="blog,developer,personal">
+
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="docker_learn1">
+  <meta name="twitter:description" content="docker的简单运用">
+
+<meta property="og:url" content="http://uogog.github.io/posts/docker1/">
+  <meta property="og:site_name" content="UOG的BLOG">
+  <meta property="og:title" content="docker_learn1">
+  <meta property="og:description" content="docker的简单运用">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-03-26T11:21:58+08:00">
+    <meta property="article:modified_time" content="2026-03-26T11:21:58+08:00">
+    <meta property="article:tag" content="Docker">
+
+
+
+
+<link rel="canonical" href="http://uogog.github.io/posts/docker1/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.min.d8d883ac6ca34ee459193aff427d97eec73a7ffd982379fe3064c06a45859e30.css" integrity="sha256-2NiDrGyjTuRZGTr/Qn2X7sc6f/2YI3n&#43;MGTAakWFnjA=" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    
+    
+    <link rel="stylesheet" href="/css/coder-dark.min.a00e6364bacbc8266ad1cc81230774a1397198f8cfb7bcba29b7d6fcb54ce57f.css" integrity="sha256-oA5jZLrLyCZq0cyBIwd0oTlxmPjPt7y6KbfW/LVM5X8=" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/img/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/img/favicon.ico" sizes="32x32">
+<link rel="icon" type="image/png" href="/img/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+
+  
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-dark">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="http://uogog.github.io/">
+      UOG的BLOG
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">博客(Blog)</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/about/">关于(About)</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://uogog.github.io/posts/docker1/">
+              docker_learn1
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2026-03-26T11:21:58&#43;08:00">
+                March 26, 2026
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              阅读时间：1 分钟
+            </span>
+          </div>
+          <div class="authors">
+  <i class="fa-solid fa-user" aria-hidden="true"></i>
+    <a href="/authors/uogog/">Uogog</a></div>
+
+          <div class="categories">
+  <i class="fa-solid fa-folder" aria-hidden="true"></i>
+    <a href="/categories/docker/">Docker</a></div>
+
+          <div class="tags">
+  <i class="fa-solid fa-tag" aria-hidden="true"></i>
+    <span class="tag">
+      <a href="/tags/docker/">Docker</a>
+    </span></div>
+
+        </div>
+      </header>
+
+      
+
+
+      <div class="post-content">
+        
+        <h2 id="docker的简单安装就直接看菜鸟教程就好">
+  docker的简单安装就直接看<a href="https://www.runoob.com/docker/docker-tutorial.html"  class="external-link" target="_blank" rel="noopener">菜鸟教程</a>就好
+  <a class="heading-link" href="#docker%e7%9a%84%e7%ae%80%e5%8d%95%e5%ae%89%e8%a3%85%e5%b0%b1%e7%9b%b4%e6%8e%a5%e7%9c%8b%e8%8f%9c%e9%b8%9f%e6%95%99%e7%a8%8b%e5%b0%b1%e5%a5%bd">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<h1 id="docker的基本的一些东西">
+  docker的基本的一些东西
+  <a class="heading-link" href="#docker%e7%9a%84%e5%9f%ba%e6%9c%ac%e7%9a%84%e4%b8%80%e4%ba%9b%e4%b8%9c%e8%a5%bf">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h1>
+<p>docker 里一个dockerfile 就是一个镜像的构建文件，里面写了这个镜像的构建步骤，构建完成后就可以运行这个镜像了</p>
+<p>注意一个镜像可以运行多个容器，容器是镜像的一个实例，容器之间是相互隔离的，可以有不同的环境变量，端口映射等</p>
+<p>主要的docker命令如下：</p>
+<ul>
+<li>docker run 启动一个新的容器并运行命令 docker run -d ubuntu</li>
+<li>docker ps 列出当前正在运行的容器 docker ps</li>
+<li>docker ps -a 列出所有容器（包括已停止的容器） docker ps -a</li>
+<li>docker build 使用 Dockerfile 构建镜像 docker build -t my-image .</li>
+<li>docker images 列出本地存储的所有镜像 docker images</li>
+<li>docker pull 从 Docker 仓库拉取镜像 docker pull ubuntu</li>
+<li>docker push 将镜像推送到 Docker 仓库 docker push my-image</li>
+<li>docker exec 在运行的容器中执行命令 docker exec -it container_name bash</li>
+<li>docker stop 停止一个或多个容器 docker stop container_name</li>
+<li>docker start 启动已停止的容器 docker start container_name</li>
+<li>docker restart 重启一个容器 docker restart container_name</li>
+<li>docker rm 删除一个或多个容器 docker rm container_name</li>
+<li>docker rmi 删除一个或多个镜像 docker rmi my-image</li>
+<li>docker logs 查看容器的日志 docker logs container_name</li>
+<li>docker inspect 获取容器或镜像的详细信息 docker inspect container_name</li>
+<li>docker exec -it 进入容器的交互式终端 docker exec -it container_name /bin/bash</li>
+<li>docker network ls 列出所有 Docker 网络 docker network ls</li>
+<li>docker volume ls 列出所有 Docker 卷 docker volume ls</li>
+<li>docker-compose up 启动多容器应用（从 docker-compose.yml 文件） docker-compose up</li>
+<li>docker-compose down 停止并删除由 docker-compose 启动的容器、网络等 docker-compose down</li>
+<li>docker info 显示 Docker 系统的详细信息 docker info</li>
+<li>docker version 显示 Docker 客户端和守护进程的版本信息 docker version</li>
+<li>docker stats 显示容器的实时资源使用情况 docker stats</li>
+<li>docker login 登录 Docker 仓库 docker login</li>
+<li>docker logout 登出 Docker 仓库 docker logout</li>
+<li>常用选项说明:</li>
+<li>
+<ul>
+<li>-d：后台运行容器，例如 docker run -d ubuntu。</li>
+</ul>
+</li>
+<li>
+<ul>
+<li>-it：以交互式终端运行容器，例如 docker exec -it container_name bash。</li>
+</ul>
+</li>
+<li>
+<ul>
+<li>-t：为镜像指定标签，例如 docker build -t my-image .。</li>
+</ul>
+</li>
+</ul>
+<p>docker 这个东西，他运行起来，可以读取宿主机的资源，所以说如果你在容器里运行一个程序，这个程序是可以访问宿主机的资源的，比如说网络，文件系统等，所以说在使用docker的时候要注意安全问题，不要随便运行不可信的镜像或者容器。</p>
+
+      </div>
+
+
+      <footer>
+        
+
+<section class="see-also">
+  
+    
+    
+    
+  
+</section>
+
+
+        
+        
+        
+        
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+    2026
+     UOGOG 
+    ·
+    
+    技术支持 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js" integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script>
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+</html>
