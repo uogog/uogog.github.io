@@ -6,13 +6,20 @@
     <description>Recent content in Tags on UOG的BLOG</description>
     <generator>Hugo</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 26 Mar 2026 11:21:58 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 29 Mar 2026 18:02:56 +0800</lastBuildDate>
     <atom:link href="http://uogog.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Docker</title>
       <link>http://uogog.github.io/tags/docker/</link>
-      <pubDate>Thu, 26 Mar 2026 11:21:58 +0800</pubDate>
+      <pubDate>Sun, 29 Mar 2026 18:02:56 +0800</pubDate>
       <guid>http://uogog.github.io/tags/docker/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Docker_file</title>
+      <link>http://uogog.github.io/tags/docker_file/</link>
+      <pubDate>Sun, 29 Mar 2026 18:02:56 +0800</pubDate>
+      <guid>http://uogog.github.io/tags/docker_file/</guid>
       <description></description>
     </item>
     <item>
