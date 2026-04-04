@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Docker_net on UOG的BLOG</title>
+    <link>http://uogog.github.io/tags/docker_net/</link>
+    <description>Recent content in Docker_net on UOG的BLOG</description>
+    <generator>Hugo</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 01 Apr 2026 18:02:56 +0800</lastBuildDate>
+    <atom:link href="http://uogog.github.io/tags/docker_net/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>docker_learn3</title>
+      <link>http://uogog.github.io/posts/docket_net/</link>
+      <pubDate>Wed, 01 Apr 2026 18:02:56 +0800</pubDate>
+      <guid>http://uogog.github.io/posts/docket_net/</guid>
+      <description>&lt;h1 id=&#34;net&#34;&gt;&#xA;  NET&#xA;  &lt;a class=&#34;heading-link&#34; href=&#34;#net&#34;&gt;&#xA;    &lt;i class=&#34;fa-solid fa-link&#34; aria-hidden=&#34;true&#34; title=&#34;链接到标题&#34;&gt;&lt;/i&gt;&#xA;    &lt;span class=&#34;sr-only&#34;&gt;链接到标题&lt;/span&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;p&gt;docker本身提供了三种默认的网络模式：&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;NETWORK ID     NAME      DRIVER    SCOPE&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;5cafb44e403b   bridge    bridge    &lt;span class=&#34;nb&#34;&gt;local&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;86f5bc4ba7e1   host      host      &lt;span class=&#34;nb&#34;&gt;local&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;688cd4970295   none      null      &lt;span class=&#34;nb&#34;&gt;local&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;bridge 就是创建了一个虚拟的网桥，容器通过这个网桥进行通信，默认情况下，容器之间是可以相互通信的，除非你使用了&amp;ndash;network=none来禁用网络。&#xA;默认的birge不能直接用容器名字进行通信，需要使用容器的IP地址进行通信，如果想要使用容器名字进行通信，可以创建一个用户自定义的网络，使用&amp;ndash;network参数指定网络名称即可。&lt;/p&gt;&#xA;&lt;p&gt;还有什么overlay网络，主要用于Swarm模式下的多主机网络，可以让不同主机上的容器通过一个虚拟网络进行通信。这个到底是什么我还没有深入了解，后续有机会再学习一下。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

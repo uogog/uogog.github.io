@@ -6,13 +6,20 @@
     <description>Recent content in Series on UOG的BLOG</description>
     <generator>Hugo</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 29 Mar 2026 18:02:56 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 04 Apr 2026 17:04:13 +0800</lastBuildDate>
     <atom:link href="http://uogog.github.io/series/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Docker</title>
       <link>http://uogog.github.io/series/docker/</link>
-      <pubDate>Sun, 29 Mar 2026 18:02:56 +0800</pubDate>
+      <pubDate>Sat, 04 Apr 2026 17:04:13 +0800</pubDate>
       <guid>http://uogog.github.io/series/docker/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Papers</title>
+      <link>http://uogog.github.io/series/papers/</link>
+      <pubDate>Wed, 01 Apr 2026 18:13:49 +0800</pubDate>
+      <guid>http://uogog.github.io/series/papers/</guid>
       <description></description>
     </item>
     <item>

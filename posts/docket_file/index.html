@@ -33,6 +33,8 @@
     <meta property="article:modified_time" content="2026-03-29T18:02:56+08:00">
     <meta property="article:tag" content="Docker_file">
     <meta property="article:tag" content="Docker">
+      <meta property="og:see_also" content="http://uogog.github.io/posts/docker_compose/">
+      <meta property="og:see_also" content="http://uogog.github.io/posts/docket_net/">
       <meta property="og:see_also" content="http://uogog.github.io/posts/docker1/">
 
 
@@ -212,8 +214,6 @@
 </span></span></span><span class="line"><span class="cl"><span class="err">
 </span></span></span><span class="line"><span class="cl"><span class="k">WORKDIR</span><span class="w"> </span><span class="s">#设置工作目录，例如：WORKDIR</span> /app<span class="err">
 </span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="k">VOLUME</span><span class="w"> </span><span class="s">#指定容器运行时挂载的卷，例如：VOLUME</span> /data<span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err">
 </span></span></span><span class="line"><span class="cl"><span class="k">EXPOSE</span><span class="w"> </span><span class="s">#声明容器运行时监听的端口，例如：EXPOSE</span> <span class="m">80</span><span class="err">
 </span></span></span><span class="line"><span class="cl"><span class="err">
 </span></span></span><span class="line"><span class="cl"><span class="k">CMD</span> <span class="c1">#指定容器启动时执行的命令，例如：CMD [&#34;nginx&#34;, &#34;-g&#34;, &#34;daemon off;&#34;]</span><span class="err">
@@ -232,6 +232,14 @@
 </span></span></span><span class="line"><span class="cl"><span class="err">
 </span></span></span><span class="line"><span class="cl"><span class="k">ENV</span> <span class="c1">#设置环境变量，例如：ENV ENV_VAR=value</span><span class="err">
 </span></span></span><span class="line"><span class="cl">本参数使用很多，需要结合实际<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="k">VOLUME</span> <span class="p">[</span><span class="s2">&#34;/data&#34;</span><span class="p">,</span><span class="s2">&#34;&#34;</span><span class="p">]</span> <span class="c1"># 注意所有对VOLUME的路径的更改比如RUN mkdir /data都要在VOLUME之前</span><span class="err">
+</span></span></span><span class="line"><span class="cl">否则会被覆盖掉，VOLUME会创建一个匿名卷并挂载到指定路径上<span class="err">
+</span></span></span><span class="line"><span class="cl">如果路径已经存在数据，则会将数据复制到匿名卷中，如果路径不存在，则会创建一个空目录并挂载到匿名卷中<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="k">ARG</span> <span class="nv">TT</span><span class="o">=</span><span class="s2">&#34;d  a&#34;</span> <span class="c1"># 这个是构建参数，可以在构建时通过--build-arg TT=&#34;value&#34;来传递值</span><span class="err">
+</span></span></span><span class="line"><span class="cl">默认值是<span class="s2">&#34;d  a&#34;</span>，注意ARG只能在构建阶段使用，不能在运行阶段使用<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="k">ARG</span><span class="nv">可以不提供</span><span class="o">=</span>后面的默认值，但如果在构建时没有传递值，则该参数的值将为空字符串<span class="err">
 </span></span></span></code></pre></div><p>CMD和ENTRYPOINT的区别在于CMD可以被docker run命令行参数覆盖，而ENTRYPOINT则不行，ENTRYPOINT更适合定义一个固定的命令，而CMD更适合定义默认参数</p>
 <p>***实战：***创建一个自己的UBUNTU</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker build -f my_dockerfile -t myubuntu:0.1 . <span class="c1"># 这里.不能省，注意-t后面是镜像名字和版本号，-f后面是docker_file的名字</span>
@@ -286,12 +294,104 @@
 </span></span></span><span class="line"><span class="cl"><span class="k">WORKDIR</span><span class="w"> </span><span class="s">$MYPATH</span><span class="err">
 </span></span></span><span class="line"><span class="cl"><span class="err">
 </span></span></span><span class="line"><span class="cl"><span class="k">ENV</span> <span class="nv">JAVA_HOME</span><span class="o">=</span>/usr/lib/jvm/java-8-openjdk-amd64<span class="err">
-</span></span></span></code></pre></div><p>镜像发布</p>
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="k">EXPOSE</span><span class="w"> </span><span class="s">80</span> 8080/tcp <span class="c1"># 这个命令只是声明容器运行时监听的端口，并不会实际开放端口，只有在运行容器时使用-p或-P参数才会将容器端口映射到主机端口上</span><span class="err">
+</span></span></span></code></pre></div><p><strong>镜像发布</strong></p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker login --help <span class="c1"># 先登录到Docker Hub，输入用户名和密码</span>
 </span></span><span class="line"><span class="cl"><span class="c1"># 然后</span>
 </span></span><span class="line"><span class="cl">docker push uogog/myubuntu:0.1 <span class="c1"># 将本地的myubuntu:0.1镜像推送到Docker Hub上的uogog账号下</span>
 </span></span><span class="line"><span class="cl"><span class="c1"># 这里需要tag一下，tag的格式是：docker tag SOURCE_IMAGE[:TAG] TARGET_IMAGE[:TAG]</span>
-</span></span></code></pre></div><p><img src="/images/docker_commands.png" alt="整体操作" title="整体操作"></p>
+</span></span></code></pre></div><p>其实很多命令都没有细说，在真正的项目中会有很多细节需要注意，最好看看<a href="https://yeasy.gitbook.io/docker_practice"  class="external-link" target="_blank" rel="noopener">这个大佬的书</a>
+<img src="/images/docker_commands.png" alt="整体操作" title="整体操作"></p>
+<h2 id="run-执行命令">
+  RUN 执行命令
+  <a class="heading-link" href="#run-%e6%89%a7%e8%a1%8c%e5%91%bd%e4%bb%a4">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<h3 id="run-基本语法">
+  RUN 基本语法
+  <a class="heading-link" href="#run-%e5%9f%ba%e6%9c%ac%e8%af%ad%e6%b3%95">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-docker" data-lang="docker"><span class="line"><span class="cl"><span class="k">RUN</span> &lt;command&gt;<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="k">RUN</span> <span class="o">[</span><span class="s2">&#34;executable&#34;</span>, <span class="s2">&#34;param1&#34;</span>, <span class="s2">&#34;param2&#34;</span><span class="o">]</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="k">RUN</span> 指令是 Dockerfile 中最常用的指令之一。它在 当前镜像层 之上创建一个新层，执行指定的命令，并提交结果。<span class="err">
+</span></span></span></code></pre></div><p><strong>注意：</strong></p>
+<ul>
+<li>shell形式的RUN指令会在一个新的shell中执行命令，之前的export的环境变量在新的shell中不可用，优点是管道和重定向等shell特性可以正常使用;</li>
+<li>而exec形式的RUN指令会直接执行指定的命令，不会启动新的shell，优点是更高效和更安全，但不支持shell特性,就是说环境变量不可用。</li>
+<li>实际应用中，注意apt-get update和apt-get install命令要放在同一个RUN指令中，后面最好接上清楚缓存的命令，以减少镜像层数。</li>
+<li>在使用shell方法时，建议先设置SHELL [&quot;/bin/bash&quot;, &ldquo;-o&rdquo;,&ldquo;pipefail&rdquo;,&quot;-c&quot;] 来启用pipefail选项，这样可以确保管道中任何一个命令失败都会导致整个RUN指令失败，避免出现错误被忽略的情况。</li>
+<li>高级技巧，可以使用&ndash;mount=type=cache,target=/var/cache/apt来缓存apt-get的下载文件和&ndash;mount来安全使用ssh密钥。</li>
+</ul>
+<h2 id="copy-复制操作">
+  COPY 复制操作
+  <a class="heading-link" href="#copy-%e5%a4%8d%e5%88%b6%e6%93%8d%e4%bd%9c">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<h3 id="基本语法">
+  基本语法
+  <a class="heading-link" href="#%e5%9f%ba%e6%9c%ac%e8%af%ad%e6%b3%95">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-docker" data-lang="docker"><span class="line"><span class="cl"><span class="k">COPY</span> <span class="o">[</span>选项<span class="o">]</span> &lt;源路径&gt;... &lt;目标路径&gt;<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="k">COPY</span> <span class="o">[</span>选项<span class="o">]</span> <span class="o">[</span><span class="s2">&#34;&lt;源路径1&gt;&#34;</span>, <span class="s2">&#34;&lt;源路径2&gt;&#34;</span>, ... <span class="s2">&#34;&lt;目标路径&gt;&#34;</span><span class="o">]</span><span class="err">
+</span></span></span></code></pre></div><p>这里体现了为什么build时要指定一个工作目录，因为COPY命令中的源路径是相对于这个工作目录的，如果不指定工作目录，默认就是当前目录。</p>
+<h2 id="entrypoint-入口点">
+  ENTRYPOINT 入口点
+  <a class="heading-link" href="#entrypoint-%e5%85%a5%e5%8f%a3%e7%82%b9">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<p>入口点和CMD格式类似。
+使用入口点只有很少的场景：</p>
+<ul>
+<li>要容器当作一个可执行文件来使用，例如：ENTRYPOINT [&ldquo;python&rdquo;, &ldquo;app.py&rdquo;] 这样运行容器时默认会执行python app.py</li>
+<li>要容器当启动脚本来使用，例如：ENTRYPOINT [&quot;/entrypoint.sh&quot;] 这样运行容器时默认会执行/entrypoint.sh脚本</li>
+<li>和CMD结合使用，定义默认参数，例如：ENTRYPOINT [&ldquo;python&rdquo;, &ldquo;app.py&rdquo;] CMD [&quot;&ndash;help&quot;]
+这样运行容器时默认会执行python app.py &ndash;help
+但如果docker run myimage &ndash;version则会覆盖CMD中的参数，最终执行python app.py &ndash;version</li>
+<li>启动前需要执行一些初始化操作，例如：ENTRYPOINT [&quot;/entrypoint.sh&quot;] 这样运行容器时会先执行/entrypoint.sh脚本进行初始化，然后再执行CMD中的命令</li>
+</ul>
+<p>其实ENTRYPOINT很少使用，除非你需要定义一个固定的命令，并且不希望被覆盖，否则CMD就足够了。</p>
+<h2 id="healchcheck-健康检查">
+  HEALCHCHECK 健康检查
+  <a class="heading-link" href="#healchcheck-%e5%81%a5%e5%ba%b7%e6%a3%80%e6%9f%a5">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<h3 id="基本语法-healchcheck">
+  基本语法 HEALCHCHECK
+  <a class="heading-link" href="#%e5%9f%ba%e6%9c%ac%e8%af%ad%e6%b3%95-healchcheck">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-docker" data-lang="docker"><span class="line"><span class="cl"><span class="k">HEALTHCHECK</span> <span class="o">[</span>选项<span class="o">]</span> CMD &lt;命令&gt; <span class="c1"># 这个命令会在容器运行时定期执行，用来检查容器的健康状态</span><span class="err">
+</span></span></span><span class="line"><span class="cl">HEALCHCHECK NONE<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="k">HEALTHCHECK</span> --interval<span class="o">=</span>30s --timeout<span class="o">=</span>3s --retries<span class="o">=</span><span class="m">3</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  <span class="k">CMD</span> curl -fs http://localhost/ <span class="o">||</span> <span class="nb">exit</span> <span class="m">1</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="c"># interval：指定健康检查的间隔时间，默认是30秒</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="c"># timeout：指定健康检查的超时时间，默认是30秒</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="c"># retries：指定健康检查失败后的重试次数，默认是3次</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="c"># start-period：指定容器启动后的宽限期，在此期间健康检查失败不会被计入重试次数，默认是0秒</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="c"># 返回0表示健康，返回非0表示不健康，返回1表示容器正在启动中</span><span class="err">
+</span></span></span></code></pre></div><p>e.g. HTTP服务</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-docker" data-lang="docker"><span class="line"><span class="cl">HEALCHCHECK CMD curl -f http://localhost/ <span class="o">||</span> <span class="nb">exit</span> <span class="m">1</span><span class="err">
+</span></span></span><span class="line"><span class="cl">HEALCHCHECK CMD wget -q  --spider http://localhost/ <span class="o">||</span> <span class="nb">exit</span> <span class="m">1</span><span class="err">
+</span></span></span><span class="line"><span class="cl">HEALCHCHECK CMD <span class="o">[</span><span class="s2">&#34;脚本&#34;</span><span class="o">]</span><span class="err">
+</span></span></span></code></pre></div><p>一定不要搞一个超级复杂的健康检查命令，这样会增加容器的负担，甚至可能导致容器崩溃。健康检查应该尽量简单，快速，可靠，最好是一个简单的HTTP请求或者一个简单的脚本。</p>
 
       </div>
 
@@ -314,6 +414,18 @@
       <nav>
         <ul>
         
+        
+          
+            <li>
+              <a href="/posts/docker_compose/">docker_learn4_compose</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="/posts/docket_net/">docker_learn3</a>
+            </li>
+          
         
           
         
