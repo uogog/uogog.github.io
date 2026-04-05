@@ -279,6 +279,56 @@
     <span class="sr-only">链接到标题</span>
   </a>
 </h2>
+<p>文章把现在有的方法分类成4类：</p>
+<ul>
+<li>foundation model 基础模型:指直接用现有大模型而不微调</li>
+<li>fine-tuning approach 微调方法:指微调大模型</li>
+<li>embedding-based approach 基于嵌入的方法:基于嵌入的方法利用预训练模型生成的表示来捕捉语义信息并提高任务性能</li>
+<li>prompt-based approach 基于提示的方法:指人写提示来应用模型</li>
+</ul>
+<h3 id="基础模型">
+  基础模型
+  <a class="heading-link" href="#%e5%9f%ba%e7%a1%80%e6%a8%a1%e5%9e%8b">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<p>分两类：</p>
+<ol>
+<li>用tansformer模型</li>
+<li>用其他的RNN，CNN等模型</li>
+</ol>
+<h3 id="微调方法">
+  微调方法
+  <a class="heading-link" href="#%e5%be%ae%e8%b0%83%e6%96%b9%e6%b3%95">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<p>分两类：</p>
+<ol>
+<li>全面微调 Full Fine-Tuning:所有参数都微调，但现在都没钱，多用BERT和T5</li>
+<li>参数高效微调 Parameter-Efficient Fine-Tuning:</li>
+</ol>
+<ul>
+<li>任务条件微调Task-Conditional Fine-Tuning: 也是要冻结层，但是会替换输出头，就是原来输出是文本，可以改成输出分类结果或者其他的东西(回归，其他)</li>
+<li>冻结层Layer-Freezing 就是冻结部分层的参数，只微调其他层的参数,文中种说一般冻结前面层，微调后面层。前面层是靠近输入的层，后面层是靠近输出的层。前面层一般捕捉通用特征，后面层捕捉特定任务的特征，所以微调后面层可以更好地适应特定任务，同时减少微调的参数量。</li>
+<li>适配器微调Adapter Tuning 这个也要冻结原模型，但要求在模型里加入adapter层</li>
+</ul>
+<p>这3种技术文中都有介绍，具体实现我还不清楚,目前这个方法最流行</p>
+<h3 id="基于嵌入的方法">
+  基于嵌入的方法
+  <a class="heading-link" href="#%e5%9f%ba%e4%ba%8e%e5%b5%8c%e5%85%a5%e7%9a%84%e6%96%b9%e6%b3%95">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<ol>
+<li>预训练嵌入（Pre-Trained Embedding）
+预训练嵌入方法直接利用由大语言模型（LLM）生成的嵌入向量，例如 BERT、GPT 或 T5，以捕获 AIOps 中各种数据源的语义信息。这些嵌入向量来自在大规模文本语料库上预训练的模型，蕴含丰富的语义信息，无需进一步微调即可适用于广泛的 AIOps 任务。目前，大多数与日志相关的工作都采用这种基于嵌入的方法。</li>
+<li>提示嵌入（Prompt Embedding）
+提示嵌入方法侧重于为 LLM 设计特定的嵌入方法，以有效捕获 AIOps 中各种数据源的语义信息。通过提供自然语言提示词或指令，这些方法激活 LLM 的处理能力，生成任务特定的嵌入向量。这种方法能够产生灵活且针对特定任务的嵌入，适用于不同的 AIOps 应用。目前，许多基于指标（metrics）的工作采用这种方法，将指标数据转换为更适合 LLM 理解的格式。</li>
+</ol>
 
       </div>
 
