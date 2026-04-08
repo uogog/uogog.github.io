@@ -3,7 +3,7 @@
 
 <head>
   <title>
-  2021年的综述阅读总结 · UOG的BLOG
+  2024年的综述阅读总结 · UOG的BLOG
 </title>
   <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,12 +19,12 @@
 
 
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="2021年的综述阅读总结">
+  <meta name="twitter:title" content="2024年的综述阅读总结">
   <meta name="twitter:description" content="某种意义上的第一次正式阅读文献">
 
 <meta property="og:url" content="http://uogog.github.io/posts/summary-reading-1/">
   <meta property="og:site_name" content="UOG的BLOG">
-  <meta property="og:title" content="2021年的综述阅读总结">
+  <meta property="og:title" content="2024年的综述阅读总结">
   <meta property="og:description" content="某种意义上的第一次正式阅读文献">
   <meta property="og:locale" content="zh_cn">
   <meta property="og:type" content="article">
@@ -143,7 +143,7 @@
         <div class="post-title">
           <h1 class="title">
             <a class="title-link" href="http://uogog.github.io/posts/summary-reading-1/">
-              2021年的综述阅读总结
+              2024年的综述阅读总结
             </a>
           </h1>
         </div>
@@ -157,7 +157,7 @@
             </span>
             <span class="reading-time">
               <i class="fa-solid fa-clock" aria-hidden="true"></i>
-              阅读时间：1 分钟
+              阅读时间：2 分钟
             </span>
           </div>
           <div class="authors">
@@ -323,12 +323,125 @@
     <span class="sr-only">链接到标题</span>
   </a>
 </h3>
+<p>这里***嵌入(embedding-based)***的含义是指将输入数据（如文本、指标等）转换为向量表示，以便于机器学习模型处理和理解。基于嵌入的方法利用预训练模型生成的表示来捕捉语义信息并提高任务性能。</p>
 <ol>
 <li>预训练嵌入（Pre-Trained Embedding）
 预训练嵌入方法直接利用由大语言模型（LLM）生成的嵌入向量，例如 BERT、GPT 或 T5，以捕获 AIOps 中各种数据源的语义信息。这些嵌入向量来自在大规模文本语料库上预训练的模型，蕴含丰富的语义信息，无需进一步微调即可适用于广泛的 AIOps 任务。目前，大多数与日志相关的工作都采用这种基于嵌入的方法。</li>
 <li>提示嵌入（Prompt Embedding）
 提示嵌入方法侧重于为 LLM 设计特定的嵌入方法，以有效捕获 AIOps 中各种数据源的语义信息。通过提供自然语言提示词或指令，这些方法激活 LLM 的处理能力，生成任务特定的嵌入向量。这种方法能够产生灵活且针对特定任务的嵌入，适用于不同的 AIOps 应用。目前，许多基于指标（metrics）的工作采用这种方法，将指标数据转换为更适合 LLM 理解的格式。</li>
 </ol>
+<h3 id="基于提示的方法">
+  基于提示的方法
+  <a class="heading-link" href="#%e5%9f%ba%e4%ba%8e%e6%8f%90%e7%a4%ba%e7%9a%84%e6%96%b9%e6%b3%95">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<p>这个就是直接写prompt来让模型完成任务,说白了就是提示词工程。<del>真的有用吗？？？</del>&#x1f625;</p>
+<p>4个类：</p>
+<ol>
+<li>上下文学习（In-Context Learning, ICL）。上下文学习是指在输入提示中向模型提供示例，帮助其理解如何执行任务。这种方法使模型能够根据所提供上下文中的模式和信息生成适当的响应。许多 AIOps 工作使用这种方法来引导 LLM 生成符合期望输出格式的结果。</li>
+<li>思维链（Chain of Thoughts, CoT）。思维链通过引导模型经历一系列逻辑上的中间步骤或推理过程，最终得出答案。这种方法有助于解决需要多步推理的复杂问题。许多 AIOps 工作使用这种方法来提高输出的准确性。</li>
+<li>任务指令提示（Task Instruction Prompting）。任务指令提示是指向模型明确说明要执行的任务。该方法利用模型遵循详细自然语言指令的能力，有效完成特定任务。在本综述中，我们将许多简单或零样本方法归入此类。许多早期 AIOps 工作使用这种方法来完成特定任务。</li>
+<li>基于知识的方法（Knowledge-Based Approach）。这种方法将外部知识整合到模型的响应中。例如工具增强生成（Tool Augmented Generation, TAG），即模型使用外部工具或 API 来增强其能力；以及检索增强生成（Retrieval Augmented Generation, RAG），即从外部来源检索相关信息以改进模型的响应。这是 AIOps 工作中最常用的方法，也是在特定任务上提升 LLM 性能最有效的方法。</li>
+</ol>
+<h2 id="aiops在fm失败管理中的任务">
+  AIOps在FM失败管理中的任务
+  <a class="heading-link" href="#aiops%e5%9c%a8fm%e5%a4%b1%e8%b4%a5%e7%ae%a1%e7%90%86%e4%b8%ad%e7%9a%84%e4%bb%bb%e5%8a%a1">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<p>文章中提到的任务有：</p>
+<ol>
+<li>Data Preprocessing 数据预处理</li>
+<li>Failure Perception 故障检测</li>
+<li>Root Cause Analysis 根因分析</li>
+<li>Auto Remediation 自动修复</li>
+</ol>
+<h3 id="数据预处理">
+  数据预处理
+  <a class="heading-link" href="#%e6%95%b0%e6%8d%ae%e9%a2%84%e5%a4%84%e7%90%86">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<p>这里和传统的不同，不是爬取和清洗。
+有3种方法：</p>
+<ul>
+<li>Log parsing 日志解析：将非结构化日志数据转换为结构化格式，以便于分析和处理。这里有很多文章产出可以借鉴。</li>
+<li>Metrics imputation 指标补全：处理缺失的指标数据，使用插值或预测方法填补缺失值，以确保数据的完整性。</li>
+<li>Input summarization 输入摘要：将大量的输入数据（如日志、指标等）进行摘要，提取关键信息，这样后面调用llm可以减少输入长度，提高效率。</li>
+</ul>
+<h3 id="failure--perception-故障检测">
+  Failure  Perception 故障检测
+  <a class="heading-link" href="#failure--perception-%e6%95%85%e9%9a%9c%e6%a3%80%e6%b5%8b">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<ul>
+<li>failure prediction 故障预测：使用机器学习或深度学习模型分析历史数据，预测系统可能发生的故障。这有助于提前采取措施，避免故障发生。单实际很难搞。</li>
+<li>Anomaly Detection
+异常检测：识别系统中不正常的行为或模式，这些异常可能是潜在故障的迹象。常用方法包括统计方法、机器学习算法和深度学习模型。这里其实蛮难的。</li>
+</ul>
+<h3 id="root-cause-analysis-根因分析">
+  Root Cause Analysis 根因分析
+  <a class="heading-link" href="#root-cause-analysis-%e6%a0%b9%e5%9b%a0%e5%88%86%e6%9e%90">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<p>检测到故障后，分析导致故障的根本原因。这通常涉及分析日志、指标和其他相关数据，以确定引发问题的具体因素。LLM可以帮助理解复杂的系统交互和依赖关系，从而更有效地进行根因分析。</p>
+<p>3种任务：</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">任务类型</th>
+          <th style="text-align: left">任务定义</th>
+          <th style="text-align: left">描述</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">fault localization 故障定位</td>
+          <td style="text-align: left">确定故障发生的位置</td>
+          <td style="text-align: left">通过分析系统数据，确定故障发生的具体组件或模块</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">failure category classification 故障分类</td>
+          <td style="text-align: left">将故障归类到预定义的类别中</td>
+          <td style="text-align: left">根据故障的特征和影响，将其分类为特定类型，如硬件故障、软件缺陷等</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">root cause report generation 根因报告生成</td>
+          <td style="text-align: left">生成描述根因分析结果的报告</td>
+          <td style="text-align: left">基于分析结果，生成详细的报告，说明故障的根本原因和可能的解决方案,这个一般包含前两个任务</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="自动修复">
+  自动修复
+  <a class="heading-link" href="#%e8%87%aa%e5%8a%a8%e4%bf%ae%e5%a4%8d">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<p>5种任务:</p>
+<ul>
+<li>Assisted Questioning。就是现在最常见的修bug方法，人问，LLM回答。</li>
+<li>Mitigation Solution Generation 缓解方案生成：基于故障分析结果，生成潜在的解决方案或缓解措施，以帮助操作员快速响应和修复问题。这就是只有文字解决方案。</li>
+<li>Command Recommendation 命令推荐：根据故障分析结果，推荐具体的命令或操作步骤，以指导操作员进行修复。这里值得注意的是，这里的命令可以是人事先写好的脚本，或者是LLM生成的命令模板，需要人填充参数。</li>
+<li>Script generation 脚本生成：基于故障分析结果，自动生成修复脚本，以便快速执行修复操作。这是直接让LLM生成脚本，可能需要人审核。</li>
+<li>Automatic execution 自动执行：在某些情况下，系统可以配置为在检测到特定故障时自动执行预定义的修复措施。这需要高度的信任和准确性，以避免误操作。这个目前研究不多，毕竟风险比较大,准确度不够高。</li>
+</ul>
+<h1 id="data-preocessing-数据预处理">
+  DATA PREOCESSING 数据预处理
+  <a class="heading-link" href="#data-preocessing-%e6%95%b0%e6%8d%ae%e9%a2%84%e5%a4%84%e7%90%86">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h1>
 
       </div>
 
