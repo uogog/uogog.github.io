@@ -442,6 +442,101 @@
     <span class="sr-only">链接到标题</span>
   </a>
 </h1>
+<p>对于人类写的输入，主要是用LLM来做输入摘要，提取关键信息，减少输入长度，提高效率。</p>
+<h2 id="日志解析">
+  日志解析
+  <a class="heading-link" href="#%e6%97%a5%e5%bf%97%e8%a7%a3%e6%9e%90">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<p>日志解析是将半结构化的文本日志转换成独立的事件模板(event template),转换成事件模板后就可以做成序列组（sequence group）了。后面Failure Perception和RCA就可以用了.</p>
+<p>原有的模型泛化性不好，LLM可以提供很好的泛化能力，适用于不同系统和日志格式。但是，LLM在专门的日志解析能力上并不好，因为不一致性和计算开销太大，有很多研究在这方面。</p>
+<h3 id="emprical-study-实证研究">
+  Emprical study 实证研究
+  <a class="heading-link" href="#emprical-study-%e5%ae%9e%e8%af%81%e7%a0%94%e7%a9%b6">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<p>Priyanka用chatgpt做过zero-shot的日志解析，结果不太好，主要是不一致和scalability(这个专指开销).
+用好的提示词可以提高性能，特别是fewshot的情况</p>
+<h3 id="prompt-based-approch-基于提示的方法">
+  prompt-based approch 基于提示的方法
+  <a class="heading-link" href="#prompt-based-approch-%e5%9f%ba%e4%ba%8e%e6%8f%90%e7%a4%ba%e7%9a%84%e6%96%b9%e6%b3%95">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<p>这一段介绍了很多我没见过的方法和东西，很多名词我不懂，用ai告诉我的总结如下：</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">方法</th>
+          <th style="text-align: left">解决什么问题</th>
+          <th style="text-align: left">关键技术</th>
+          <th style="text-align: left">一句话理解</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>LILAC</strong></td>
+          <td style="text-align: left">LLM调用太慢太贵</td>
+          <td style="text-align: left">缓存机制 + 层次采样</td>
+          <td style="text-align: left">把解析过的模板存起来，下次直接用</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>LLMParser</strong></td>
+          <td style="text-align: left">是不是非得用大模型？</td>
+          <td style="text-align: left">对比4个不同尺寸模型</td>
+          <td style="text-align: left"><strong>小模型也能做，可能更好</strong></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Lemur</strong></td>
+          <td style="text-align: left">怎么选给LLM看的示例？</td>
+          <td style="text-align: left">信息熵聚类 + 思维链</td>
+          <td style="text-align: left">选&quot;最具代表性&quot;的日志当例子</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>DivLog</strong></td>
+          <td style="text-align: left">怎么提高模板准确性？</td>
+          <td style="text-align: left">RAG检索 + ICL学习</td>
+          <td style="text-align: left">先从库里找相似的，再让LLM改</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Sun et al.</strong></td>
+          <td style="text-align: left">怎么落地到实际系统？</td>
+          <td style="text-align: left">云原生平台 + GPT-3.5</td>
+          <td style="text-align: left">做了个完整系统，不只是算法</td>
+      </tr>
+  </tbody>
+</table>
+<p>我还需要看看这几个原文的摘要。
+2025年的定论：LLMParser和DivLog不是&quot;谁对谁错&quot;，而是&quot;各司其职&quot;。最优方案是&quot;微调后的小模型作为大脑，RAG作为知识库，缓存作为快捷键&quot;的分层架构。小模型+RAG不仅在理论上可行，在特定领域已超越大模型</p>
+<h3 id="fine-tuning-approach-微调方法">
+  Fine-tuning Approach 微调方法
+  <a class="heading-link" href="#fine-tuning-approach-%e5%be%ae%e8%b0%83%e6%96%b9%e6%b3%95">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<p>这个就好理解多了，就是微调大模型，让大模型专门搞日志解析，目前有OWL和BERT这两种。具体的得看原文了。</p>
+<h2 id="metrics-imputation-指标补全">
+  Metrics imputation 指标补全
+  <a class="heading-link" href="#metrics-imputation-%e6%8c%87%e6%a0%87%e8%a1%a5%e5%85%a8">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<p>挑战是生成的metrics过多（一秒千个），而且容易缺失,缺失的数据不一定表示系统又问题，补全可以让子任务更好地工作。</p>
+<p>一般有记录矩阵M[F][T],M[f][t]表示在时间t上指标f的值，缺失值用NaN表示。目标是预测这些NaN的值，让预测的值接近真实值。本质就是个回归问题，输入是时间t和指标f，输出是M[f][t]的值。</p>
+<p>指标插补方法可根据其生成多样化插补结果以反映插补过程固有不确定性的能力，分为两类:</p>
+<ol>
+<li>预测式方法和生成式方法。
+预测式方法。预测式插补方法对相同的缺失部分始终预测确定性的数值。许多研究为此提出了深度学习模型。例如，GRU-D[14]采用RNN模型，TimesNet[132]利用CNN模型，而Saits[25]基于注意力模型。此外，若干方法利用大语言模型（LLM）。Zhou等人[157]使用层冻结方法微调GPT-2和BERT等预训练模型，Nate等人[35]则采用提示嵌入技术结合GPT-3、LLaMA-2和GPT-4完成指标插补任务。GatGPT[17]采用图注意力网络预训练专用于指标插补的大语言模型。
+2.生成式方法。
+生成式方法建立在VAE、GAN和扩散模型等基础上。该类别中基于LLM的工作较少。GP-VAE[32]、V-RIN[95]和supnotMIWAE[65]使用VAE方法进行指标插补，采用编码器-解码器结构，通过最大化边缘似然的证据下界（ELBO）来逼近真实数据分布。NAOMI[85]和USGAN[91]利用GAN进行生成式指标插补。SSSD[4]和CSBI[16]基于扩散模型，通过马尔可夫链的扩散步骤逐步添加噪声再逆向还原，从而捕捉复杂的数据分布。</li>
+</ol>
 
       </div>
 
