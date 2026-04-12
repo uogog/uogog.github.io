@@ -157,7 +157,7 @@
             </span>
             <span class="reading-time">
               <i class="fa-solid fa-clock" aria-hidden="true"></i>
-              阅读时间：2 分钟
+              阅读时间：4 分钟
             </span>
           </div>
           <div class="authors">
@@ -230,7 +230,7 @@
     <span class="sr-only">链接到标题</span>
   </a>
 </h3>
-<p>==<strong>有如下原因：</strong>==</p>
+<p><em><strong>有如下原因：</strong></em></p>
 <ul>
 <li>Need for complex feature extraction engineering.需要复杂的特征工程</li>
 <li>Lack of cross-platform generality.缺乏跨平台通用性</li>
@@ -245,9 +245,9 @@
     <span class="sr-only">链接到标题</span>
   </a>
 </h2>
-<p>两个大来源：<strong>系统生成的</strong>，<strong>人类写的</strong></p>
+<p>两个大来源：<em><strong>系统生成的</strong></em>，<em><strong>人类写的</strong></em></p>
 <h3 id="系统生成">
-  <em>系统生成</em>
+  <strong>系统生成</strong>
   <a class="heading-link" href="#%e7%b3%bb%e7%bb%9f%e7%94%9f%e6%88%90">
     <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
     <span class="sr-only">链接到标题</span>
@@ -260,7 +260,7 @@
 <li>跟踪(traves): 是分布式系统中请求的跟踪数据，记录了请求在系统中的路径和时间信息，对于分析性能瓶颈和故障传播很有用</li>
 </ul>
 <h3 id="人类写的">
-  <em>人类写的</em>
+  <strong>人类写的</strong>
   <a class="heading-link" href="#%e4%ba%ba%e7%b1%bb%e5%86%99%e7%9a%84">
     <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
     <span class="sr-only">链接到标题</span>
@@ -323,12 +323,12 @@
     <span class="sr-only">链接到标题</span>
   </a>
 </h3>
-<p>这里***嵌入(embedding-based)***的含义是指将输入数据（如文本、指标等）转换为向量表示，以便于机器学习模型处理和理解。基于嵌入的方法利用预训练模型生成的表示来捕捉语义信息并提高任务性能。</p>
+<p>这里<strong>嵌入embedding-based</strong>的含义是指将输入数据（如文本、指标等）转换为向量表示，以便于机器学习模型处理和理解。基于嵌入的方法利用预训练模型生成的表示来捕捉语义信息并提高任务性能。</p>
 <ol>
 <li>预训练嵌入（Pre-Trained Embedding）
 预训练嵌入方法直接利用由大语言模型（LLM）生成的嵌入向量，例如 BERT、GPT 或 T5，以捕获 AIOps 中各种数据源的语义信息。这些嵌入向量来自在大规模文本语料库上预训练的模型，蕴含丰富的语义信息，无需进一步微调即可适用于广泛的 AIOps 任务。目前，大多数与日志相关的工作都采用这种基于嵌入的方法。</li>
 <li>提示嵌入（Prompt Embedding）
-提示嵌入方法侧重于为 LLM 设计特定的嵌入方法，以有效捕获 AIOps 中各种数据源的语义信息。通过提供自然语言提示词或指令，这些方法激活 LLM 的处理能力，生成任务特定的嵌入向量。这种方法能够产生灵活且针对特定任务的嵌入，适用于不同的 AIOps 应用。目前，许多基于指标（metrics）的工作采用这种方法，将指标数据转换为更适合 LLM 理解的格式。</li>
+提示嵌入方法侧重于为 LLM 设计特定的嵌入方法，以有效捕获 AIOps 中各种数据源的语义信息。通过提供自然语言提示词或指令，这些方法激活 LLM 的处理能力，生成任务特定的嵌入向量。这种方法能够产生灵活且针对特定任务的嵌入，适用于不同的 AIOps 应用。目前，许多基于指标（metrics）的工作采用这种方法，将指标数据转换为更适合 LLM 理解的格式。这个主要是写提示词加metrics数据一起输入模型，模型会把它们转换。</li>
 </ol>
 <h3 id="基于提示的方法">
   基于提示的方法
@@ -338,7 +338,7 @@
   </a>
 </h3>
 <p>这个就是直接写prompt来让模型完成任务,说白了就是提示词工程。<del>真的有用吗？？？</del>&#x1f625;</p>
-<p>4个类：</p>
+<p><strong>4个类：</strong></p>
 <ol>
 <li>上下文学习（In-Context Learning, ICL）。上下文学习是指在输入提示中向模型提供示例，帮助其理解如何执行任务。这种方法使模型能够根据所提供上下文中的模式和信息生成适当的响应。许多 AIOps 工作使用这种方法来引导 LLM 生成符合期望输出格式的结果。</li>
 <li>思维链（Chain of Thoughts, CoT）。思维链通过引导模型经历一系列逻辑上的中间步骤或推理过程，最终得出答案。这种方法有助于解决需要多步推理的复杂问题。许多 AIOps 工作使用这种方法来提高输出的准确性。</li>
@@ -480,31 +480,31 @@
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left"><strong>LILAC</strong></td>
+          <td style="text-align: left"><em><strong>LILAC</strong></em></td>
           <td style="text-align: left">LLM调用太慢太贵</td>
           <td style="text-align: left">缓存机制 + 层次采样</td>
           <td style="text-align: left">把解析过的模板存起来，下次直接用</td>
       </tr>
       <tr>
-          <td style="text-align: left"><strong>LLMParser</strong></td>
+          <td style="text-align: left"><em><strong>LLMParser</strong></em></td>
           <td style="text-align: left">是不是非得用大模型？</td>
           <td style="text-align: left">对比4个不同尺寸模型</td>
-          <td style="text-align: left"><strong>小模型也能做，可能更好</strong></td>
+          <td style="text-align: left"><em><strong>小模型也能做，可能更好</strong></em></td>
       </tr>
       <tr>
-          <td style="text-align: left"><strong>Lemur</strong></td>
+          <td style="text-align: left"><em><strong>Lemur</strong></em></td>
           <td style="text-align: left">怎么选给LLM看的示例？</td>
           <td style="text-align: left">信息熵聚类 + 思维链</td>
           <td style="text-align: left">选&quot;最具代表性&quot;的日志当例子</td>
       </tr>
       <tr>
-          <td style="text-align: left"><strong>DivLog</strong></td>
+          <td style="text-align: left"><em><strong>DivLog</strong></em></td>
           <td style="text-align: left">怎么提高模板准确性？</td>
           <td style="text-align: left">RAG检索 + ICL学习</td>
           <td style="text-align: left">先从库里找相似的，再让LLM改</td>
       </tr>
       <tr>
-          <td style="text-align: left"><strong>Sun et al.</strong></td>
+          <td style="text-align: left"><em><strong>Sun et al.</strong></em></td>
           <td style="text-align: left">怎么落地到实际系统？</td>
           <td style="text-align: left">云原生平台 + GPT-3.5</td>
           <td style="text-align: left">做了个完整系统，不只是算法</td>
@@ -533,10 +533,399 @@
 <p>指标插补方法可根据其生成多样化插补结果以反映插补过程固有不确定性的能力，分为两类:</p>
 <ol>
 <li>预测式方法和生成式方法。
-预测式方法。预测式插补方法对相同的缺失部分始终预测确定性的数值。许多研究为此提出了深度学习模型。例如，GRU-D[14]采用RNN模型，TimesNet[132]利用CNN模型，而Saits[25]基于注意力模型。此外，若干方法利用大语言模型（LLM）。Zhou等人[157]使用层冻结方法微调GPT-2和BERT等预训练模型，Nate等人[35]则采用提示嵌入技术结合GPT-3、LLaMA-2和GPT-4完成指标插补任务。GatGPT[17]采用图注意力网络预训练专用于指标插补的大语言模型。
-2.生成式方法。
-生成式方法建立在VAE、GAN和扩散模型等基础上。该类别中基于LLM的工作较少。GP-VAE[32]、V-RIN[95]和supnotMIWAE[65]使用VAE方法进行指标插补，采用编码器-解码器结构，通过最大化边缘似然的证据下界（ELBO）来逼近真实数据分布。NAOMI[85]和USGAN[91]利用GAN进行生成式指标插补。SSSD[4]和CSBI[16]基于扩散模型，通过马尔可夫链的扩散步骤逐步添加噪声再逆向还原，从而捕捉复杂的数据分布。</li>
+预测式方法。预测式插补方法对相同的缺失部分始终预测确定性的数值。许多研究为此提出了深度学习模型。例如，GRU-D采用RNN模型，TimesNet利用CNN模型，而Saits基于注意力模型。此外，若干方法利用大语言模型（LLM）。Zhou等人使用层冻结方法微调GPT-2和BERT等预训练模型，Nate等人则采用提示嵌入技术结合GPT-3、LLaMA-2和GPT-4完成指标插补任务。GatGPT采用图注意力网络预训练专用于指标插补的大语言模型。</li>
+<li>生成式方法。
+生成式方法建立在VAE、GAN和扩散模型等基础上。该类别中基于LLM的工作较少。GP-VAE、V-RIN和supnotMIWAE使用VAE方法进行指标插补，采用编码器-解码器结构，通过最大化边缘似然的证据下界（ELBO）来逼近真实数据分布。NAOMI和USGAN利用GAN进行生成式指标插补。SSSD和CSBI基于扩散模型，通过马尔可夫链的扩散步骤逐步添加噪声再逆向还原，从而捕捉复杂的数据分布。</li>
 </ol>
+<h2 id="input-summarization-输入摘要">
+  Input Summarization 输入摘要
+  <a class="heading-link" href="#input-summarization-%e8%be%93%e5%85%a5%e6%91%98%e8%a6%81">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<p>输入在一般情况下是日志、指标和跟踪数据的组合，直接输入LLM会导致输入过长，效率低下。输入摘要方法通过提取关键信息来减少输入长度，提高效率。</p>
+<p>输入摘要方法由是否使用大模型分成两类：</p>
+<ol>
+<li>
+<p>无大模型方法。
+这种类型的方法不使用大模型</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">类别</th>
+          <th style="text-align: left">核心机制</th>
+          <th style="text-align: left">代表方法</th>
+          <th style="text-align: left">具体做法</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>提示剪枝 (Prompt Pruning)</strong></td>
+          <td style="text-align: left">在线移除不重要的信息</td>
+          <td style="text-align: left">DYNAICL, Selective Context, LLMLingua, LongLLMLingua</td>
+          <td style="text-align: left">基于预定义或可学习的重要性指标，从输入提示中移除不重要的token、句子或文档</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>语义压缩 (Semantic Compression)</strong></td>
+          <td style="text-align: left">将原始提示浓缩为简短摘要</td>
+          <td style="text-align: left">RECOMP, SemanticCompression</td>
+          <td style="text-align: left">将原始提示压缩成更短的摘要形式，同时保留相似的语义信息</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>基于度量的软提示 (Metric-based Soft Prompt)</strong></td>
+          <td style="text-align: left">设计场景特定的短提示</td>
+          <td style="text-align: left">Nate et al., TEST</td>
+          <td style="text-align: left">使用软提示策略为特定场景和数据设计专门的短提示，比原始提示显著更短</td>
+      </tr>
+  </tbody>
+</table>
+</li>
+<li>
+<p>用大模型的方法：</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">类别</th>
+          <th style="text-align: left">核心机制</th>
+          <th style="text-align: left">代表方法</th>
+          <th style="text-align: left">具体做法</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>零样本直接压缩 (Zero-shot Compression)</strong></td>
+          <td style="text-align: left">直接输入提示测试LLM压缩效果</td>
+          <td style="text-align: left">Priyanka et al., Chris et al.</td>
+          <td style="text-align: left">直接将提示输入ChatGPT，测试其对日志数据的压缩效果</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>事件报告摘要 (Incident Report Summarization)</strong></td>
+          <td style="text-align: left">总结大量事件报告</td>
+          <td style="text-align: left">Zhang et al., Drishti et al., Chen et al., Oasis</td>
+          <td style="text-align: left">尝试对大量的事件报告进行摘要总结</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>外部技术文档/代码摘要 (External Doc/Code Summarization)</strong></td>
+          <td style="text-align: left">总结外部资料构建辅助知识库</td>
+          <td style="text-align: left">Zhou et al., D-Bot</td>
+          <td style="text-align: left">总结外部技术文档或代码，创建辅助知识库</td>
+      </tr>
+  </tbody>
+</table>
+</li>
+</ol>
+<h2 id="failure-perception-失败感知">
+  FAILURE PERCEPTION 失败感知
+  <a class="heading-link" href="#failure-perception-%e5%a4%b1%e8%b4%a5%e6%84%9f%e7%9f%a5">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<p>用处理过的数据来做故障检测，这是最重要的任务,2 个:</p>
+<ol>
+<li>failure prediction → 故障预测</li>
+<li>anomaly detection → 异常检测</li>
+</ol>
+<h3 id="failure-prediction--故障预测">
+  failure prediction  故障预测
+  <a class="heading-link" href="#failure-prediction--%e6%95%85%e9%9a%9c%e9%a2%84%e6%b5%8b">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<p>这个主要是在线预测,预测给定时间窗口出现failure的概率。
+但是因为难以检测，所以研究要么只局限于特定类型的故障，要么存在较高的漏检率。</p>
+<p>但是也有一些研究</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">研究/方法</th>
+          <th style="text-align: left">核心贡献</th>
+          <th style="text-align: left">具体做法</th>
+          <th style="text-align: left">关键特点/局限</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>Clairvoyant</strong></td>
+          <td style="text-align: left">基于BERT的自监督故障预测模型</td>
+          <td style="text-align: left">利用日志数据训练，预测HPC系统中的节点故障</td>
+          <td style="text-align: left">仅能预测故障，无法预测提前时间</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Time Machine</strong></td>
+          <td style="text-align: left">扩展Clairvoyant的预测能力</td>
+          <td style="text-align: left">采用双栈Transformer-Decoder架构</td>
+          <td style="text-align: left">不仅能预测故障，还能预测<strong>提前时间（lead times）</strong></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Yang et al.</strong></td>
+          <td style="text-align: left">通过数据插补提升数据质量</td>
+          <td style="text-align: left">基于样本高效的扩散模型进行数据插补</td>
+          <td style="text-align: left">改善下游故障预测任务的性能</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Xiong et al.</strong></td>
+          <td style="text-align: left">系统性LLM置信度校准框架</td>
+          <td style="text-align: left">三组件设计：①提示策略（获取语言化置信度）②采样方法（生成多响应）③聚合技术（计算一致性）</td>
+          <td style="text-align: left">发现LLM存在<strong>过度自信</strong>问题；通过人类启发式提示、多响应一致性、优化聚合策略可缓解过度自信，效果接近微调模型</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="anomaly-detection-异常检测">
+  anomaly detection 异常检测
+  <a class="heading-link" href="#anomaly-detection-%e5%bc%82%e5%b8%b8%e6%a3%80%e6%b5%8b">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<p>也是看特定时间的数据是否异常，3种方法：
+Prediction-Based Methods, Reconstruction-Based Methods, and Classification-Based Methods</p>
+<h4 id="prediction-based-methods-基于预测的方法">
+  Prediction-Based Methods 基于预测的方法
+  <a class="heading-link" href="#prediction-based-methods-%e5%9f%ba%e4%ba%8e%e9%a2%84%e6%b5%8b%e7%9a%84%e6%96%b9%e6%b3%95">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h4>
+<p>基于预测的方法通过训练模型预测系统的正常行为，然后将实际观察到的行为与预测结果进行比较，以检测异常。可以看成指标时间序列预测和日志事件预测任务</p>
+<p>目前这些方法多预测metics，预测日志事件的还比较少。
+又通过如何利用LLM分成4类：
+foundational model, fine-tuning approach,
+prompt-based approach, and embedding-based approach.</p>
+<p>foundational model 基础模型:设计一个模型并预训练并不是大模型,表中是已有工作</p>
+<table>
+  <thead>
+      <tr>
+          <th>模型</th>
+          <th>引用</th>
+          <th>架构/方法特点</th>
+          <th>主要功能/优势</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>TimeGPT</strong></td>
+          <td></td>
+          <td>多层编码器-解码器结构</td>
+          <td>首个专门为时间序列预训练的基础模型</td>
+      </tr>
+      <tr>
+          <td><strong>Lag-llama</strong></td>
+          <td></td>
+          <td>仅解码器Transformer，使用滞后项（lags）作为协变量</td>
+          <td>单变量概率时间序列预测的通用基础模型</td>
+      </tr>
+      <tr>
+          <td><strong>TimesFM</strong></td>
+          <td></td>
+          <td>分块解码器（patched-decoder）风格的注意力模型</td>
+          <td>适用于不同预测历史长度、预测长度和时间粒度</td>
+      </tr>
+      <tr>
+          <td><strong>TTM</strong></td>
+          <td></td>
+          <td>轻量级TSMixer架构，自适应分块、多样化分辨率采样、分辨率前缀调优</td>
+          <td>以最小模型容量处理多分辨率数据集预训练</td>
+      </tr>
+  </tbody>
+</table>
+<p>光有基础模型还不够，还需要微调。</p>
+<table>
+  <thead>
+      <tr>
+          <th>方法</th>
+          <th>引用</th>
+          <th>技术特点</th>
+          <th>应用场景</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>FPT</strong> (Zhou et al.)</td>
+          <td></td>
+          <td>冻结预训练Transformer（Frozen Pretrained Transformer）</td>
+          <td>将语言或计算机视觉模型迁移到时间序列任务</td>
+      </tr>
+      <tr>
+          <td><strong>LLM4TS</strong></td>
+          <td></td>
+          <td>两阶段微调：①监督微调适应时序数据 → ②任务特定下游微调</td>
+          <td>使大语言模型适应时间序列预测</td>
+      </tr>
+      <tr>
+          <td><strong>Khanal et al.</strong></td>
+          <td></td>
+          <td>单步微调，融合源域数据，渐进解冻（gradual unfreezing）</td>
+          <td>跨域迁移学习，提供多样化时间序列实例</td>
+      </tr>
+      <tr>
+          <td><strong>LogFiT</strong></td>
+          <td></td>
+          <td>基于BERT的预训练模型，使用日志数据微调</td>
+          <td>日志异常检测（通过top-k预测准确率判断偏离程度）</td>
+      </tr>
+  </tbody>
+</table>
+<p>训练基础模型或进行微调需要大量的时间和硬件资源。因此，已有若干研究工作提出了无需重新训练预训练模型即可执行预测的方法.</p>
+<table>
+  <thead>
+      <tr>
+          <th>方法</th>
+          <th>引用</th>
+          <th>核心思想</th>
+          <th>技术特点</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>PromptCast</strong></td>
+          <td></td>
+          <td>将数值输入/输出转换为文本提示</td>
+          <td>以句子到句子（sentence-to-sentence）的方式构建预测任务</td>
+      </tr>
+      <tr>
+          <td><strong>Time-LLM</strong></td>
+          <td></td>
+          <td>提示作为前缀（Prompt-as-Prefix, PaP）</td>
+          <td>丰富输入上下文，引导重编程输入分块的转换，再投影获得预测</td>
+      </tr>
+      <tr>
+          <td><strong>TEMPO</strong></td>
+          <td></td>
+          <td>时间序列解耦 + 提示池</td>
+          <td>分解为趋势/季节/残差分量，构建提示池为不同分量分配提示，利用历史信息适应分布变化</td>
+      </tr>
+      <tr>
+          <td><strong>LSTPrompt</strong></td>
+          <td></td>
+          <td>任务分解 + 思维链</td>
+          <td>将预测分解为短期和长期子任务，使用Chain-of-Thought（CoT）为各子任务定制提示</td>
+      </tr>
+  </tbody>
+</table>
+<p>一些方法依赖大模型的嵌入能力来执行预测任务，特别是在日志数据的背景下。这些大模型的嵌入能力在提取日志语义信息方面非常有效。</p>
+<table>
+  <thead>
+      <tr>
+          <th>方法</th>
+          <th>引用</th>
+          <th>模型/技术</th>
+          <th>应用场景</th>
+          <th>核心机制</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>Egil et al.</strong></td>
+          <td></td>
+          <td>自编码器 + 自监督学习</td>
+          <td>日志异常检测</td>
+          <td>压缩嵌入表示，通过自监督学习检测异常</td>
+      </tr>
+      <tr>
+          <td><strong>Harold et al.</strong></td>
+          <td></td>
+          <td>BERT/GPT-2/XLNet + BiLSTM</td>
+          <td>系统行为学习</td>
+          <td>将大模型嵌入向量按时间链式输入双向LSTM学习正常行为</td>
+      </tr>
+      <tr>
+          <td><strong>LogADSBERT</strong></td>
+          <td></td>
+          <td>Sentence-BERT + BiLSTM</td>
+          <td>日志事件预测</td>
+          <td>先用Sentence-BERT提取语义特征，再用BiLSTM预测日志事件</td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="reconstruction-based-methods">
+  Reconstruction-Based Methods
+  <a class="heading-link" href="#reconstruction-based-methods">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h4>
+<p>基于重构的异常检测利用模型重构输入数据，并通过测量重构误差来检测异常。如果重构误差超过某个阈值，该数据点即被视为异常。这种方法假设异常无法被模型准确重构。</p>
+<p>这个方法的想法还蛮怪的，就是类似于用模型抽特征，再用特征重画输出，输出看起来正常就表示输入正常(因为模型应该不认识异常)，输出看起来不正常就表示输入异常。这个方法的核心是重构误差，重构误差越大，越可能是异常。这个和classification有区别吗，我是看不出区别的，还是得看看原论文了。</p>
+<p>已有工作：</p>
+<table>
+  <thead>
+      <tr>
+          <th>方法</th>
+          <th>技术基础</th>
+          <th>核心机制</th>
+          <th>特点/创新</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>LANoBERT</strong></td>
+          <td>BERT + 掩码语言建模(MLM)</td>
+          <td>通过掩码语言建模损失函数检测日志键异常</td>
+          <td>无监督检测，针对日志键级别</td>
+      </tr>
+      <tr>
+          <td><strong>Prog-BERT-LSTM</strong></td>
+          <td>渐进式掩码策略</td>
+          <td>聚合文本语义向量与序列特征向量</td>
+          <td>渐进式掩码，融合文本与时序特征</td>
+      </tr>
+      <tr>
+          <td><strong>SimMTM</strong></td>
+          <td>掩码重建 + 邻域聚合</td>
+          <td>基于未掩码部分重建掩码内容，通过流形外邻居加权聚合恢复时间点</td>
+          <td>利用多个掩码序列的互补信息，简化重构任务</td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="classification-based-methods">
+  classification-Based Methods
+  <a class="heading-link" href="#classification-based-methods">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h4>
+<p>这个就是把异常检测当成分类问题，训练一个分类器来区分正常和异常数据点。这个方法的核心是训练一个能够区分正常和异常的分类模型。
+又根据是否使用大模型分成两类：</p>
+<h5 id="llm-assisted-classification-methods">
+  LLM Assisted classification methods
+  <a class="heading-link" href="#llm-assisted-classification-methods">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h5>
+<p>LLM辅助的分类方法，本质上是一种&quot;大模型出脑子，小模型出手&quot;的协作模式。
+大语言模型负责提供嵌入向量或特征提取，把那些高维、晦涩的原始数据转化成富含语义信息的表征。而真正做最终判决的，往往是那些更轻量、更 specialized 的小模型。这种架构在日志异常检测领域尤为流行——毕竟日志文本里藏着太多语义细节，传统方法根本抓不住那股&quot;弦外之音&quot;。
+早期的探索者走的是另一条路。RobustLog算是开先河者之一，它用FastText算法从日志事件里抽取语义信息，转化成向量后，交给基于注意力机制的Bi-LSTM做分类。后来者的PLELog沿用了类似的语义提取思路，但把整套算法改成了半监督学习的路子，摆脱了对标注数据的过度依赖。NeuralLog则更进一步，直接用Word2Vec做语义转换，干脆取消了日志解析这一步——毕竟解析出错是日志分析里的老大难问题，一了百了反倒干净。
+不过说到底，这三位用的都还算不上大语言模型，充其量只是传统的语义提取工具。
+真正的转折点出现在Egil等人的工作里。他们换上了BERT来做语义提取，实验结果证明，用正经的LLM来抽特征，检测效果确实更上一层楼。
+此后这路技术便如星火燎原。MultiLog项目在分布式软件场景下，让BERT去萃取每个节点的日志语义，做完语义压缩后，在协调节点上用自编码器做最终的融合与分类。LogST则选用了SBERT来抓取日志事件的语义，最后交给GRU模型来把关异常。Ji等人的方案更为花哨——他们用SBERT提取日志嵌入，再用GPT-2做语义转换，最后架了一层告警策略层来综合判定异常。
+每一条技术路线，都在试图回答同一个问题：如何让机器真正读懂那些看似杂乱无章的日志背后，到底藏着什么猫腻。</p>
+<h5 id="llm-decision-classification-methods">
+  LLM-decision classification methods
+  <a class="heading-link" href="#llm-decision-classification-methods">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h5>
+<p>这个就是让大模型直接决定是否有问题。</p>
+<p>LLM-decision分类方法直接利用大型语言模型进行决策。这类方法通过对LLM进行微调或提示，使其将输入数据分类为正常或异常，而无需依赖较小的模型进行最终分类。这些方法可分为两大类：基于训练的方法和基于提示的方法。
+在基于训练的方法中，许多研究工作利用BERT及其变体，主要专注于日志数据。BERT-Log采用预训练语言模型学习正常和异常日志的语义表示，并使用全连接神经网络对BERT模型进行微调以检测异常。LogPrompt利用提示引导预训练语言模型更好地理解日志的语义和时序信息，避免了从头训练模型的需要。HilBERT使用来自Loghub上17个日志数据集的日志模板信息，在异常检测任务中进行全量微调。为了降低全量微调的高昂成本，LogBP-LORA提出了一种基于BERT和低秩适应（LoRA）的参数高效日志异常检测方案，该方案引入旁路权重矩阵，仅更新旁路参数而非所有原始参数。
+此外，也有一些研究工作利用指标数据进行微调。TS-Bert使用指标数据对BERT进行全量微调。Zhou等人采用层冻结方法对GPT-2和BERT等预训练模型进行微调。另外，部分研究工作使用知识蒸馏技术从LLM中学习异常检测知识。AnomalyLLM使用GPT-2作为教师模型，训练了一个用于基于指标数据的异常检测的学生模型。
+基于提示的方法则采用了更新的思路，避免了模型训练，转而利用提示工程来引导LLM执行分类任务。随着大型语言模型规模的不断增长，人们普遍认为它们天生具备异常检测能力，可以通过有效的提示来激发这些能力。
+一些方法直接向LLM输入提示以确定异常的存在，其中许多研究工作专注于日志数据。Priyanka等人开展了一项使用ChatGPT进行零样本日志异常检测的研究，表明当前版本的ChatGPT在这项任务中的性能有限。Chris等人不仅提示ChatGPT检测日志片段中的异常，还采用输入摘要技术结合历史数据进行更全面的评估，取得了更好的效果。RAGLog通过将检索增强生成（RAG）技术与向量数据库相结合，增强了基于LLM的异常检测能力，提高了检测准确性。LogGPT采用思维链（CoT）提示来增强LLM在异常检测中的性能，实现了更细致和有效的分析。
+与基于日志数据的方法不同，基于指标数据的研究工作通常需要对指标数据进行特殊的提示嵌入处理。TEST首先对指标数据进行分词，构建编码器通过实例级、特征级和文本原型对齐对比的方式对其进行嵌入，然后创建提示使LLM更容易接受这些嵌入表示，最终实现了基于指标数据的分类。SigLLM采用时间序列到文本的转换模块，以及端到端的流程来提示语言模型执行时间序列异常检测，直接要求语言模型指出输入中哪些元素是异常。TabLLM将指标数据序列化为自然语言字符串来提示大型语言模型，用于少样本和零样本的指标数据分类。</p>
+<h2 id="root-cause-analysis">
+  Root Cause Analysis
+  <a class="heading-link" href="#root-cause-analysis">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<p>在大型语言模型兴起之前，这些任务通常依赖系统生成的数据，利用自动化的故障感知方法来识别异常，进而用于故障定位和故障类别分类。然而，随着大型语言模型的出现，根因分析的起点已从自动化的故障感知转向了用户生成的数据，特别是引入了自然语言分析能力的事件报告。
+此外，根因分析现在还整合了其他人工生成的数据（如文档和代码），将其作为补充知识源以增强分析能力。进一步地，基于LLM的自然语言理解与生成能力，现在可以绕过故障定位和故障类别分类的过程，直接生成根因报告。</p>
 
       </div>
 
