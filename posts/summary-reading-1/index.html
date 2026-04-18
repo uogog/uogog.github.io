@@ -157,7 +157,7 @@
             </span>
             <span class="reading-time">
               <i class="fa-solid fa-clock" aria-hidden="true"></i>
-              阅读时间：4 分钟
+              阅读时间：6 分钟
             </span>
           </div>
           <div class="authors">
@@ -926,6 +926,473 @@ prompt-based approach, and embedding-based approach.</p>
 </h2>
 <p>在大型语言模型兴起之前，这些任务通常依赖系统生成的数据，利用自动化的故障感知方法来识别异常，进而用于故障定位和故障类别分类。然而，随着大型语言模型的出现，根因分析的起点已从自动化的故障感知转向了用户生成的数据，特别是引入了自然语言分析能力的事件报告。
 此外，根因分析现在还整合了其他人工生成的数据（如文档和代码），将其作为补充知识源以增强分析能力。进一步地，基于LLM的自然语言理解与生成能力，现在可以绕过故障定位和故障类别分类的过程，直接生成根因报告。</p>
+<h3 id="faliure-localization-故障定位">
+  faliure localization 故障定位
+  <a class="heading-link" href="#faliure-localization-%e6%95%85%e9%9a%9c%e5%ae%9a%e4%bd%8d">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<p>多用causal discovery
+目前使用LLM的反而少。</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">文献</th>
+          <th style="text-align: left">方法</th>
+          <th style="text-align: left">数据源</th>
+          <th style="text-align: left">目标</th>
+          <th style="text-align: left">特点/创新点</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>Komal et al.</strong></td>
+          <td style="text-align: left">零样本提示工程</td>
+          <td style="text-align: left">指标数据</td>
+          <td style="text-align: left">识别有问题的<strong>主机名</strong>和<strong>部署名称</strong></td>
+          <td style="text-align: left">基于指标数据的零样本学习方法</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Devjeet et al.</strong></td>
+          <td style="text-align: left">React</td>
+          <td style="text-align: left"><strong>事故报告</strong></td>
+          <td style="text-align: left">识别有问题的<strong>任务名称</strong></td>
+          <td style="text-align: left"><strong>域外（out-of-domain）</strong>场景；使用真实世界生产事故静态数据集</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>RealTCD</strong></td>
+          <td style="text-align: left">时间因果发现 + LLM</td>
+          <td style="text-align: left">系统隐藏的<strong>文本信息</strong></td>
+          <td style="text-align: left">发现<strong>时间因果关系</strong>（无需干预目标）</td>
+          <td style="text-align: left">引入 <strong>LLM 引导的元初始化（metainitialization）</strong>；提取<strong>元知识</strong>提升发现质量</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>LogConfigLocalizer</strong></td>
+          <td style="text-align: left">两阶段 LLM 策略</td>
+          <td style="text-align: left"><strong>日志</strong></td>
+          <td style="text-align: left">定位根因<strong>配置属性</strong></td>
+          <td style="text-align: left">面向<strong>终端用户</strong>的实用工具</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>mABC</strong></td>
+          <td style="text-align: left">多智能体协作（区块链启发）</td>
+          <td style="text-align: left"><strong>告警数据</strong>（指标数据的加工形式）</td>
+          <td style="text-align: left">定位异常的<strong>具体节点</strong></td>
+          <td style="text-align: left">区块链-inspired 的多智能体协作机制</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="failure-category-classification-故障分类">
+  failure category classification 故障分类
+  <a class="heading-link" href="#failure-category-classification-%e6%95%85%e9%9a%9c%e5%88%86%e7%b1%bb">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<p>就是有故障就分类，本质是分类问题。
+两种方法：</p>
+<h4 id="fine-tuning-based-methods-基于微调的方法">
+  Fine-tuning-based methods 基于微调的方法
+  <a class="heading-link" href="#fine-tuning-based-methods-%e5%9f%ba%e4%ba%8e%e5%be%ae%e8%b0%83%e7%9a%84%e6%96%b9%e6%b3%95">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h4>
+<p>依赖系统生成的数据。</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">文献</th>
+          <th style="text-align: left">方法</th>
+          <th style="text-align: left">数据源</th>
+          <th style="text-align: left">模型</th>
+          <th style="text-align: left">特点/创新点</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>BERTOps</strong></td>
+          <td style="text-align: left"><strong>全量微调（full fine-tuning）</strong></td>
+          <td style="text-align: left"><strong>日志数据</strong>（12 个 Loghub 数据集 + 5 个专有数据源）</td>
+          <td style="text-align: left">BERT</td>
+          <td style="text-align: left">在故障类别分类任务上取得<strong>最先进（state-of-the-art）</strong>结果</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Zhou et al.</strong></td>
+          <td style="text-align: left"><strong>层冻结（layer-freezing）</strong></td>
+          <td style="text-align: left"><strong>指标数据</strong></td>
+          <td style="text-align: left">GPT-2、BERT 等预训练模型</td>
+          <td style="text-align: left">通过冻结部分层实现高效微调，有效完成故障类别分类任务</td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="prompt-based-methods-基于提示的方法">
+  Prompt-based methods 基于提示的方法
+  <a class="heading-link" href="#prompt-based-methods-%e5%9f%ba%e4%ba%8e%e6%8f%90%e7%a4%ba%e7%9a%84%e6%96%b9%e6%b3%95">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h4>
+<p>甚至已成为故障类别分类的主流方法。其中一些方法
+主要依赖系统生成的数据。</p>
+<p><strong>主要依赖系统生成的数据的方法。</strong></p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">文献</th>
+          <th style="text-align: left">核心方法</th>
+          <th style="text-align: left">数据源</th>
+          <th style="text-align: left">技术细节</th>
+          <th style="text-align: left">效果</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>Andres</strong></td>
+          <td style="text-align: left">将 LLM 用作<strong>消息分类器</strong></td>
+          <td style="text-align: left"><strong>日志数据</strong></td>
+          <td style="text-align: left">直接使用 LLM 进行故障类别分类</td>
+          <td style="text-align: left">—</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>TEST</strong></td>
+          <td style="text-align: left">构建编码器 + 提示工程</td>
+          <td style="text-align: left"><strong>指标数据</strong></td>
+          <td style="text-align: left"><strong>实例级（instance-wise）、特征级（feature-wise）、文本原型对齐（text-prototype-aligned）对比学习</strong>嵌入；创建提示使 LLM 更易接受嵌入</td>
+          <td style="text-align: left">在故障类别分类任务上取得<strong>优异结果</strong></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>其他方法</strong></p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">文献</th>
+          <th style="text-align: left">数据类型</th>
+          <th style="text-align: left">核心方法</th>
+          <th style="text-align: left">技术细节</th>
+          <th style="text-align: left">输出/目标</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>D-Bot</strong></td>
+          <td style="text-align: left"><strong>系统生成</strong>：指标数据<!-- raw HTML omitted --><strong>人工生成</strong>：技术手册、维护文档、API 描述</td>
+          <td style="text-align: left"><strong>知识增强</strong></td>
+          <td style="text-align: left">检索增强生成（RAG）+ 工具增强生成</td>
+          <td style="text-align: left"><strong>数据库故障分类</strong></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>LLMDB</strong></td>
+          <td style="text-align: left"><strong>系统生成</strong>：指标数据<!-- raw HTML omitted --><strong>人工生成</strong>：技术手册、维护文档、API 描述</td>
+          <td style="text-align: left"><strong>知识增强</strong></td>
+          <td style="text-align: left">检索增强生成（RAG）+ 工具增强生成</td>
+          <td style="text-align: left"><strong>数据库故障分类</strong></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>PACE</strong></td>
+          <td style="text-align: left"><strong>人工生成</strong>：历史事故数据</td>
+          <td style="text-align: left"><strong>两阶段方法</strong></td>
+          <td style="text-align: left">阶段1：<strong>向量检索</strong>评估置信度（考虑证据强度）<!-- raw HTML omitted -->阶段2：LLM 审查预测器生成的根因</td>
+          <td style="text-align: left">事故分类 + 根因审查</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>RCACopilot</strong></td>
+          <td style="text-align: left"><strong>系统生成</strong>：日志、指标、追踪数据<!-- raw HTML omitted -->→ 生成事故报告</td>
+          <td style="text-align: left"><strong>RAG + 上下文学习</strong></td>
+          <td style="text-align: left">综合多源数据生成事故报告；结合检索增强生成与上下文学习</td>
+          <td style="text-align: left">预测<strong>根因类别</strong> + 提供<strong>解释性叙述</strong></td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="report-generation-根因报告生成">
+  report generation 根因报告生成
+  <a class="heading-link" href="#report-generation-%e6%a0%b9%e5%9b%a0%e6%8a%a5%e5%91%8a%e7%94%9f%e6%88%90">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<p>Recommending root-cause and mitigation steps for cloud incidents using large language models.下面工作主要是因为这篇论文说可以搞</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">文献</th>
+          <th style="text-align: left">方法</th>
+          <th style="text-align: left">数据源</th>
+          <th style="text-align: left">技术细节</th>
+          <th style="text-align: left">特点/创新点</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>Zhang et al.</strong></td>
+          <td style="text-align: left"><strong>上下文学习（in-context learning）</strong></td>
+          <td style="text-align: left">—</td>
+          <td style="text-align: left">基于 <strong>GPT-4</strong></td>
+          <td style="text-align: left"><strong>无需微调（fine-tuning-free）</strong></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Drishti et al.</strong></td>
+          <td style="text-align: left"><strong>检索增强生成（RAG）</strong></td>
+          <td style="text-align: left"><strong>软件开发生命周期（SDLC）</strong>不同阶段的数据</td>
+          <td style="text-align: left"><strong>In-Context Examples Retrieval</strong> 方法</td>
+          <td style="text-align: left">增强 LLM 生成<strong>根因报告</strong>的能力</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>RCAgent</strong></td>
+          <td style="text-align: left"><strong>工具增强（tool-augmented）</strong>技术</td>
+          <td style="text-align: left">—</td>
+          <td style="text-align: left">工具增强技术提升 LLM 生成的根因报告质量；引入<strong>动作轨迹自一致性（Self-Consistency for action trajectories）</strong>；上下文管理、稳定化及领域知识导入方法</td>
+          <td style="text-align: left">综合多种技术提升根因报告质量</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="auto-remediation-自动修复">
+  auto remediation 自动修复
+  <a class="heading-link" href="#auto-remediation-%e8%87%aa%e5%8a%a8%e4%bf%ae%e5%a4%8d">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<p>在有LLM只后，软件维护就是然软件系统、错误时间、工程师和LLM4个实体的交互了。</p>
+<p>由自动化程度的高低分成5种方法：
+Assitanted Questioning, Mitigation Solution Generation, Command Recommendation, Script Generation, and Automatic Execution.</p>
+<h3 id="assisted-questioning-辅助提问">
+  Assisted Questioning 辅助提问
+  <a class="heading-link" href="#assisted-questioning-%e8%be%85%e5%8a%a9%e6%8f%90%e9%97%ae">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<p>由工程师向LLM提问，LLM根据系统状态和故障信息提供答案，帮助工程师理解问题并指导修复过程，并且可以自动生成指令查询系统。</p>
+<table>
+  <thead>
+      <tr>
+          <th>方法类别</th>
+          <th>代表工作</th>
+          <th>核心模型/技术</th>
+          <th>主要应用场景</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>基于微调的方法</strong></td>
+          <td>OWL</td>
+          <td>LLaMA + 监督微调 + 混合适配器调优</td>
+          <td>知识查询</td>
+      </tr>
+      <tr>
+          <td></td>
+          <td>Gijun et al.</td>
+          <td>kullm-polyglot-12.8b-v2（微调后）</td>
+          <td>IT 运维部署管理、微服务行为分析、性能瓶颈诊断、问题预防</td>
+      </tr>
+      <tr>
+          <td><strong>基于提示的方法</strong></td>
+          <td>DB-GPT</td>
+          <td>RAG + 自适应学习 + SMMF 多模型框架</td>
+          <td>数据库自然语言查询、上下文感知响应</td>
+      </tr>
+      <tr>
+          <td></td>
+          <td>OpsEval</td>
+          <td>零样本学习、思维链、少样本上下文学习</td>
+          <td>AIOps 任务基准测试、LLM 技术效果评估</td>
+      </tr>
+  </tbody>
+</table>
+<p>技术特点:</p>
+<table>
+  <thead>
+      <tr>
+          <th>工作</th>
+          <th>技术核心</th>
+          <th>关键创新点</th>
+          <th>输出/目标</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>OWL</strong></td>
+          <td>混合适配器调优</td>
+          <td>在 LLaMA 上结合监督微调与多适配器混合机制</td>
+          <td>训练专门用于知识查询的 LLM 集群</td>
+      </tr>
+      <tr>
+          <td><strong>Gijun et al.</strong></td>
+          <td>领域专用微调</td>
+          <td>针对 IT 运维场景微调的交互式助手架构</td>
+          <td>实时运维洞察、瓶颈识别、主动故障预防</td>
+      </tr>
+      <tr>
+          <td><strong>DB-GPT</strong></td>
+          <td>RAG + 多模型框架</td>
+          <td>检索增强生成知识系统、用户反馈驱动的自适应学习、服务导向多模型框架 (SMMF)</td>
+          <td>自然语言数据库交互、数据驱动智能体服务</td>
+      </tr>
+      <tr>
+          <td><strong>OpsEval</strong></td>
+          <td>提示工程综合评估</td>
+          <td>面向 AIOps 的综合性任务基准</td>
+          <td>量化不同提示策略（零样本/思维链/少样本）对 AIOps 性能的影响</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="migation-solution-generation-缓解方案生成">
+  migation solution generation 缓解方案生成
+  <a class="heading-link" href="#migation-solution-generation-%e7%bc%93%e8%a7%a3%e6%96%b9%e6%a1%88%e7%94%9f%e6%88%90">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">作者</th>
+          <th style="text-align: left">核心贡献</th>
+          <th style="text-align: left">技术方法</th>
+          <th></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>Toufique et al.</strong></td>
+          <td style="text-align: left">首个大规模实证研究</td>
+          <td style="text-align: left">评估 LLM 在辅助工程师进行根因分析和生产事故缓解中的有效性</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Drishti et al.</strong></td>
+          <td style="text-align: left">利用软件全生命周期数据</td>
+          <td style="text-align: left">结合上下文示例检索 + 检索增强生成（RAG）提升 LLM 生成缓解方案的能力</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Pouya et al.</strong></td>
+          <td style="text-align: left">模拟 OCE 自然思维过程</td>
+          <td style="text-align: left">三模块 LLM Agent 框架：假设形成器（hypothesis former）、假设验证器（hypothesis tester）、缓解规划器（mitigation planner）</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Wang et al.</strong></td>
+          <td style="text-align: left">网络流量控制策略生成</td>
+          <td style="text-align: left">NetLM 框架：通过不同抽象层次逐步细化意图（intent refinement）</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="command-recommendation-命令推荐">
+  command recommendation 命令推荐
+  <a class="heading-link" href="#command-recommendation-%e5%91%bd%e4%bb%a4%e6%8e%a8%e8%8d%90">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">方法类型</th>
+          <th style="text-align: left">交互模式</th>
+          <th style="text-align: left">代表工作</th>
+          <th style="text-align: left">核心机制</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>序列推荐型</strong></td>
+          <td style="text-align: left">输入前一个命令 → 推荐下一个命令</td>
+          <td style="text-align: left"><strong>ShellGPT [116]</strong></td>
+          <td style="text-align: left">基于 GPT 系列模型，在 shell 语言与自然语言对齐的语料上训练，针对 shell 语言理解的命令推荐任务微调</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>任务驱动型</strong></td>
+          <td style="text-align: left">输入待完成任务 → 推荐可执行该任务的命令</td>
+          <td style="text-align: left"><strong>DB-GPT [137]</strong></td>
+          <td style="text-align: left">采用检索增强生成（RAG）理解自然语言查询，提供上下文感知响应，生成精确复杂的 SQL 查询</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="sript-generation-脚本生成">
+  Sript Generation 脚本生成
+  <a class="heading-link" href="#sript-generation-%e8%84%9a%e6%9c%ac%e7%94%9f%e6%88%90">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">作者</th>
+          <th style="text-align: left">核心贡献</th>
+          <th style="text-align: left">技术特点</th>
+          <th style="text-align: left">应用领域</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>Xpert</strong></td>
+          <td style="text-align: left">定制化 KQL 查询生成</td>
+          <td style="text-align: left">• 利用历史事故数据 + LLM<!-- raw HTML omitted -->• 提取表结构、模板等常见模式<!-- raw HTML omitted -->• 提出 Xcore 评估指标（三维度综合评估）</td>
+          <td style="text-align: left">Microsoft 事故管理（Kusto Query Language）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Komal et al.</strong></td>
+          <td style="text-align: left">基于指标数据的自动修复</td>
+          <td style="text-align: left">• 零样本提示工程识别根因<!-- raw HTML omitted -->• 代码生成模型（LLaMA/Codex/GPT）<!-- raw HTML omitted -->• 面向自适应性微服务架构（SMA）</td>
+          <td style="text-align: left">微服务自动修复</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Marco et al.</strong></td>
+          <td style="text-align: left">LLM 程序生成先驱研究</td>
+          <td style="text-align: left">• 首次探索 LLM 在服务导向计算中的程序生成潜力</td>
+          <td style="text-align: left">服务组合脚本生成</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Pesl et al.</strong></td>
+          <td style="text-align: left">服务组合场景实证研究</td>
+          <td style="text-align: left">• 识别文献中 6 类典型服务组合场景<!-- raw HTML omitted -->• 实验验证 ChatGPT 和 GPT-4</td>
+          <td style="text-align: left">服务组合（实证分析）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>ChatOps4Msa</strong></td>
+          <td style="text-align: left">面向微服务的 ChatOps 机制</td>
+          <td style="text-align: left">• 基于 GPT-3.5<!-- raw HTML omitted -->• 提出 ChatOps 查询语言（CQL）低代码语法<!-- raw HTML omitted -->• 生成完整服务恢复脚本代码</td>
+          <td style="text-align: left">微服务架构（MSA）运维</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="automatic-execution-自动执行">
+  automatic execution 自动执行
+  <a class="heading-link" href="#automatic-execution-%e8%87%aa%e5%8a%a8%e6%89%a7%e8%a1%8c">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">作者</th>
+          <th style="text-align: left">核心贡献</th>
+          <th style="text-align: left">技术实现</th>
+          <th style="text-align: left">关键能力</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>Charles et al.</strong></td>
+          <td style="text-align: left">Linux 服务器管理自动化</td>
+          <td style="text-align: left">GPT-based AI Agent</td>
+          <td style="text-align: left">• 150 项任务 / 9 大类别<!-- raw HTML omitted -->• 文件操作到编程编译<!-- raw HTML omitted -->• 自主执行 + 反馈适应</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Pitikorn et al.</strong></td>
+          <td style="text-align: left">自愈系统集成生成式 AI</td>
+          <td style="text-align: left">GPT-4</td>
+          <td style="text-align: left">• 故障感知<!-- raw HTML omitted -->• 代码生成<!-- raw HTML omitted -->• 调试<!-- raw HTML omitted -->• 报告自动生成<!-- raw HTML omitted -->• Python 代码补全<!-- raw HTML omitted -->• 故障组件自动修复</td>
+      </tr>
+  </tbody>
+</table>
 
       </div>
 
