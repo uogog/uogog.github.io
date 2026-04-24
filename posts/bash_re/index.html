@@ -192,12 +192,36 @@
     <span class="sr-only">链接到标题</span>
   </a>
 </h1>
-<p>| - | -|
-|* | 代表『 0 个到无穷多个』任意字符|
-|? | 代表『一定有一个』任意字符|
-|[ ] | 同样代表『一定有一个在括号内』的字符(非任意字符)。例如 [abcd] 代表『一定有一个字符， 可能是 a, b, c, d 这四个任何一个』|
-|[ - ] | 若有减号在中括号内时，代表『在编码顺序内的所有字符』。例如 [0-9] 代表 0 到 9 之间的所有数字，因为数字的语系编码是连续的！|
-|[^ ] | 若中括号内的第一个字符为指数符号 (^) ，那表示『反向选择』，例如 [^abc] 代表 一定有一个字符，只要是非 a, b, c 的其他字符就接受的意思。|</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">符号</th>
+          <th style="text-align: left">作用</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">*</td>
+          <td style="text-align: left">代表『 0 个到无穷多个』任意字符</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">?</td>
+          <td style="text-align: left">代表『一定有一个』任意字符</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">[ ]</td>
+          <td style="text-align: left">同样代表『一定有一个在括号内』的字符(非任意字符)。例如 [abcd] 代表『一定有一个字符， 可能是 a, b, c, d 这四个任何一个』</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">[ - ]</td>
+          <td style="text-align: left">若有减号在中括号内时，代表『在编码顺序内的所有字符』。例如 [0-9] 代表 0 到 9 之间的所有数字，因为数字的语系编码是连续的！</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">[^ ]</td>
+          <td style="text-align: left">若中括号内的第一个字符为指数符号 (^) ，那表示『反向选择』，例如 [^abc] 代表 一定有一个字符，只要是非 a, b, c 的其他字符就接受的意思。</td>
+      </tr>
+  </tbody>
+</table>
 <h1 id="re基础文法">
   RE基础文法
   <a class="heading-link" href="#re%e5%9f%ba%e7%a1%80%e6%96%87%e6%b3%95">
@@ -205,15 +229,48 @@
     <span class="sr-only">链接到标题</span>
   </a>
 </h1>
-<p>| - | - |
-| ^ | 开头 |
-| $ | 结尾 |
-| . | 任意各个字符|
-| \ | 转义字符 |
-| * | 0或无数个字符，这个字符是*前面一个|
-| [a1-a2] | 范围内的字符 |
-| [^a1-a2] | 范围外的字符 |
-| {n,m}| 连续多个前面的字符从n个到m个，有，无m就是n个及以上，无，和m就是刚好n个字符 |</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">符号</th>
+          <th style="text-align: left">作用</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">^</td>
+          <td style="text-align: left">开头</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">$</td>
+          <td style="text-align: left">结尾</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">.</td>
+          <td style="text-align: left">任意各个字符</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">\</td>
+          <td style="text-align: left">转义字符</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">*</td>
+          <td style="text-align: left">0或无数个字符，这个字符是*前面一个</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">[a1-a2]</td>
+          <td style="text-align: left">范围内的字符</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">[^a1-a2]</td>
+          <td style="text-align: left">范围外的字符</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">{n,m}</td>
+          <td style="text-align: left">连续多个前面的字符从n个到m个，有，无m就是n个及以上，无，和m就是刚好n个字符</td>
+      </tr>
+  </tbody>
+</table>
 <h1 id="bash-中的多用通配符处理的程序">
   bash 中的多用通配符处理的程序
   <a class="heading-link" href="#bash-%e4%b8%ad%e7%9a%84%e5%a4%9a%e7%94%a8%e9%80%9a%e9%85%8d%e7%ac%a6%e5%a4%84%e7%90%86%e7%9a%84%e7%a8%8b%e5%ba%8f">
