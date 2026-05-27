@@ -1,61 +1,31 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Series on UOG的BLOG</title>
-    <link>http://uogog.github.io/series/</link>
-    <description>Recent content in Series on UOG的BLOG</description>
-    <generator>Hugo</generator>
-    <language>zh-cn</language>
-    <lastBuildDate>Fri, 22 May 2026 13:56:39 +0800</lastBuildDate>
-    <atom:link href="http://uogog.github.io/series/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>LangChain</title>
-      <link>http://uogog.github.io/series/langchain/</link>
-      <pubDate>Fri, 22 May 2026 13:56:39 +0800</pubDate>
-      <guid>http://uogog.github.io/series/langchain/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Systemd</title>
-      <link>http://uogog.github.io/series/systemd/</link>
-      <pubDate>Thu, 14 May 2026 11:35:43 +0800</pubDate>
-      <guid>http://uogog.github.io/series/systemd/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Shell</title>
-      <link>http://uogog.github.io/series/shell/</link>
-      <pubDate>Fri, 24 Apr 2026 14:35:13 +0800</pubDate>
-      <guid>http://uogog.github.io/series/shell/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Docker</title>
-      <link>http://uogog.github.io/series/docker/</link>
-      <pubDate>Sat, 04 Apr 2026 17:04:13 +0800</pubDate>
-      <guid>http://uogog.github.io/series/docker/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Papers</title>
-      <link>http://uogog.github.io/series/papers/</link>
-      <pubDate>Wed, 01 Apr 2026 18:13:49 +0800</pubDate>
-      <guid>http://uogog.github.io/series/papers/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Xv6</title>
-      <link>http://uogog.github.io/series/xv6/</link>
-      <pubDate>Sat, 14 Mar 2026 01:33:23 +0800</pubDate>
-      <guid>http://uogog.github.io/series/xv6/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Pytorch</title>
-      <link>http://uogog.github.io/series/pytorch/</link>
-      <pubDate>Mon, 09 Mar 2026 20:40:56 +0800</pubDate>
-      <guid>http://uogog.github.io/series/pytorch/</guid>
-      <description></description>
-    </item>
-  </channel>
+	<channel>
+		<title>Series on UOG的BLOG</title>
+		<link>http://uogog.github.io/series/</link>
+		<description>Recent content in Series on UOG的BLOG</description>
+		<generator>Hugo</generator>
+		<language>zh-cn</language>
+		
+		
+		
+		
+			<lastBuildDate>Sat, 04 Apr 2026 17:04:13 +0800</lastBuildDate>
+		
+			<atom:link href="http://uogog.github.io/series/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>Docker</title>
+				<link>http://uogog.github.io/series/docker/</link>
+				<pubDate>Sat, 04 Apr 2026 17:04:13 +0800</pubDate>
+				<guid>http://uogog.github.io/series/docker/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Xv6</title>
+				<link>http://uogog.github.io/series/xv6/</link>
+				<pubDate>Sat, 14 Mar 2026 01:33:23 +0800</pubDate>
+				<guid>http://uogog.github.io/series/xv6/</guid>
+				<description></description>
+			</item>
+	</channel>
 </rss>

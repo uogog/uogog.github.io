@@ -18,22 +18,23 @@
 
 
 
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="2024年的综述阅读总结">
-  <meta name="twitter:description" content="某种意义上的第一次正式阅读文献">
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="2024年的综述阅读总结">
+	<meta name="twitter:description" content="某种意义上的第一次正式阅读文献">
 
 <meta property="og:url" content="http://uogog.github.io/posts/summary-reading-1/">
-  <meta property="og:site_name" content="UOG的BLOG">
-  <meta property="og:title" content="2024年的综述阅读总结">
-  <meta property="og:description" content="某种意义上的第一次正式阅读文献">
-  <meta property="og:locale" content="zh_cn">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="posts">
-    <meta property="article:published_time" content="2026-04-01T18:13:49+08:00">
-    <meta property="article:modified_time" content="2026-04-01T18:13:49+08:00">
-    <meta property="article:tag" content="Papers">
-    <meta property="article:tag" content="Reading">
-    <meta property="article:tag" content="Summary">
+	<meta property="og:site_name" content="UOG的BLOG">
+	<meta property="og:title" content="2024年的综述阅读总结">
+	<meta property="og:description" content="某种意义上的第一次正式阅读文献">
+	<meta property="og:locale" content="zh_cn">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="posts">
+		<meta property="article:published_time" content="2026-04-01T18:13:49+08:00">
+		<meta property="article:modified_time" content="2026-04-01T18:13:49+08:00">
+		<meta property="article:tag" content="AIOps">
+		<meta property="article:tag" content="LLM">
+		<meta property="article:tag" content="论文">
+		<meta property="article:tag" content="综述">
 
 
 
@@ -166,22 +167,24 @@
 
           <div class="categories">
   <i class="fa-solid fa-folder" aria-hidden="true"></i>
-    <a href="/categories/papers/">Papers</a>
-      <span class="separator">•</span>
-    <a href="/categories/summary-of-comprehensive-reading/">Summary-of-Comprehensive-Reading</a></div>
+    <a href="/categories/ai%E4%B8%8E%E8%AE%BA%E6%96%87/">AI与论文</a></div>
 
           <div class="tags">
   <i class="fa-solid fa-tag" aria-hidden="true"></i>
     <span class="tag">
-      <a href="/tags/papers/">Papers</a>
+      <a href="/tags/aiops/">AIOps</a>
     </span>
       <span class="separator">•</span>
     <span class="tag">
-      <a href="/tags/reading/">Reading</a>
+      <a href="/tags/llm/">LLM</a>
     </span>
       <span class="separator">•</span>
     <span class="tag">
-      <a href="/tags/summary/">Summary</a>
+      <a href="/tags/%E8%AE%BA%E6%96%87/">论文</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/tags/%E7%BB%BC%E8%BF%B0/">综述</a>
     </span></div>
 
         </div>
@@ -395,30 +398,30 @@
 <p>检测到故障后，分析导致故障的根本原因。这通常涉及分析日志、指标和其他相关数据，以确定引发问题的具体因素。LLM可以帮助理解复杂的系统交互和依赖关系，从而更有效地进行根因分析。</p>
 <p>3种任务：</p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">任务类型</th>
-          <th style="text-align: left">任务定义</th>
-          <th style="text-align: left">描述</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">fault localization 故障定位</td>
-          <td style="text-align: left">确定故障发生的位置</td>
-          <td style="text-align: left">通过分析系统数据，确定故障发生的具体组件或模块</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">failure category classification 故障分类</td>
-          <td style="text-align: left">将故障归类到预定义的类别中</td>
-          <td style="text-align: left">根据故障的特征和影响，将其分类为特定类型，如硬件故障、软件缺陷等</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">root cause report generation 根因报告生成</td>
-          <td style="text-align: left">生成描述根因分析结果的报告</td>
-          <td style="text-align: left">基于分析结果，生成详细的报告，说明故障的根本原因和可能的解决方案,这个一般包含前两个任务</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th style="text-align: left">任务类型</th>
+					<th style="text-align: left">任务定义</th>
+					<th style="text-align: left">描述</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td style="text-align: left">fault localization 故障定位</td>
+					<td style="text-align: left">确定故障发生的位置</td>
+					<td style="text-align: left">通过分析系统数据，确定故障发生的具体组件或模块</td>
+			</tr>
+			<tr>
+					<td style="text-align: left">failure category classification 故障分类</td>
+					<td style="text-align: left">将故障归类到预定义的类别中</td>
+					<td style="text-align: left">根据故障的特征和影响，将其分类为特定类型，如硬件故障、软件缺陷等</td>
+			</tr>
+			<tr>
+					<td style="text-align: left">root cause report generation 根因报告生成</td>
+					<td style="text-align: left">生成描述根因分析结果的报告</td>
+					<td style="text-align: left">基于分析结果，生成详细的报告，说明故障的根本原因和可能的解决方案,这个一般包含前两个任务</td>
+			</tr>
+	</tbody>
 </table>
 <h3 id="自动修复">
   自动修复
@@ -470,46 +473,46 @@
 </h3>
 <p>这一段介绍了很多我没见过的方法和东西，很多名词我不懂，用ai告诉我的总结如下：</p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">方法</th>
-          <th style="text-align: left">解决什么问题</th>
-          <th style="text-align: left">关键技术</th>
-          <th style="text-align: left">一句话理解</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left"><em><strong>LILAC</strong></em></td>
-          <td style="text-align: left">LLM调用太慢太贵</td>
-          <td style="text-align: left">缓存机制 + 层次采样</td>
-          <td style="text-align: left">把解析过的模板存起来，下次直接用</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><em><strong>LLMParser</strong></em></td>
-          <td style="text-align: left">是不是非得用大模型？</td>
-          <td style="text-align: left">对比4个不同尺寸模型</td>
-          <td style="text-align: left"><em><strong>小模型也能做，可能更好</strong></em></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><em><strong>Lemur</strong></em></td>
-          <td style="text-align: left">怎么选给LLM看的示例？</td>
-          <td style="text-align: left">信息熵聚类 + 思维链</td>
-          <td style="text-align: left">选&quot;最具代表性&quot;的日志当例子</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><em><strong>DivLog</strong></em></td>
-          <td style="text-align: left">怎么提高模板准确性？</td>
-          <td style="text-align: left">RAG检索 + ICL学习</td>
-          <td style="text-align: left">先从库里找相似的，再让LLM改</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><em><strong>Sun et al.</strong></em></td>
-          <td style="text-align: left">怎么落地到实际系统？</td>
-          <td style="text-align: left">云原生平台 + GPT-3.5</td>
-          <td style="text-align: left">做了个完整系统，不只是算法</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th style="text-align: left">方法</th>
+					<th style="text-align: left">解决什么问题</th>
+					<th style="text-align: left">关键技术</th>
+					<th style="text-align: left">一句话理解</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td style="text-align: left"><em><strong>LILAC</strong></em></td>
+					<td style="text-align: left">LLM调用太慢太贵</td>
+					<td style="text-align: left">缓存机制 + 层次采样</td>
+					<td style="text-align: left">把解析过的模板存起来，下次直接用</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><em><strong>LLMParser</strong></em></td>
+					<td style="text-align: left">是不是非得用大模型？</td>
+					<td style="text-align: left">对比4个不同尺寸模型</td>
+					<td style="text-align: left"><em><strong>小模型也能做，可能更好</strong></em></td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><em><strong>Lemur</strong></em></td>
+					<td style="text-align: left">怎么选给LLM看的示例？</td>
+					<td style="text-align: left">信息熵聚类 + 思维链</td>
+					<td style="text-align: left">选&quot;最具代表性&quot;的日志当例子</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><em><strong>DivLog</strong></em></td>
+					<td style="text-align: left">怎么提高模板准确性？</td>
+					<td style="text-align: left">RAG检索 + ICL学习</td>
+					<td style="text-align: left">先从库里找相似的，再让LLM改</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><em><strong>Sun et al.</strong></em></td>
+					<td style="text-align: left">怎么落地到实际系统？</td>
+					<td style="text-align: left">云原生平台 + GPT-3.5</td>
+					<td style="text-align: left">做了个完整系统，不只是算法</td>
+			</tr>
+	</tbody>
 </table>
 <p>我还需要看看这几个原文的摘要。
 2025年的定论：LLMParser和DivLog不是&quot;谁对谁错&quot;，而是&quot;各司其职&quot;。最优方案是&quot;微调后的小模型作为大脑，RAG作为知识库，缓存作为快捷键&quot;的分层架构。小模型+RAG不仅在理论上可行，在特定领域已超越大模型</p>
@@ -551,67 +554,67 @@
 <p>无大模型方法。
 这种类型的方法不使用大模型</p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">类别</th>
-          <th style="text-align: left">核心机制</th>
-          <th style="text-align: left">代表方法</th>
-          <th style="text-align: left">具体做法</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left"><strong>提示剪枝 (Prompt Pruning)</strong></td>
-          <td style="text-align: left">在线移除不重要的信息</td>
-          <td style="text-align: left">DYNAICL, Selective Context, LLMLingua, LongLLMLingua</td>
-          <td style="text-align: left">基于预定义或可学习的重要性指标，从输入提示中移除不重要的token、句子或文档</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><strong>语义压缩 (Semantic Compression)</strong></td>
-          <td style="text-align: left">将原始提示浓缩为简短摘要</td>
-          <td style="text-align: left">RECOMP, SemanticCompression</td>
-          <td style="text-align: left">将原始提示压缩成更短的摘要形式，同时保留相似的语义信息</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><strong>基于度量的软提示 (Metric-based Soft Prompt)</strong></td>
-          <td style="text-align: left">设计场景特定的短提示</td>
-          <td style="text-align: left">Nate et al., TEST</td>
-          <td style="text-align: left">使用软提示策略为特定场景和数据设计专门的短提示，比原始提示显著更短</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th style="text-align: left">类别</th>
+					<th style="text-align: left">核心机制</th>
+					<th style="text-align: left">代表方法</th>
+					<th style="text-align: left">具体做法</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td style="text-align: left"><strong>提示剪枝 (Prompt Pruning)</strong></td>
+					<td style="text-align: left">在线移除不重要的信息</td>
+					<td style="text-align: left">DYNAICL, Selective Context, LLMLingua, LongLLMLingua</td>
+					<td style="text-align: left">基于预定义或可学习的重要性指标，从输入提示中移除不重要的token、句子或文档</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><strong>语义压缩 (Semantic Compression)</strong></td>
+					<td style="text-align: left">将原始提示浓缩为简短摘要</td>
+					<td style="text-align: left">RECOMP, SemanticCompression</td>
+					<td style="text-align: left">将原始提示压缩成更短的摘要形式，同时保留相似的语义信息</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><strong>基于度量的软提示 (Metric-based Soft Prompt)</strong></td>
+					<td style="text-align: left">设计场景特定的短提示</td>
+					<td style="text-align: left">Nate et al., TEST</td>
+					<td style="text-align: left">使用软提示策略为特定场景和数据设计专门的短提示，比原始提示显著更短</td>
+			</tr>
+	</tbody>
 </table>
 </li>
 <li>
 <p>用大模型的方法：</p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">类别</th>
-          <th style="text-align: left">核心机制</th>
-          <th style="text-align: left">代表方法</th>
-          <th style="text-align: left">具体做法</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left"><strong>零样本直接压缩 (Zero-shot Compression)</strong></td>
-          <td style="text-align: left">直接输入提示测试LLM压缩效果</td>
-          <td style="text-align: left">Priyanka et al., Chris et al.</td>
-          <td style="text-align: left">直接将提示输入ChatGPT，测试其对日志数据的压缩效果</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><strong>事件报告摘要 (Incident Report Summarization)</strong></td>
-          <td style="text-align: left">总结大量事件报告</td>
-          <td style="text-align: left">Zhang et al., Drishti et al., Chen et al., Oasis</td>
-          <td style="text-align: left">尝试对大量的事件报告进行摘要总结</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><strong>外部技术文档/代码摘要 (External Doc/Code Summarization)</strong></td>
-          <td style="text-align: left">总结外部资料构建辅助知识库</td>
-          <td style="text-align: left">Zhou et al., D-Bot</td>
-          <td style="text-align: left">总结外部技术文档或代码，创建辅助知识库</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th style="text-align: left">类别</th>
+					<th style="text-align: left">核心机制</th>
+					<th style="text-align: left">代表方法</th>
+					<th style="text-align: left">具体做法</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td style="text-align: left"><strong>零样本直接压缩 (Zero-shot Compression)</strong></td>
+					<td style="text-align: left">直接输入提示测试LLM压缩效果</td>
+					<td style="text-align: left">Priyanka et al., Chris et al.</td>
+					<td style="text-align: left">直接将提示输入ChatGPT，测试其对日志数据的压缩效果</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><strong>事件报告摘要 (Incident Report Summarization)</strong></td>
+					<td style="text-align: left">总结大量事件报告</td>
+					<td style="text-align: left">Zhang et al., Drishti et al., Chen et al., Oasis</td>
+					<td style="text-align: left">尝试对大量的事件报告进行摘要总结</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><strong>外部技术文档/代码摘要 (External Doc/Code Summarization)</strong></td>
+					<td style="text-align: left">总结外部资料构建辅助知识库</td>
+					<td style="text-align: left">Zhou et al., D-Bot</td>
+					<td style="text-align: left">总结外部技术文档或代码，创建辅助知识库</td>
+			</tr>
+	</tbody>
 </table>
 </li>
 </ol>
@@ -638,40 +641,40 @@
 但是因为难以检测，所以研究要么只局限于特定类型的故障，要么存在较高的漏检率。</p>
 <p>但是也有一些研究</p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">研究/方法</th>
-          <th style="text-align: left">核心贡献</th>
-          <th style="text-align: left">具体做法</th>
-          <th style="text-align: left">关键特点/局限</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left"><strong>Clairvoyant</strong></td>
-          <td style="text-align: left">基于BERT的自监督故障预测模型</td>
-          <td style="text-align: left">利用日志数据训练，预测HPC系统中的节点故障</td>
-          <td style="text-align: left">仅能预测故障，无法预测提前时间</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><strong>Time Machine</strong></td>
-          <td style="text-align: left">扩展Clairvoyant的预测能力</td>
-          <td style="text-align: left">采用双栈Transformer-Decoder架构</td>
-          <td style="text-align: left">不仅能预测故障，还能预测<strong>提前时间（lead times）</strong></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><strong>Yang et al.</strong></td>
-          <td style="text-align: left">通过数据插补提升数据质量</td>
-          <td style="text-align: left">基于样本高效的扩散模型进行数据插补</td>
-          <td style="text-align: left">改善下游故障预测任务的性能</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><strong>Xiong et al.</strong></td>
-          <td style="text-align: left">系统性LLM置信度校准框架</td>
-          <td style="text-align: left">三组件设计：①提示策略（获取语言化置信度）②采样方法（生成多响应）③聚合技术（计算一致性）</td>
-          <td style="text-align: left">发现LLM存在<strong>过度自信</strong>问题；通过人类启发式提示、多响应一致性、优化聚合策略可缓解过度自信，效果接近微调模型</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th style="text-align: left">研究/方法</th>
+					<th style="text-align: left">核心贡献</th>
+					<th style="text-align: left">具体做法</th>
+					<th style="text-align: left">关键特点/局限</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td style="text-align: left"><strong>Clairvoyant</strong></td>
+					<td style="text-align: left">基于BERT的自监督故障预测模型</td>
+					<td style="text-align: left">利用日志数据训练，预测HPC系统中的节点故障</td>
+					<td style="text-align: left">仅能预测故障，无法预测提前时间</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><strong>Time Machine</strong></td>
+					<td style="text-align: left">扩展Clairvoyant的预测能力</td>
+					<td style="text-align: left">采用双栈Transformer-Decoder架构</td>
+					<td style="text-align: left">不仅能预测故障，还能预测<strong>提前时间（lead times）</strong></td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><strong>Yang et al.</strong></td>
+					<td style="text-align: left">通过数据插补提升数据质量</td>
+					<td style="text-align: left">基于样本高效的扩散模型进行数据插补</td>
+					<td style="text-align: left">改善下游故障预测任务的性能</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><strong>Xiong et al.</strong></td>
+					<td style="text-align: left">系统性LLM置信度校准框架</td>
+					<td style="text-align: left">三组件设计：①提示策略（获取语言化置信度）②采样方法（生成多响应）③聚合技术（计算一致性）</td>
+					<td style="text-align: left">发现LLM存在<strong>过度自信</strong>问题；通过人类启发式提示、多响应一致性、优化聚合策略可缓解过度自信，效果接近微调模型</td>
+			</tr>
+	</tbody>
 </table>
 <h3 id="anomaly-detection-异常检测">
   anomaly detection 异常检测
@@ -696,149 +699,149 @@ foundational model, fine-tuning approach,
 prompt-based approach, and embedding-based approach.</p>
 <p>foundational model 基础模型:设计一个模型并预训练并不是大模型,表中是已有工作</p>
 <table>
-  <thead>
-      <tr>
-          <th>模型</th>
-          <th>引用</th>
-          <th>架构/方法特点</th>
-          <th>主要功能/优势</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><strong>TimeGPT</strong></td>
-          <td></td>
-          <td>多层编码器-解码器结构</td>
-          <td>首个专门为时间序列预训练的基础模型</td>
-      </tr>
-      <tr>
-          <td><strong>Lag-llama</strong></td>
-          <td></td>
-          <td>仅解码器Transformer，使用滞后项（lags）作为协变量</td>
-          <td>单变量概率时间序列预测的通用基础模型</td>
-      </tr>
-      <tr>
-          <td><strong>TimesFM</strong></td>
-          <td></td>
-          <td>分块解码器（patched-decoder）风格的注意力模型</td>
-          <td>适用于不同预测历史长度、预测长度和时间粒度</td>
-      </tr>
-      <tr>
-          <td><strong>TTM</strong></td>
-          <td></td>
-          <td>轻量级TSMixer架构，自适应分块、多样化分辨率采样、分辨率前缀调优</td>
-          <td>以最小模型容量处理多分辨率数据集预训练</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>模型</th>
+					<th>引用</th>
+					<th>架构/方法特点</th>
+					<th>主要功能/优势</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><strong>TimeGPT</strong></td>
+					<td></td>
+					<td>多层编码器-解码器结构</td>
+					<td>首个专门为时间序列预训练的基础模型</td>
+			</tr>
+			<tr>
+					<td><strong>Lag-llama</strong></td>
+					<td></td>
+					<td>仅解码器Transformer，使用滞后项（lags）作为协变量</td>
+					<td>单变量概率时间序列预测的通用基础模型</td>
+			</tr>
+			<tr>
+					<td><strong>TimesFM</strong></td>
+					<td></td>
+					<td>分块解码器（patched-decoder）风格的注意力模型</td>
+					<td>适用于不同预测历史长度、预测长度和时间粒度</td>
+			</tr>
+			<tr>
+					<td><strong>TTM</strong></td>
+					<td></td>
+					<td>轻量级TSMixer架构，自适应分块、多样化分辨率采样、分辨率前缀调优</td>
+					<td>以最小模型容量处理多分辨率数据集预训练</td>
+			</tr>
+	</tbody>
 </table>
 <p>光有基础模型还不够，还需要微调。</p>
 <table>
-  <thead>
-      <tr>
-          <th>方法</th>
-          <th>引用</th>
-          <th>技术特点</th>
-          <th>应用场景</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><strong>FPT</strong> (Zhou et al.)</td>
-          <td></td>
-          <td>冻结预训练Transformer（Frozen Pretrained Transformer）</td>
-          <td>将语言或计算机视觉模型迁移到时间序列任务</td>
-      </tr>
-      <tr>
-          <td><strong>LLM4TS</strong></td>
-          <td></td>
-          <td>两阶段微调：①监督微调适应时序数据 → ②任务特定下游微调</td>
-          <td>使大语言模型适应时间序列预测</td>
-      </tr>
-      <tr>
-          <td><strong>Khanal et al.</strong></td>
-          <td></td>
-          <td>单步微调，融合源域数据，渐进解冻（gradual unfreezing）</td>
-          <td>跨域迁移学习，提供多样化时间序列实例</td>
-      </tr>
-      <tr>
-          <td><strong>LogFiT</strong></td>
-          <td></td>
-          <td>基于BERT的预训练模型，使用日志数据微调</td>
-          <td>日志异常检测（通过top-k预测准确率判断偏离程度）</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>方法</th>
+					<th>引用</th>
+					<th>技术特点</th>
+					<th>应用场景</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><strong>FPT</strong> (Zhou et al.)</td>
+					<td></td>
+					<td>冻结预训练Transformer（Frozen Pretrained Transformer）</td>
+					<td>将语言或计算机视觉模型迁移到时间序列任务</td>
+			</tr>
+			<tr>
+					<td><strong>LLM4TS</strong></td>
+					<td></td>
+					<td>两阶段微调：①监督微调适应时序数据 → ②任务特定下游微调</td>
+					<td>使大语言模型适应时间序列预测</td>
+			</tr>
+			<tr>
+					<td><strong>Khanal et al.</strong></td>
+					<td></td>
+					<td>单步微调，融合源域数据，渐进解冻（gradual unfreezing）</td>
+					<td>跨域迁移学习，提供多样化时间序列实例</td>
+			</tr>
+			<tr>
+					<td><strong>LogFiT</strong></td>
+					<td></td>
+					<td>基于BERT的预训练模型，使用日志数据微调</td>
+					<td>日志异常检测（通过top-k预测准确率判断偏离程度）</td>
+			</tr>
+	</tbody>
 </table>
 <p>训练基础模型或进行微调需要大量的时间和硬件资源。因此，已有若干研究工作提出了无需重新训练预训练模型即可执行预测的方法.</p>
 <table>
-  <thead>
-      <tr>
-          <th>方法</th>
-          <th>引用</th>
-          <th>核心思想</th>
-          <th>技术特点</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><strong>PromptCast</strong></td>
-          <td></td>
-          <td>将数值输入/输出转换为文本提示</td>
-          <td>以句子到句子（sentence-to-sentence）的方式构建预测任务</td>
-      </tr>
-      <tr>
-          <td><strong>Time-LLM</strong></td>
-          <td></td>
-          <td>提示作为前缀（Prompt-as-Prefix, PaP）</td>
-          <td>丰富输入上下文，引导重编程输入分块的转换，再投影获得预测</td>
-      </tr>
-      <tr>
-          <td><strong>TEMPO</strong></td>
-          <td></td>
-          <td>时间序列解耦 + 提示池</td>
-          <td>分解为趋势/季节/残差分量，构建提示池为不同分量分配提示，利用历史信息适应分布变化</td>
-      </tr>
-      <tr>
-          <td><strong>LSTPrompt</strong></td>
-          <td></td>
-          <td>任务分解 + 思维链</td>
-          <td>将预测分解为短期和长期子任务，使用Chain-of-Thought（CoT）为各子任务定制提示</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>方法</th>
+					<th>引用</th>
+					<th>核心思想</th>
+					<th>技术特点</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><strong>PromptCast</strong></td>
+					<td></td>
+					<td>将数值输入/输出转换为文本提示</td>
+					<td>以句子到句子（sentence-to-sentence）的方式构建预测任务</td>
+			</tr>
+			<tr>
+					<td><strong>Time-LLM</strong></td>
+					<td></td>
+					<td>提示作为前缀（Prompt-as-Prefix, PaP）</td>
+					<td>丰富输入上下文，引导重编程输入分块的转换，再投影获得预测</td>
+			</tr>
+			<tr>
+					<td><strong>TEMPO</strong></td>
+					<td></td>
+					<td>时间序列解耦 + 提示池</td>
+					<td>分解为趋势/季节/残差分量，构建提示池为不同分量分配提示，利用历史信息适应分布变化</td>
+			</tr>
+			<tr>
+					<td><strong>LSTPrompt</strong></td>
+					<td></td>
+					<td>任务分解 + 思维链</td>
+					<td>将预测分解为短期和长期子任务，使用Chain-of-Thought（CoT）为各子任务定制提示</td>
+			</tr>
+	</tbody>
 </table>
 <p>一些方法依赖大模型的嵌入能力来执行预测任务，特别是在日志数据的背景下。这些大模型的嵌入能力在提取日志语义信息方面非常有效。</p>
 <table>
-  <thead>
-      <tr>
-          <th>方法</th>
-          <th>引用</th>
-          <th>模型/技术</th>
-          <th>应用场景</th>
-          <th>核心机制</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><strong>Egil et al.</strong></td>
-          <td></td>
-          <td>自编码器 + 自监督学习</td>
-          <td>日志异常检测</td>
-          <td>压缩嵌入表示，通过自监督学习检测异常</td>
-      </tr>
-      <tr>
-          <td><strong>Harold et al.</strong></td>
-          <td></td>
-          <td>BERT/GPT-2/XLNet + BiLSTM</td>
-          <td>系统行为学习</td>
-          <td>将大模型嵌入向量按时间链式输入双向LSTM学习正常行为</td>
-      </tr>
-      <tr>
-          <td><strong>LogADSBERT</strong></td>
-          <td></td>
-          <td>Sentence-BERT + BiLSTM</td>
-          <td>日志事件预测</td>
-          <td>先用Sentence-BERT提取语义特征，再用BiLSTM预测日志事件</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>方法</th>
+					<th>引用</th>
+					<th>模型/技术</th>
+					<th>应用场景</th>
+					<th>核心机制</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><strong>Egil et al.</strong></td>
+					<td></td>
+					<td>自编码器 + 自监督学习</td>
+					<td>日志异常检测</td>
+					<td>压缩嵌入表示，通过自监督学习检测异常</td>
+			</tr>
+			<tr>
+					<td><strong>Harold et al.</strong></td>
+					<td></td>
+					<td>BERT/GPT-2/XLNet + BiLSTM</td>
+					<td>系统行为学习</td>
+					<td>将大模型嵌入向量按时间链式输入双向LSTM学习正常行为</td>
+			</tr>
+			<tr>
+					<td><strong>LogADSBERT</strong></td>
+					<td></td>
+					<td>Sentence-BERT + BiLSTM</td>
+					<td>日志事件预测</td>
+					<td>先用Sentence-BERT提取语义特征，再用BiLSTM预测日志事件</td>
+			</tr>
+	</tbody>
 </table>
 <h4 id="reconstruction-based-methods">
   Reconstruction-Based Methods
@@ -851,34 +854,34 @@ prompt-based approach, and embedding-based approach.</p>
 <p>这个方法的想法还蛮怪的，就是类似于用模型抽特征，再用特征重画输出，输出看起来正常就表示输入正常(因为模型应该不认识异常)，输出看起来不正常就表示输入异常。这个方法的核心是重构误差，重构误差越大，越可能是异常。这个和classification有区别吗，我是看不出区别的，还是得看看原论文了。</p>
 <p>已有工作：</p>
 <table>
-  <thead>
-      <tr>
-          <th>方法</th>
-          <th>技术基础</th>
-          <th>核心机制</th>
-          <th>特点/创新</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><strong>LANoBERT</strong></td>
-          <td>BERT + 掩码语言建模(MLM)</td>
-          <td>通过掩码语言建模损失函数检测日志键异常</td>
-          <td>无监督检测，针对日志键级别</td>
-      </tr>
-      <tr>
-          <td><strong>Prog-BERT-LSTM</strong></td>
-          <td>渐进式掩码策略</td>
-          <td>聚合文本语义向量与序列特征向量</td>
-          <td>渐进式掩码，融合文本与时序特征</td>
-      </tr>
-      <tr>
-          <td><strong>SimMTM</strong></td>
-          <td>掩码重建 + 邻域聚合</td>
-          <td>基于未掩码部分重建掩码内容，通过流形外邻居加权聚合恢复时间点</td>
-          <td>利用多个掩码序列的互补信息，简化重构任务</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>方法</th>
+					<th>技术基础</th>
+					<th>核心机制</th>
+					<th>特点/创新</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><strong>LANoBERT</strong></td>
+					<td>BERT + 掩码语言建模(MLM)</td>
+					<td>通过掩码语言建模损失函数检测日志键异常</td>
+					<td>无监督检测，针对日志键级别</td>
+			</tr>
+			<tr>
+					<td><strong>Prog-BERT-LSTM</strong></td>
+					<td>渐进式掩码策略</td>
+					<td>聚合文本语义向量与序列特征向量</td>
+					<td>渐进式掩码，融合文本与时序特征</td>
+			</tr>
+			<tr>
+					<td><strong>SimMTM</strong></td>
+					<td>掩码重建 + 邻域聚合</td>
+					<td>基于未掩码部分重建掩码内容，通过流形外邻居加权聚合恢复时间点</td>
+					<td>利用多个掩码序列的互补信息，简化重构任务</td>
+			</tr>
+	</tbody>
 </table>
 <h4 id="classification-based-methods">
   classification-Based Methods
@@ -936,52 +939,52 @@ prompt-based approach, and embedding-based approach.</p>
 <p>多用causal discovery
 目前使用LLM的反而少。</p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">文献</th>
-          <th style="text-align: left">方法</th>
-          <th style="text-align: left">数据源</th>
-          <th style="text-align: left">目标</th>
-          <th style="text-align: left">特点/创新点</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left"><strong>Komal et al.</strong></td>
-          <td style="text-align: left">零样本提示工程</td>
-          <td style="text-align: left">指标数据</td>
-          <td style="text-align: left">识别有问题的<strong>主机名</strong>和<strong>部署名称</strong></td>
-          <td style="text-align: left">基于指标数据的零样本学习方法</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><strong>Devjeet et al.</strong></td>
-          <td style="text-align: left">React</td>
-          <td style="text-align: left"><strong>事故报告</strong></td>
-          <td style="text-align: left">识别有问题的<strong>任务名称</strong></td>
-          <td style="text-align: left"><strong>域外（out-of-domain）</strong>场景；使用真实世界生产事故静态数据集</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><strong>RealTCD</strong></td>
-          <td style="text-align: left">时间因果发现 + LLM</td>
-          <td style="text-align: left">系统隐藏的<strong>文本信息</strong></td>
-          <td style="text-align: left">发现<strong>时间因果关系</strong>（无需干预目标）</td>
-          <td style="text-align: left">引入 <strong>LLM 引导的元初始化（metainitialization）</strong>；提取<strong>元知识</strong>提升发现质量</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><strong>LogConfigLocalizer</strong></td>
-          <td style="text-align: left">两阶段 LLM 策略</td>
-          <td style="text-align: left"><strong>日志</strong></td>
-          <td style="text-align: left">定位根因<strong>配置属性</strong></td>
-          <td style="text-align: left">面向<strong>终端用户</strong>的实用工具</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><strong>mABC</strong></td>
-          <td style="text-align: left">多智能体协作（区块链启发）</td>
-          <td style="text-align: left"><strong>告警数据</strong>（指标数据的加工形式）</td>
-          <td style="text-align: left">定位异常的<strong>具体节点</strong></td>
-          <td style="text-align: left">区块链-inspired 的多智能体协作机制</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th style="text-align: left">文献</th>
+					<th style="text-align: left">方法</th>
+					<th style="text-align: left">数据源</th>
+					<th style="text-align: left">目标</th>
+					<th style="text-align: left">特点/创新点</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td style="text-align: left"><strong>Komal et al.</strong></td>
+					<td style="text-align: left">零样本提示工程</td>
+					<td style="text-align: left">指标数据</td>
+					<td style="text-align: left">识别有问题的<strong>主机名</strong>和<strong>部署名称</strong></td>
+					<td style="text-align: left">基于指标数据的零样本学习方法</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><strong>Devjeet et al.</strong></td>
+					<td style="text-align: left">React</td>
+					<td style="text-align: left"><strong>事故报告</strong></td>
+					<td style="text-align: left">识别有问题的<strong>任务名称</strong></td>
+					<td style="text-align: left"><strong>域外（out-of-domain）</strong>场景；使用真实世界生产事故静态数据集</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><strong>RealTCD</strong></td>
+					<td style="text-align: left">时间因果发现 + LLM</td>
+					<td style="text-align: left">系统隐藏的<strong>文本信息</strong></td>
+					<td style="text-align: left">发现<strong>时间因果关系</strong>（无需干预目标）</td>
+					<td style="text-align: left">引入 <strong>LLM 引导的元初始化（metainitialization）</strong>；提取<strong>元知识</strong>提升发现质量</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><strong>LogConfigLocalizer</strong></td>
+					<td style="text-align: left">两阶段 LLM 策略</td>
+					<td style="text-align: left"><strong>日志</strong></td>
+					<td style="text-align: left">定位根因<strong>配置属性</strong></td>
+					<td style="text-align: left">面向<strong>终端用户</strong>的实用工具</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><strong>mABC</strong></td>
+					<td style="text-align: left">多智能体协作（区块链启发）</td>
+					<td style="text-align: left"><strong>告警数据</strong>（指标数据的加工形式）</td>
+					<td style="text-align: left">定位异常的<strong>具体节点</strong></td>
+					<td style="text-align: left">区块链-inspired 的多智能体协作机制</td>
+			</tr>
+	</tbody>
 </table>
 <h3 id="failure-category-classification-故障分类">
   failure category classification 故障分类
@@ -1001,31 +1004,31 @@ prompt-based approach, and embedding-based approach.</p>
 </h4>
 <p>依赖系统生成的数据。</p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">文献</th>
-          <th style="text-align: left">方法</th>
-          <th style="text-align: left">数据源</th>
-          <th style="text-align: left">模型</th>
-          <th style="text-align: left">特点/创新点</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left"><strong>BERTOps</strong></td>
-          <td style="text-align: left"><strong>全量微调（full fine-tuning）</strong></td>
-          <td style="text-align: left"><strong>日志数据</strong>（12 个 Loghub 数据集 + 5 个专有数据源）</td>
-          <td style="text-align: left">BERT</td>
-          <td style="text-align: left">在故障类别分类任务上取得<strong>最先进（state-of-the-art）</strong>结果</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><strong>Zhou et al.</strong></td>
-          <td style="text-align: left"><strong>层冻结（layer-freezing）</strong></td>
-          <td style="text-align: left"><strong>指标数据</strong></td>
-          <td style="text-align: left">GPT-2、BERT 等预训练模型</td>
-          <td style="text-align: left">通过冻结部分层实现高效微调，有效完成故障类别分类任务</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th style="text-align: left">文献</th>
+					<th style="text-align: left">方法</th>
+					<th style="text-align: left">数据源</th>
+					<th style="text-align: left">模型</th>
+					<th style="text-align: left">特点/创新点</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td style="text-align: left"><strong>BERTOps</strong></td>
+					<td style="text-align: left"><strong>全量微调（full fine-tuning）</strong></td>
+					<td style="text-align: left"><strong>日志数据</strong>（12 个 Loghub 数据集 + 5 个专有数据源）</td>
+					<td style="text-align: left">BERT</td>
+					<td style="text-align: left">在故障类别分类任务上取得<strong>最先进（state-of-the-art）</strong>结果</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><strong>Zhou et al.</strong></td>
+					<td style="text-align: left"><strong>层冻结（layer-freezing）</strong></td>
+					<td style="text-align: left"><strong>指标数据</strong></td>
+					<td style="text-align: left">GPT-2、BERT 等预训练模型</td>
+					<td style="text-align: left">通过冻结部分层实现高效微调，有效完成故障类别分类任务</td>
+			</tr>
+	</tbody>
 </table>
 <h4 id="prompt-based-methods-基于提示的方法">
   Prompt-based methods 基于提示的方法
@@ -1038,73 +1041,73 @@ prompt-based approach, and embedding-based approach.</p>
 主要依赖系统生成的数据。</p>
 <p><strong>主要依赖系统生成的数据的方法。</strong></p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">文献</th>
-          <th style="text-align: left">核心方法</th>
-          <th style="text-align: left">数据源</th>
-          <th style="text-align: left">技术细节</th>
-          <th style="text-align: left">效果</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left"><strong>Andres</strong></td>
-          <td style="text-align: left">将 LLM 用作<strong>消息分类器</strong></td>
-          <td style="text-align: left"><strong>日志数据</strong></td>
-          <td style="text-align: left">直接使用 LLM 进行故障类别分类</td>
-          <td style="text-align: left">—</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><strong>TEST</strong></td>
-          <td style="text-align: left">构建编码器 + 提示工程</td>
-          <td style="text-align: left"><strong>指标数据</strong></td>
-          <td style="text-align: left"><strong>实例级（instance-wise）、特征级（feature-wise）、文本原型对齐（text-prototype-aligned）对比学习</strong>嵌入；创建提示使 LLM 更易接受嵌入</td>
-          <td style="text-align: left">在故障类别分类任务上取得<strong>优异结果</strong></td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th style="text-align: left">文献</th>
+					<th style="text-align: left">核心方法</th>
+					<th style="text-align: left">数据源</th>
+					<th style="text-align: left">技术细节</th>
+					<th style="text-align: left">效果</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td style="text-align: left"><strong>Andres</strong></td>
+					<td style="text-align: left">将 LLM 用作<strong>消息分类器</strong></td>
+					<td style="text-align: left"><strong>日志数据</strong></td>
+					<td style="text-align: left">直接使用 LLM 进行故障类别分类</td>
+					<td style="text-align: left">—</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><strong>TEST</strong></td>
+					<td style="text-align: left">构建编码器 + 提示工程</td>
+					<td style="text-align: left"><strong>指标数据</strong></td>
+					<td style="text-align: left"><strong>实例级（instance-wise）、特征级（feature-wise）、文本原型对齐（text-prototype-aligned）对比学习</strong>嵌入；创建提示使 LLM 更易接受嵌入</td>
+					<td style="text-align: left">在故障类别分类任务上取得<strong>优异结果</strong></td>
+			</tr>
+	</tbody>
 </table>
 <p><strong>其他方法</strong></p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">文献</th>
-          <th style="text-align: left">数据类型</th>
-          <th style="text-align: left">核心方法</th>
-          <th style="text-align: left">技术细节</th>
-          <th style="text-align: left">输出/目标</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left"><strong>D-Bot</strong></td>
-          <td style="text-align: left"><strong>系统生成</strong>：指标数据<!-- raw HTML omitted --><strong>人工生成</strong>：技术手册、维护文档、API 描述</td>
-          <td style="text-align: left"><strong>知识增强</strong></td>
-          <td style="text-align: left">检索增强生成（RAG）+ 工具增强生成</td>
-          <td style="text-align: left"><strong>数据库故障分类</strong></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><strong>LLMDB</strong></td>
-          <td style="text-align: left"><strong>系统生成</strong>：指标数据<!-- raw HTML omitted --><strong>人工生成</strong>：技术手册、维护文档、API 描述</td>
-          <td style="text-align: left"><strong>知识增强</strong></td>
-          <td style="text-align: left">检索增强生成（RAG）+ 工具增强生成</td>
-          <td style="text-align: left"><strong>数据库故障分类</strong></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><strong>PACE</strong></td>
-          <td style="text-align: left"><strong>人工生成</strong>：历史事故数据</td>
-          <td style="text-align: left"><strong>两阶段方法</strong></td>
-          <td style="text-align: left">阶段1：<strong>向量检索</strong>评估置信度（考虑证据强度）<!-- raw HTML omitted -->阶段2：LLM 审查预测器生成的根因</td>
-          <td style="text-align: left">事故分类 + 根因审查</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><strong>RCACopilot</strong></td>
-          <td style="text-align: left"><strong>系统生成</strong>：日志、指标、追踪数据<!-- raw HTML omitted -->→ 生成事故报告</td>
-          <td style="text-align: left"><strong>RAG + 上下文学习</strong></td>
-          <td style="text-align: left">综合多源数据生成事故报告；结合检索增强生成与上下文学习</td>
-          <td style="text-align: left">预测<strong>根因类别</strong> + 提供<strong>解释性叙述</strong></td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th style="text-align: left">文献</th>
+					<th style="text-align: left">数据类型</th>
+					<th style="text-align: left">核心方法</th>
+					<th style="text-align: left">技术细节</th>
+					<th style="text-align: left">输出/目标</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td style="text-align: left"><strong>D-Bot</strong></td>
+					<td style="text-align: left"><strong>系统生成</strong>：指标数据<!-- raw HTML omitted --><strong>人工生成</strong>：技术手册、维护文档、API 描述</td>
+					<td style="text-align: left"><strong>知识增强</strong></td>
+					<td style="text-align: left">检索增强生成（RAG）+ 工具增强生成</td>
+					<td style="text-align: left"><strong>数据库故障分类</strong></td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><strong>LLMDB</strong></td>
+					<td style="text-align: left"><strong>系统生成</strong>：指标数据<!-- raw HTML omitted --><strong>人工生成</strong>：技术手册、维护文档、API 描述</td>
+					<td style="text-align: left"><strong>知识增强</strong></td>
+					<td style="text-align: left">检索增强生成（RAG）+ 工具增强生成</td>
+					<td style="text-align: left"><strong>数据库故障分类</strong></td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><strong>PACE</strong></td>
+					<td style="text-align: left"><strong>人工生成</strong>：历史事故数据</td>
+					<td style="text-align: left"><strong>两阶段方法</strong></td>
+					<td style="text-align: left">阶段1：<strong>向量检索</strong>评估置信度（考虑证据强度）<!-- raw HTML omitted -->阶段2：LLM 审查预测器生成的根因</td>
+					<td style="text-align: left">事故分类 + 根因审查</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><strong>RCACopilot</strong></td>
+					<td style="text-align: left"><strong>系统生成</strong>：日志、指标、追踪数据<!-- raw HTML omitted -->→ 生成事故报告</td>
+					<td style="text-align: left"><strong>RAG + 上下文学习</strong></td>
+					<td style="text-align: left">综合多源数据生成事故报告；结合检索增强生成与上下文学习</td>
+					<td style="text-align: left">预测<strong>根因类别</strong> + 提供<strong>解释性叙述</strong></td>
+			</tr>
+	</tbody>
 </table>
 <h3 id="report-generation-根因报告生成">
   report generation 根因报告生成
@@ -1115,38 +1118,38 @@ prompt-based approach, and embedding-based approach.</p>
 </h3>
 <p>Recommending root-cause and mitigation steps for cloud incidents using large language models.下面工作主要是因为这篇论文说可以搞</p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">文献</th>
-          <th style="text-align: left">方法</th>
-          <th style="text-align: left">数据源</th>
-          <th style="text-align: left">技术细节</th>
-          <th style="text-align: left">特点/创新点</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left"><strong>Zhang et al.</strong></td>
-          <td style="text-align: left"><strong>上下文学习（in-context learning）</strong></td>
-          <td style="text-align: left">—</td>
-          <td style="text-align: left">基于 <strong>GPT-4</strong></td>
-          <td style="text-align: left"><strong>无需微调（fine-tuning-free）</strong></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><strong>Drishti et al.</strong></td>
-          <td style="text-align: left"><strong>检索增强生成（RAG）</strong></td>
-          <td style="text-align: left"><strong>软件开发生命周期（SDLC）</strong>不同阶段的数据</td>
-          <td style="text-align: left"><strong>In-Context Examples Retrieval</strong> 方法</td>
-          <td style="text-align: left">增强 LLM 生成<strong>根因报告</strong>的能力</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><strong>RCAgent</strong></td>
-          <td style="text-align: left"><strong>工具增强（tool-augmented）</strong>技术</td>
-          <td style="text-align: left">—</td>
-          <td style="text-align: left">工具增强技术提升 LLM 生成的根因报告质量；引入<strong>动作轨迹自一致性（Self-Consistency for action trajectories）</strong>；上下文管理、稳定化及领域知识导入方法</td>
-          <td style="text-align: left">综合多种技术提升根因报告质量</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th style="text-align: left">文献</th>
+					<th style="text-align: left">方法</th>
+					<th style="text-align: left">数据源</th>
+					<th style="text-align: left">技术细节</th>
+					<th style="text-align: left">特点/创新点</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td style="text-align: left"><strong>Zhang et al.</strong></td>
+					<td style="text-align: left"><strong>上下文学习（in-context learning）</strong></td>
+					<td style="text-align: left">—</td>
+					<td style="text-align: left">基于 <strong>GPT-4</strong></td>
+					<td style="text-align: left"><strong>无需微调（fine-tuning-free）</strong></td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><strong>Drishti et al.</strong></td>
+					<td style="text-align: left"><strong>检索增强生成（RAG）</strong></td>
+					<td style="text-align: left"><strong>软件开发生命周期（SDLC）</strong>不同阶段的数据</td>
+					<td style="text-align: left"><strong>In-Context Examples Retrieval</strong> 方法</td>
+					<td style="text-align: left">增强 LLM 生成<strong>根因报告</strong>的能力</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><strong>RCAgent</strong></td>
+					<td style="text-align: left"><strong>工具增强（tool-augmented）</strong>技术</td>
+					<td style="text-align: left">—</td>
+					<td style="text-align: left">工具增强技术提升 LLM 生成的根因报告质量；引入<strong>动作轨迹自一致性（Self-Consistency for action trajectories）</strong>；上下文管理、稳定化及领域知识导入方法</td>
+					<td style="text-align: left">综合多种技术提升根因报告质量</td>
+			</tr>
+	</tbody>
 </table>
 <h2 id="auto-remediation-自动修复">
   auto remediation 自动修复
@@ -1167,77 +1170,77 @@ Assitanted Questioning, Mitigation Solution Generation, Command Recommendation, 
 </h3>
 <p>由工程师向LLM提问，LLM根据系统状态和故障信息提供答案，帮助工程师理解问题并指导修复过程，并且可以自动生成指令查询系统。</p>
 <table>
-  <thead>
-      <tr>
-          <th>方法类别</th>
-          <th>代表工作</th>
-          <th>核心模型/技术</th>
-          <th>主要应用场景</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><strong>基于微调的方法</strong></td>
-          <td>OWL</td>
-          <td>LLaMA + 监督微调 + 混合适配器调优</td>
-          <td>知识查询</td>
-      </tr>
-      <tr>
-          <td></td>
-          <td>Gijun et al.</td>
-          <td>kullm-polyglot-12.8b-v2（微调后）</td>
-          <td>IT 运维部署管理、微服务行为分析、性能瓶颈诊断、问题预防</td>
-      </tr>
-      <tr>
-          <td><strong>基于提示的方法</strong></td>
-          <td>DB-GPT</td>
-          <td>RAG + 自适应学习 + SMMF 多模型框架</td>
-          <td>数据库自然语言查询、上下文感知响应</td>
-      </tr>
-      <tr>
-          <td></td>
-          <td>OpsEval</td>
-          <td>零样本学习、思维链、少样本上下文学习</td>
-          <td>AIOps 任务基准测试、LLM 技术效果评估</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>方法类别</th>
+					<th>代表工作</th>
+					<th>核心模型/技术</th>
+					<th>主要应用场景</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><strong>基于微调的方法</strong></td>
+					<td>OWL</td>
+					<td>LLaMA + 监督微调 + 混合适配器调优</td>
+					<td>知识查询</td>
+			</tr>
+			<tr>
+					<td></td>
+					<td>Gijun et al.</td>
+					<td>kullm-polyglot-12.8b-v2（微调后）</td>
+					<td>IT 运维部署管理、微服务行为分析、性能瓶颈诊断、问题预防</td>
+			</tr>
+			<tr>
+					<td><strong>基于提示的方法</strong></td>
+					<td>DB-GPT</td>
+					<td>RAG + 自适应学习 + SMMF 多模型框架</td>
+					<td>数据库自然语言查询、上下文感知响应</td>
+			</tr>
+			<tr>
+					<td></td>
+					<td>OpsEval</td>
+					<td>零样本学习、思维链、少样本上下文学习</td>
+					<td>AIOps 任务基准测试、LLM 技术效果评估</td>
+			</tr>
+	</tbody>
 </table>
 <p>技术特点:</p>
 <table>
-  <thead>
-      <tr>
-          <th>工作</th>
-          <th>技术核心</th>
-          <th>关键创新点</th>
-          <th>输出/目标</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><strong>OWL</strong></td>
-          <td>混合适配器调优</td>
-          <td>在 LLaMA 上结合监督微调与多适配器混合机制</td>
-          <td>训练专门用于知识查询的 LLM 集群</td>
-      </tr>
-      <tr>
-          <td><strong>Gijun et al.</strong></td>
-          <td>领域专用微调</td>
-          <td>针对 IT 运维场景微调的交互式助手架构</td>
-          <td>实时运维洞察、瓶颈识别、主动故障预防</td>
-      </tr>
-      <tr>
-          <td><strong>DB-GPT</strong></td>
-          <td>RAG + 多模型框架</td>
-          <td>检索增强生成知识系统、用户反馈驱动的自适应学习、服务导向多模型框架 (SMMF)</td>
-          <td>自然语言数据库交互、数据驱动智能体服务</td>
-      </tr>
-      <tr>
-          <td><strong>OpsEval</strong></td>
-          <td>提示工程综合评估</td>
-          <td>面向 AIOps 的综合性任务基准</td>
-          <td>量化不同提示策略（零样本/思维链/少样本）对 AIOps 性能的影响</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>工作</th>
+					<th>技术核心</th>
+					<th>关键创新点</th>
+					<th>输出/目标</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><strong>OWL</strong></td>
+					<td>混合适配器调优</td>
+					<td>在 LLaMA 上结合监督微调与多适配器混合机制</td>
+					<td>训练专门用于知识查询的 LLM 集群</td>
+			</tr>
+			<tr>
+					<td><strong>Gijun et al.</strong></td>
+					<td>领域专用微调</td>
+					<td>针对 IT 运维场景微调的交互式助手架构</td>
+					<td>实时运维洞察、瓶颈识别、主动故障预防</td>
+			</tr>
+			<tr>
+					<td><strong>DB-GPT</strong></td>
+					<td>RAG + 多模型框架</td>
+					<td>检索增强生成知识系统、用户反馈驱动的自适应学习、服务导向多模型框架 (SMMF)</td>
+					<td>自然语言数据库交互、数据驱动智能体服务</td>
+			</tr>
+			<tr>
+					<td><strong>OpsEval</strong></td>
+					<td>提示工程综合评估</td>
+					<td>面向 AIOps 的综合性任务基准</td>
+					<td>量化不同提示策略（零样本/思维链/少样本）对 AIOps 性能的影响</td>
+			</tr>
+	</tbody>
 </table>
 <h3 id="migation-solution-generation-缓解方案生成">
   migation solution generation 缓解方案生成
@@ -1247,40 +1250,40 @@ Assitanted Questioning, Mitigation Solution Generation, Command Recommendation, 
   </a>
 </h3>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">作者</th>
-          <th style="text-align: left">核心贡献</th>
-          <th style="text-align: left">技术方法</th>
-          <th></th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left"><strong>Toufique et al.</strong></td>
-          <td style="text-align: left">首个大规模实证研究</td>
-          <td style="text-align: left">评估 LLM 在辅助工程师进行根因分析和生产事故缓解中的有效性</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><strong>Drishti et al.</strong></td>
-          <td style="text-align: left">利用软件全生命周期数据</td>
-          <td style="text-align: left">结合上下文示例检索 + 检索增强生成（RAG）提升 LLM 生成缓解方案的能力</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><strong>Pouya et al.</strong></td>
-          <td style="text-align: left">模拟 OCE 自然思维过程</td>
-          <td style="text-align: left">三模块 LLM Agent 框架：假设形成器（hypothesis former）、假设验证器（hypothesis tester）、缓解规划器（mitigation planner）</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><strong>Wang et al.</strong></td>
-          <td style="text-align: left">网络流量控制策略生成</td>
-          <td style="text-align: left">NetLM 框架：通过不同抽象层次逐步细化意图（intent refinement）</td>
-          <td></td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th style="text-align: left">作者</th>
+					<th style="text-align: left">核心贡献</th>
+					<th style="text-align: left">技术方法</th>
+					<th></th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td style="text-align: left"><strong>Toufique et al.</strong></td>
+					<td style="text-align: left">首个大规模实证研究</td>
+					<td style="text-align: left">评估 LLM 在辅助工程师进行根因分析和生产事故缓解中的有效性</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><strong>Drishti et al.</strong></td>
+					<td style="text-align: left">利用软件全生命周期数据</td>
+					<td style="text-align: left">结合上下文示例检索 + 检索增强生成（RAG）提升 LLM 生成缓解方案的能力</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><strong>Pouya et al.</strong></td>
+					<td style="text-align: left">模拟 OCE 自然思维过程</td>
+					<td style="text-align: left">三模块 LLM Agent 框架：假设形成器（hypothesis former）、假设验证器（hypothesis tester）、缓解规划器（mitigation planner）</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><strong>Wang et al.</strong></td>
+					<td style="text-align: left">网络流量控制策略生成</td>
+					<td style="text-align: left">NetLM 框架：通过不同抽象层次逐步细化意图（intent refinement）</td>
+					<td></td>
+			</tr>
+	</tbody>
 </table>
 <h3 id="command-recommendation-命令推荐">
   command recommendation 命令推荐
@@ -1290,28 +1293,28 @@ Assitanted Questioning, Mitigation Solution Generation, Command Recommendation, 
   </a>
 </h3>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">方法类型</th>
-          <th style="text-align: left">交互模式</th>
-          <th style="text-align: left">代表工作</th>
-          <th style="text-align: left">核心机制</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left"><strong>序列推荐型</strong></td>
-          <td style="text-align: left">输入前一个命令 → 推荐下一个命令</td>
-          <td style="text-align: left"><strong>ShellGPT [116]</strong></td>
-          <td style="text-align: left">基于 GPT 系列模型，在 shell 语言与自然语言对齐的语料上训练，针对 shell 语言理解的命令推荐任务微调</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><strong>任务驱动型</strong></td>
-          <td style="text-align: left">输入待完成任务 → 推荐可执行该任务的命令</td>
-          <td style="text-align: left"><strong>DB-GPT [137]</strong></td>
-          <td style="text-align: left">采用检索增强生成（RAG）理解自然语言查询，提供上下文感知响应，生成精确复杂的 SQL 查询</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th style="text-align: left">方法类型</th>
+					<th style="text-align: left">交互模式</th>
+					<th style="text-align: left">代表工作</th>
+					<th style="text-align: left">核心机制</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td style="text-align: left"><strong>序列推荐型</strong></td>
+					<td style="text-align: left">输入前一个命令 → 推荐下一个命令</td>
+					<td style="text-align: left"><strong>ShellGPT [116]</strong></td>
+					<td style="text-align: left">基于 GPT 系列模型，在 shell 语言与自然语言对齐的语料上训练，针对 shell 语言理解的命令推荐任务微调</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><strong>任务驱动型</strong></td>
+					<td style="text-align: left">输入待完成任务 → 推荐可执行该任务的命令</td>
+					<td style="text-align: left"><strong>DB-GPT [137]</strong></td>
+					<td style="text-align: left">采用检索增强生成（RAG）理解自然语言查询，提供上下文感知响应，生成精确复杂的 SQL 查询</td>
+			</tr>
+	</tbody>
 </table>
 <h3 id="sript-generation-脚本生成">
   Sript Generation 脚本生成
@@ -1321,46 +1324,46 @@ Assitanted Questioning, Mitigation Solution Generation, Command Recommendation, 
   </a>
 </h3>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">作者</th>
-          <th style="text-align: left">核心贡献</th>
-          <th style="text-align: left">技术特点</th>
-          <th style="text-align: left">应用领域</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left"><strong>Xpert</strong></td>
-          <td style="text-align: left">定制化 KQL 查询生成</td>
-          <td style="text-align: left">• 利用历史事故数据 + LLM<!-- raw HTML omitted -->• 提取表结构、模板等常见模式<!-- raw HTML omitted -->• 提出 Xcore 评估指标（三维度综合评估）</td>
-          <td style="text-align: left">Microsoft 事故管理（Kusto Query Language）</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><strong>Komal et al.</strong></td>
-          <td style="text-align: left">基于指标数据的自动修复</td>
-          <td style="text-align: left">• 零样本提示工程识别根因<!-- raw HTML omitted -->• 代码生成模型（LLaMA/Codex/GPT）<!-- raw HTML omitted -->• 面向自适应性微服务架构（SMA）</td>
-          <td style="text-align: left">微服务自动修复</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><strong>Marco et al.</strong></td>
-          <td style="text-align: left">LLM 程序生成先驱研究</td>
-          <td style="text-align: left">• 首次探索 LLM 在服务导向计算中的程序生成潜力</td>
-          <td style="text-align: left">服务组合脚本生成</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><strong>Pesl et al.</strong></td>
-          <td style="text-align: left">服务组合场景实证研究</td>
-          <td style="text-align: left">• 识别文献中 6 类典型服务组合场景<!-- raw HTML omitted -->• 实验验证 ChatGPT 和 GPT-4</td>
-          <td style="text-align: left">服务组合（实证分析）</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><strong>ChatOps4Msa</strong></td>
-          <td style="text-align: left">面向微服务的 ChatOps 机制</td>
-          <td style="text-align: left">• 基于 GPT-3.5<!-- raw HTML omitted -->• 提出 ChatOps 查询语言（CQL）低代码语法<!-- raw HTML omitted -->• 生成完整服务恢复脚本代码</td>
-          <td style="text-align: left">微服务架构（MSA）运维</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th style="text-align: left">作者</th>
+					<th style="text-align: left">核心贡献</th>
+					<th style="text-align: left">技术特点</th>
+					<th style="text-align: left">应用领域</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td style="text-align: left"><strong>Xpert</strong></td>
+					<td style="text-align: left">定制化 KQL 查询生成</td>
+					<td style="text-align: left">• 利用历史事故数据 + LLM<!-- raw HTML omitted -->• 提取表结构、模板等常见模式<!-- raw HTML omitted -->• 提出 Xcore 评估指标（三维度综合评估）</td>
+					<td style="text-align: left">Microsoft 事故管理（Kusto Query Language）</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><strong>Komal et al.</strong></td>
+					<td style="text-align: left">基于指标数据的自动修复</td>
+					<td style="text-align: left">• 零样本提示工程识别根因<!-- raw HTML omitted -->• 代码生成模型（LLaMA/Codex/GPT）<!-- raw HTML omitted -->• 面向自适应性微服务架构（SMA）</td>
+					<td style="text-align: left">微服务自动修复</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><strong>Marco et al.</strong></td>
+					<td style="text-align: left">LLM 程序生成先驱研究</td>
+					<td style="text-align: left">• 首次探索 LLM 在服务导向计算中的程序生成潜力</td>
+					<td style="text-align: left">服务组合脚本生成</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><strong>Pesl et al.</strong></td>
+					<td style="text-align: left">服务组合场景实证研究</td>
+					<td style="text-align: left">• 识别文献中 6 类典型服务组合场景<!-- raw HTML omitted -->• 实验验证 ChatGPT 和 GPT-4</td>
+					<td style="text-align: left">服务组合（实证分析）</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><strong>ChatOps4Msa</strong></td>
+					<td style="text-align: left">面向微服务的 ChatOps 机制</td>
+					<td style="text-align: left">• 基于 GPT-3.5<!-- raw HTML omitted -->• 提出 ChatOps 查询语言（CQL）低代码语法<!-- raw HTML omitted -->• 生成完整服务恢复脚本代码</td>
+					<td style="text-align: left">微服务架构（MSA）运维</td>
+			</tr>
+	</tbody>
 </table>
 <h3 id="automatic-execution-自动执行">
   automatic execution 自动执行
@@ -1370,28 +1373,28 @@ Assitanted Questioning, Mitigation Solution Generation, Command Recommendation, 
   </a>
 </h3>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">作者</th>
-          <th style="text-align: left">核心贡献</th>
-          <th style="text-align: left">技术实现</th>
-          <th style="text-align: left">关键能力</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left"><strong>Charles et al.</strong></td>
-          <td style="text-align: left">Linux 服务器管理自动化</td>
-          <td style="text-align: left">GPT-based AI Agent</td>
-          <td style="text-align: left">• 150 项任务 / 9 大类别<!-- raw HTML omitted -->• 文件操作到编程编译<!-- raw HTML omitted -->• 自主执行 + 反馈适应</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><strong>Pitikorn et al.</strong></td>
-          <td style="text-align: left">自愈系统集成生成式 AI</td>
-          <td style="text-align: left">GPT-4</td>
-          <td style="text-align: left">• 故障感知<!-- raw HTML omitted -->• 代码生成<!-- raw HTML omitted -->• 调试<!-- raw HTML omitted -->• 报告自动生成<!-- raw HTML omitted -->• Python 代码补全<!-- raw HTML omitted -->• 故障组件自动修复</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th style="text-align: left">作者</th>
+					<th style="text-align: left">核心贡献</th>
+					<th style="text-align: left">技术实现</th>
+					<th style="text-align: left">关键能力</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td style="text-align: left"><strong>Charles et al.</strong></td>
+					<td style="text-align: left">Linux 服务器管理自动化</td>
+					<td style="text-align: left">GPT-based AI Agent</td>
+					<td style="text-align: left">• 150 项任务 / 9 大类别<!-- raw HTML omitted -->• 文件操作到编程编译<!-- raw HTML omitted -->• 自主执行 + 反馈适应</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><strong>Pitikorn et al.</strong></td>
+					<td style="text-align: left">自愈系统集成生成式 AI</td>
+					<td style="text-align: left">GPT-4</td>
+					<td style="text-align: left">• 故障感知<!-- raw HTML omitted -->• 代码生成<!-- raw HTML omitted -->• 调试<!-- raw HTML omitted -->• 报告自动生成<!-- raw HTML omitted -->• Python 代码补全<!-- raw HTML omitted -->• 故障组件自动修复</td>
+			</tr>
+	</tbody>
 </table>
 
       </div>
@@ -1399,14 +1402,6 @@ Assitanted Questioning, Mitigation Solution Generation, Command Recommendation, 
 
       <footer>
         
-
-<section class="see-also">
-  
-    
-    
-    
-  
-</section>
 
 
         
