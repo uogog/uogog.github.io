@@ -157,7 +157,7 @@
             </span>
             <span class="reading-time">
               <i class="fa-solid fa-clock" aria-hidden="true"></i>
-              阅读时间：2 分钟
+              阅读时间：3 分钟
             </span>
           </div>
           <div class="authors">
@@ -357,7 +357,7 @@ disk和network中，用鸟哥的很好使用<br>
 </span></span><span class="line"><span class="cl">virsh dommemstat first
 </span></span><span class="line"><span class="cl">virsh domblklist first
 </span></span><span class="line"><span class="cl">virsh change-media first /kvm/iso/Rocky-10.1-x86_64-minimal.iso --eject <span class="c1"># 这个还满考验时机的，要在启动的时候弹出，要不然容易出问题</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># 在用iso安装好系统后，可以删除永远删除iso了</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 在用iso安装好系统后，可以永远删除iso了</span>
 </span></span><span class="line"><span class="cl">vim /kvm/xml/first.xml
 </span></span><span class="line"><span class="cl">    &lt;disk <span class="nv">type</span><span class="o">=</span><span class="s2">&#34;file&#34;</span> <span class="nv">device</span><span class="o">=</span><span class="s2">&#34;cdrom&#34;</span>&gt;
 </span></span><span class="line"><span class="cl">      &lt;driver <span class="nv">name</span><span class="o">=</span><span class="s2">&#34;qemu&#34;</span> <span class="nv">type</span><span class="o">=</span><span class="s2">&#34;raw&#34;</span>/&gt;
@@ -373,8 +373,66 @@ disk和network中，用鸟哥的很好使用<br>
     <span class="sr-only">链接到标题</span>
   </a>
 </h2>
-<p>我没有配置，docker的iptable规则和这些好像是冲突了，我又不懂iptable，索性没有弄了</p>
-
+<p>我没有配置，docker的iptable规则和这些好像是冲突了,导致虚拟机连接不到外网，我又不懂iptable，索性没有弄yum方面的了</p>
+<p>先用nmap或着arp看看虚拟机的ip是多少</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">arp -n
+</span></span><span class="line"><span class="cl">nmap -sP 192.168.10.0/24 <span class="c1"># templan里配置的子网</span>
+</span></span></code></pre></div><p>然后用ssh连接就好</p>
+<h2 id="虚拟机的性能调整">
+  虚拟机的性能调整
+  <a class="heading-link" href="#%e8%99%9a%e6%8b%9f%e6%9c%ba%e7%9a%84%e6%80%a7%e8%83%bd%e8%b0%83%e6%95%b4">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<p>虚拟机的复制其实还蛮简单的，就是配置复制一份xml，img（这个是磁盘不是iso啊），然后改改xml就很好</p>
+<h3 id="复制img就是虚拟磁盘">
+  复制img，就是虚拟磁盘
+  <a class="heading-link" href="#%e5%a4%8d%e5%88%b6img%e5%b0%b1%e6%98%af%e8%99%9a%e6%8b%9f%e7%a3%81%e7%9b%98">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<p>其实直接用<code>cp fitst.img second.img</code>就可以，但是教程中用了一个overlay/差分盘。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">qemu-img create -f qcow2 test1.img -F qcow2 -o <span class="nv">backing_file</span><span class="o">=</span>/kvm/img/first.img <span class="c1"># 注意，这个backing_file尽量要弄成只读的了，其他的差分盘都是依靠他的了，有点类似docker的层</span>
+</span></span><span class="line"><span class="cl">qemu-img info second.img
+</span></span></code></pre></div><h3 id="xml修改">
+  xml修改
+  <a class="heading-link" href="#xml%e4%bf%ae%e6%94%b9">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<p>我这里的是杂混的不能直接用的，主要是提醒需要改</p>
+<ul>
+<li>name</li>
+<li>nvram</li>
+<li>disk source</li>
+<li>mac</li>
+<li>grahpics</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">vim test1.xml
+</span></span><span class="line"><span class="cl">  <span class="m">2</span>   &lt;name&gt;test1&lt;/name&gt;
+</span></span><span class="line"><span class="cl">  <span class="m">9</span>     &lt;nvram&gt;/kvm/xml/test1.uefi.fd&lt;/nvram&gt;
+</span></span><span class="line"><span class="cl"> <span class="m">36</span>       &lt;<span class="nb">source</span> <span class="nv">file</span><span class="o">=</span><span class="s2">&#34;/kvm/img/test1.img&#34;</span>/&gt;
+</span></span><span class="line"><span class="cl"> <span class="m">41</span>       &lt;<span class="nb">source</span> <span class="nv">file</span><span class="o">=</span><span class="s2">&#34;&#34;</span>/&gt;
+</span></span><span class="line"><span class="cl"> <span class="m">63</span>       &lt;mac <span class="nv">address</span><span class="o">=</span><span class="s2">&#34;52:54:00:ed:63:aa&#34;</span>/&gt;
+</span></span><span class="line"><span class="cl">   &lt;graphics <span class="nv">type</span><span class="o">=</span><span class="s2">&#34;vnc&#34;</span> <span class="nv">port</span><span class="o">=</span><span class="s2">&#34;5911&#34;</span> <span class="nv">listen</span><span class="o">=</span><span class="s2">&#34;0.0.0.0&#34;</span> <span class="nv">passwd</span><span class="o">=</span><span class="s2">&#34;rocky9&#34;</span>/&gt;
+</span></span><span class="line"><span class="cl">      &lt;image <span class="nv">compression</span><span class="o">=</span><span class="s1">&#39;auto_glz&#39;</span> /&gt;
+</span></span><span class="line"><span class="cl">      &lt;jpeg <span class="nv">compression</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span> /&gt;
+</span></span><span class="line"><span class="cl">      &lt;zlib <span class="nv">compression</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span> /&gt;
+</span></span><span class="line"><span class="cl">      &lt;playback <span class="nv">compression</span><span class="o">=</span><span class="s1">&#39;on&#39;</span> /&gt;
+</span></span><span class="line"><span class="cl">      &lt;streaming <span class="nv">mode</span><span class="o">=</span><span class="s1">&#39;filter&#39;</span> /&gt;
+</span></span><span class="line"><span class="cl">    &lt;/graphics&gt;
+</span></span></code></pre></div><p>cpu线程绑定,这里具体的概念看鸟哥原书,问问ai吧,现在ai太猛了，主要就是要注意xml绑定的是线程不是核心就好</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">virsh capabilities <span class="p">|</span> grep siblings <span class="c1"># 用来看几核几线程以及线程和核的绑定状态</span>
+</span></span><span class="line"><span class="cl">cat /proc/cpuinfo <span class="p">|</span> egrep <span class="s1">&#39;^processor|^core id&#39;</span> <span class="c1"># 同上</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 绑定配置</span>
+</span></span><span class="line"><span class="cl">vim /kvm/xml/demo1.xml
+</span></span><span class="line"><span class="cl">  &lt;vcpu&gt;4&lt;/vcpu&gt;
+</span></span><span class="line"><span class="cl">  &lt;vcpu <span class="nv">placement</span><span class="o">=</span><span class="s1">&#39;static&#39;</span> <span class="nv">cpuset</span><span class="o">=</span><span class="s1">&#39;1-5,7-11&#39;</span>&gt;4&lt;/vcpu&gt;
+</span></span></code></pre></div>
       </div>
 
 
