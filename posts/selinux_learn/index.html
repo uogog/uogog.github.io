@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+  <title>
+  SELinux 学习 · UOG的BLOG
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="UOGOG">
+<meta name="description" content="SELinux 安全子系统学习笔记">
+<meta name="keywords" content="blog,developer,personal">
+
+
+
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="SELinux 学习">
+	<meta name="twitter:description" content="SELinux 安全子系统学习笔记">
+
+<meta property="og:url" content="http://uogog.github.io/posts/selinux_learn/">
+	<meta property="og:site_name" content="UOG的BLOG">
+	<meta property="og:title" content="SELinux 学习">
+	<meta property="og:description" content="SELinux 安全子系统学习笔记">
+	<meta property="og:locale" content="zh_cn">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="posts">
+		<meta property="article:published_time" content="2026-05-30T21:25:58+08:00">
+		<meta property="article:modified_time" content="2026-05-30T21:25:58+08:00">
+		<meta property="article:tag" content="Selinux">
+		<meta property="article:tag" content="Linux">
+		<meta property="article:tag" content="安全">
+		<meta property="article:tag" content="访问控制">
+
+
+
+
+<link rel="canonical" href="http://uogog.github.io/posts/selinux_learn/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.min.d8d883ac6ca34ee459193aff427d97eec73a7ffd982379fe3064c06a45859e30.css" integrity="sha256-2NiDrGyjTuRZGTr/Qn2X7sc6f/2YI3n&#43;MGTAakWFnjA=" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    
+    
+    <link rel="stylesheet" href="/css/coder-dark.min.ad48f476275974885bdc03d5251e3cdbe1678c54a63ff772376b0ed2adc468dd.css" integrity="sha256-rUj0didZdIhb3APVJR482&#43;FnjFSmP/dyN2sO0q3EaN0=" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/img/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/img/favicon.ico" sizes="32x32">
+<link rel="icon" type="image/png" href="/img/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-dark">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="http://uogog.github.io/">
+      UOG的BLOG
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">博客(Blog)</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/about/">关于(About)</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://uogog.github.io/posts/selinux_learn/">
+              SELinux 学习
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2026-05-30T21:25:58&#43;08:00">
+                May 30, 2026
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              阅读时间：1 分钟
+            </span>
+          </div>
+          <div class="authors">
+  <i class="fa-solid fa-user" aria-hidden="true"></i>
+    <a href="/authors/uogog/">Uogog</a></div>
+
+          <div class="categories">
+  <i class="fa-solid fa-folder" aria-hidden="true"></i>
+    <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></div>
+
+          <div class="tags">
+  <i class="fa-solid fa-tag" aria-hidden="true"></i>
+    <span class="tag">
+      <a href="/tags/selinux/">Selinux</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/tags/linux/">Linux</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/tags/%E5%AE%89%E5%85%A8/">安全</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/tags/%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6/">访问控制</a>
+    </span></div>
+
+        </div>
+      </header>
+
+      
+
+
+      <div class="post-content">
+        
+        <h1 id="selinux简介">
+  SElinux简介
+  <a class="heading-link" href="#selinux%e7%ae%80%e4%bb%8b">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h1>
+<p>SElinux 阻止小白学习linux的一大拦路虎<br>
+这东西其实就是用来防止小白误操作的。<br>
+但是你学linux怎么能不误操作几次呢<br>
+哪有每个命令都敲对的，不错几次不是人。<br>
+这个东西，主要是在rwx这个限制上加上另一种限制<br>
+防止进程访问一些他不能访问的资源。有些意思的是<br>
+限制是加在inode上的，ntfs其实有可能不能用这个（我没调查过）<br>
+具体的机制我很难几句话说清楚，所以建议看鸟哥书。</p>
+<h2 id="selinux工作模式">
+  SElinux工作模式
+  <a class="heading-link" href="#selinux%e5%b7%a5%e4%bd%9c%e6%a8%a1%e5%bc%8f">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<p>3个：
+disable：不工作
+permissive：有问题只写写log
+enforcing：有问题直接禁止
+SElinux的限制只发生在rwx这些权限后！！</p>
+<h2 id="selinux某些概念">
+  SElinux某些概念
+  <a class="heading-link" href="#selinux%e6%9f%90%e4%ba%9b%e6%a6%82%e5%bf%b5">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<ul>
+<li>政策（策略比较合适其实）与规则：其实有点像默认配置，说默认那种那种什么什么限制，有多种政策。</li>
+<li>安全本文(security context):另一种rwx权限罢了，但是设计的很闹心，每个不同对象（进程，文件，端口）含义不一样
+<table>
+	<thead>
+			<tr>
+					<th>对象</th>
+					<th>安全本文</th>
+					<th>含义</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>进程如chronyd守护进程</td>
+					<td>system_u:system_r:chronyd_t</td>
+					<td>他是system用户权限，可以使用system_r角色（system_u还可以使用其他的），他这个的作用域是chrony_t（这个角色还可以使用其他的域），chrony_t基本决定他可以碰那些文件</td>
+			</tr>
+			<tr>
+					<td>文件 如chronyd的2进制文件</td>
+					<td>system_u:object_r:chronyd_exec_t</td>
+					<td>第一个表示谁创建的，第2个表示他是文件，无意义，第3个表示他一般属于chronyd域（这个有默认命名规则的）</td>
+			</tr>
+	</tbody>
+</table>
+</li>
+</ul>
+<h1 id="模式操作">
+  模式操作
+  <a class="heading-link" href="#%e6%a8%a1%e5%bc%8f%e6%93%8d%e4%bd%9c">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h1>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">getenforce <span class="c1"># 看看是3种的哪一种模式</span>
+</span></span><span class="line"><span class="cl">setenforce <span class="m">0</span> <span class="c1"># 调成permissive</span>
+</span></span><span class="line"><span class="cl">setenforce <span class="m">1</span> <span class="c1"># 调成enforcing</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">sestatus <span class="c1"># 详细设置，看策略</span>
+</span></span></code></pre></div><pre tabindex="0"><code>SELinux status:                 enabled
+SELinuxfs mount:                /sys/fs/selinux
+SELinux root directory:         /etc/selinux
+Loaded policy name:             targeted
+Current mode:                   enforcing
+Mode from config file:          enforcing
+Policy MLS status:              enabled
+Policy deny_unknown status:     allowed
+Memory protection checking:     actual (secure)
+Max kernel policy version:      33
+</code></pre><p>设置开机下的模式</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">vim /etc/selinux/config
+</span></span><span class="line"><span class="cl"><span class="nv">SELINUX</span><span class="o">=</span>enforcing
+</span></span><span class="line"><span class="cl"><span class="nv">SELINUXTYPE</span><span class="o">=</span>targeted
+</span></span><span class="line"><span class="cl"><span class="c1"># 看看内核参数</span>
+</span></span><span class="line"><span class="cl">cat /proc/cmdline <span class="c1"># 这里看那看那有无selinux=的字眼</span>
+</span></span><span class="line"><span class="cl"><span class="nv">BOOT_IMAGE</span><span class="o">=(</span>hd0,gpt2<span class="o">)</span>/vmlinuz-6.12.0-124.56.1.el10_1.x86_64 <span class="nv">root</span><span class="o">=</span>/dev/mapper/rl_192-root ro <span class="nv">crashkernel</span><span class="o">=</span>2G-64G:256M,64G-:512M <span class="nv">resume</span><span class="o">=</span><span class="nv">UUID</span><span class="o">=</span>c26327eb-59eb-4438-bae4-4f638bb45ee8 rd.lvm.lv<span class="o">=</span>rl_192/root rd.lvm.lv<span class="o">=</span>rl_192/swap
+</span></span></code></pre></div><h1 id="boolean的操作">
+  boolean的操作
+  <a class="heading-link" href="#boolean%e7%9a%84%e6%93%8d%e4%bd%9c">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h1>
+<p>boolean是细化的规则，就是说在安全上下文（本文）满足后，还有一些更细致的规则需要设置。</p>
+<p>boolean查询</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">getsebool -a <span class="c1"># 最好搭配grep</span>
+</span></span><span class="line"><span class="cl">getsebool -a <span class="p">|</span> grep home
+</span></span></code></pre></div><p>boolean 修改</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">setsebool -P httpd_enable_homedirs <span class="m">1</span> <span class="c1"># 不加-P会导致开机后恢复默认的</span>
+</span></span></code></pre></div><h1 id="selinux的安全本文修改">
+  SElinux的安全本文修改
+  <a class="heading-link" href="#selinux%e7%9a%84%e5%ae%89%e5%85%a8%e6%9c%ac%e6%96%87%e4%bf%ae%e6%94%b9">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h1>
+<p>chcon来改</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">chcon -t 第3个权限 文件
+</span></span><span class="line"><span class="cl">chcon --reference<span class="o">=</span>文件 文件 <span class="c1"># 这个会全部改</span>
+</span></span></code></pre></div><h1 id="使用-semanage-fcontext-查找目录文件缺省的类型">
+  使用 semanage fcontext 查找目录/文件缺省的类型
+  <a class="heading-link" href="#%e4%bd%bf%e7%94%a8-semanage-fcontext-%e6%9f%a5%e6%89%be%e7%9b%ae%e5%bd%95%e6%96%87%e4%bb%b6%e7%bc%ba%e7%9c%81%e7%9a%84%e7%b1%bb%e5%9e%8b">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h1>
+<p>semanage fcontext &ndash;list 是用于列出默认的安全本文设置的</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">semanage fcontext --list <span class="p">|</span> head
+</span></span><span class="line"><span class="cl">/                                                  directory          system_u:object_r:root_t:s0
+</span></span><span class="line"><span class="cl">/.*                                                all files          system_u:object_r:default_t:s0
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">semanage fcontext --list <span class="p">|</span> grep /etc/sysconfig <span class="c1"># 列出sysconfig开头的默认安全文本</span>
+</span></span></code></pre></div><p>用semanage fcontext 设置自定义个默认模式
+在/www这个目录。设置为和/var/www相同</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">semanage fcontext -a -t httpd_sys_content_t <span class="s2">&#34;/www(/.*)?&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 设置好后，用</span>
+</span></span><span class="line"><span class="cl">restorecon -Rv /www <span class="c1"># 重置设定好的安全本文</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 可以代替.autolabel，这个auto太慢了</span>
+</span></span></code></pre></div>
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+    2026
+     UOGOG 
+    ·
+    
+    技术支持 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js" integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+
+</html>
