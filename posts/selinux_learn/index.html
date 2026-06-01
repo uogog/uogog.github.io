@@ -158,7 +158,7 @@
             </span>
             <span class="reading-time">
               <i class="fa-solid fa-clock" aria-hidden="true"></i>
-              阅读时间：1 分钟
+              阅读时间：2 分钟
             </span>
           </div>
           <div class="authors">
@@ -325,7 +325,41 @@ Max kernel policy version:      33
 </span></span><span class="line"><span class="cl"><span class="c1"># 设置好后，用</span>
 </span></span><span class="line"><span class="cl">restorecon -Rv /www <span class="c1"># 重置设定好的安全本文</span>
 </span></span><span class="line"><span class="cl"><span class="c1"># 可以代替.autolabel，这个auto太慢了</span>
-</span></span></code></pre></div>
+</span></span></code></pre></div><h1 id="端口的安全本文看与修改这么说对吗">
+  端口的安全本文看与修改？（这么说对吗）
+  <a class="heading-link" href="#%e7%ab%af%e5%8f%a3%e7%9a%84%e5%ae%89%e5%85%a8%e6%9c%ac%e6%96%87%e7%9c%8b%e4%b8%8e%e4%bf%ae%e6%94%b9%e8%bf%99%e4%b9%88%e8%af%b4%e5%af%b9%e5%90%97">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h1>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">semanage port --list <span class="p">|</span> grep http <span class="c1">#查看</span>
+</span></span><span class="line"><span class="cl">semanage port -a -t TYPE -p <span class="o">[</span>tcp<span class="p">|</span>udp<span class="o">]</span> port_range
+</span></span><span class="line"><span class="cl"><span class="c1">#-a   添加一笔纪录</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#-t   修改的端口口名称，例如 httpd_port_t</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#-p   使用 tcp 或 udp 协定</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#port_range 使用的端口口号码</span>
+</span></span><span class="line"><span class="cl">semanage port -a -t http_port_t -p tcp <span class="m">98</span> <span class="c1"># 加入 port 98 的支持到 http 当中</span>
+</span></span></code></pre></div><h1 id="setroubleshoot服务">
+  setroubleshoot服务
+  <a class="heading-link" href="#setroubleshoot%e6%9c%8d%e5%8a%a1">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h1>
+<p>这个是专门帮忙分析selinux日志的一个服务<br>
+就是说有selinux问题出现，他会自动提供修复建议<br>
+具体怎么用看看鸟哥的书吧，就是在/var/log/messages里<br>
+直接看就好<br>
+鸟哥书里的例子，涉及端口时，注意还有fire-wall要改！！</p>
+<h1 id="tip-纯复制鸟哥的">
+  tip 纯复制鸟哥的
+  <a class="heading-link" href="#tip-%e7%ba%af%e5%a4%8d%e5%88%b6%e9%b8%9f%e5%93%a5%e7%9a%84">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h1>
+<p>总之，你要记住，无法启动某个服务或者是某服务无法访问某个文件资源，先查看一下 rwx 是否正确？若正确， 先将 SELinux 变更为 permissive，然后『重复一次刚刚发生错误的动作』，看看有没有正常？若有正常， 那表示问题一定来自 SELinux 了！再将 SELinux 变更为 Enforcing，之后依据 sealert 提供的方式处理错误， 最终，一定要『再次的重复一次刚刚发生错误的动作』，确定在 Enforcing 的状态下也是正常启动处理的！ 那就没问题了！</p>
+
       </div>
 
 
