@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+  <title>
+  docker_learn5_proxy · UOG的BLOG
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="UOGOG">
+<meta name="description" content="Docker代理配置">
+<meta name="keywords" content="blog,developer,personal">
+
+
+
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="docker_learn5_proxy">
+	<meta name="twitter:description" content="Docker代理配置">
+
+<meta property="og:url" content="http://uogog.github.io/posts/docker_proxy/">
+	<meta property="og:site_name" content="UOG的BLOG">
+	<meta property="og:title" content="docker_learn5_proxy">
+	<meta property="og:description" content="Docker代理配置">
+	<meta property="og:locale" content="zh_cn">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="posts">
+		<meta property="article:published_time" content="2026-06-05T14:14:04+08:00">
+		<meta property="article:modified_time" content="2026-06-05T14:14:04+08:00">
+		<meta property="article:tag" content="Docker">
+		<meta property="article:tag" content="Proxy">
+			<meta property="og:see_also" content="http://uogog.github.io/posts/docker_compose/">
+			<meta property="og:see_also" content="http://uogog.github.io/posts/docket_net/">
+			<meta property="og:see_also" content="http://uogog.github.io/posts/docket_file/">
+			<meta property="og:see_also" content="http://uogog.github.io/posts/docker1/">
+
+
+
+
+<link rel="canonical" href="http://uogog.github.io/posts/docker_proxy/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.min.d8d883ac6ca34ee459193aff427d97eec73a7ffd982379fe3064c06a45859e30.css" integrity="sha256-2NiDrGyjTuRZGTr/Qn2X7sc6f/2YI3n&#43;MGTAakWFnjA=" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    
+    
+    <link rel="stylesheet" href="/css/coder-dark.min.ad48f476275974885bdc03d5251e3cdbe1678c54a63ff772376b0ed2adc468dd.css" integrity="sha256-rUj0didZdIhb3APVJR482&#43;FnjFSmP/dyN2sO0q3EaN0=" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/img/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/img/favicon.ico" sizes="32x32">
+<link rel="icon" type="image/png" href="/img/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-dark">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="http://uogog.github.io/">
+      UOG的BLOG
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">博客(Blog)</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/about/">关于(About)</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://uogog.github.io/posts/docker_proxy/">
+              docker_learn5_proxy
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2026-06-05T14:14:04&#43;08:00">
+                June 5, 2026
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              阅读时间：1 分钟
+            </span>
+          </div>
+          <div class="authors">
+  <i class="fa-solid fa-user" aria-hidden="true"></i>
+    <a href="/authors/uogog/">Uogog</a></div>
+
+          <div class="categories">
+  <i class="fa-solid fa-folder" aria-hidden="true"></i>
+    <a href="/categories/%E5%B7%A5%E5%85%B7%E4%B8%8E%E8%BD%AF%E4%BB%B6/">工具与软件</a></div>
+
+          <div class="tags">
+  <i class="fa-solid fa-tag" aria-hidden="true"></i>
+    <span class="tag">
+      <a href="/tags/docker/">Docker</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/tags/proxy/">Proxy</a>
+    </span></div>
+
+        </div>
+      </header>
+
+      
+
+
+      <div class="post-content">
+        
+        <h1 id="docker-代理配置">
+  Docker 代理配置
+  <a class="heading-link" href="#docker-%e4%bb%a3%e7%90%86%e9%85%8d%e7%bd%ae">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h1>
+<p>Docker 代理分为两类：<strong>容器运行代理</strong>（容器访问外网）和 <strong>Pull/Push 代理</strong>（dockerd 拉取/推送镜像）。</p>
+<hr>
+<h2 id="一容器运行代理">
+  一、容器运行代理
+  <a class="heading-link" href="#%e4%b8%80%e5%ae%b9%e5%99%a8%e8%bf%90%e8%a1%8c%e4%bb%a3%e7%90%86">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<p>容器运行时代理用于让<strong>容器内部</strong>的应用通过代理访问网络。有两种配置方式。</p>
+<h3 id="方式一运行容器时手动指定临时">
+  方式一：运行容器时手动指定（临时）
+  <a class="heading-link" href="#%e6%96%b9%e5%bc%8f%e4%b8%80%e8%bf%90%e8%a1%8c%e5%ae%b9%e5%99%a8%e6%97%b6%e6%89%8b%e5%8a%a8%e6%8c%87%e5%ae%9a%e4%b8%b4%e6%97%b6">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker run -e <span class="nv">HTTP_PROXY</span><span class="o">=</span><span class="s2">&#34;http://proxy.example.com:8080&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">           -e <span class="nv">HTTPS_PROXY</span><span class="o">=</span><span class="s2">&#34;http://proxy.example.com:8080&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">           -e <span class="nv">NO_PROXY</span><span class="o">=</span><span class="s2">&#34;localhost,127.0.0.1,.local&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">           nginx
+</span></span></code></pre></div><p>每次启动容器都要手动加，比较麻烦。</p>
+<h3 id="方式二通过-docker-client-配置文件推荐持久化">
+  方式二：通过 Docker Client 配置文件（推荐，持久化）
+  <a class="heading-link" href="#%e6%96%b9%e5%bc%8f%e4%ba%8c%e9%80%9a%e8%bf%87-docker-client-%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6%e6%8e%a8%e8%8d%90%e6%8c%81%e4%b9%85%e5%8c%96">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<p>编辑 <code>~/.docker/config.json</code>，让 Docker 自动为所有容器注入代理环境变量：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;proxies&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;default&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;httpProxy&#34;</span><span class="p">:</span>  <span class="s2">&#34;http://proxy.example.com:8080&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;httpsProxy&#34;</span><span class="p">:</span> <span class="s2">&#34;http://proxy.example.com:8080&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;noProxy&#34;</span><span class="p">:</span>    <span class="s2">&#34;localhost,127.0.0.1,.local&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>配置后，用 <code>docker run</code> 启动的容器会自动注入这些环境变量。如果只想对特定容器生效，把 <code>default</code> 换成容器名即可。</p>
+<blockquote>
+<p>Docker Desktop 用户也可以在 GUI 的 Settings → Resources → Proxies 中配置，本质上也是写入 <code>config.json</code>。</p>
+</blockquote>
+<hr>
+<h2 id="二pull--push-代理">
+  二、Pull / Push 代理
+  <a class="heading-link" href="#%e4%ba%8cpull--push-%e4%bb%a3%e7%90%86">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<p><code>docker pull</code> 和 <code>docker push</code> 走的是 <strong>dockerd 守护进程</strong> 的网络，需要给 dockerd 配代理。</p>
+<h3 id="方式一systemd-方式推荐">
+  方式一：systemd 方式（推荐）
+  <a class="heading-link" href="#%e6%96%b9%e5%bc%8f%e4%b8%80systemd-%e6%96%b9%e5%bc%8f%e6%8e%a8%e8%8d%90">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<p>创建 dockerd 的 systemd 代理配置：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo mkdir -p /etc/systemd/system/docker.service.d
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo tee /etc/systemd/system/docker.service.d/http-proxy.conf <span class="s">&lt;&lt; &#39;EOF&#39;
+</span></span></span><span class="line"><span class="cl"><span class="s">[Service]
+</span></span></span><span class="line"><span class="cl"><span class="s">Environment=&#34;HTTP_PROXY=http://proxy.example.com:8080&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">Environment=&#34;HTTPS_PROXY=http://proxy.example.com:8080&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">Environment=&#34;NO_PROXY=localhost,127.0.0.1,.local&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
+</span></span></code></pre></div><p>重启生效：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo systemctl daemon-reload
+</span></span><span class="line"><span class="cl">sudo systemctl restart docker
+</span></span></code></pre></div><h3 id="方式二daemonjson-方式docker-1809">
+  方式二：daemon.json 方式（Docker 18.09+）
+  <a class="heading-link" href="#%e6%96%b9%e5%bc%8f%e4%ba%8cdaemonjson-%e6%96%b9%e5%bc%8fdocker-1809">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<p>编辑 <code>/etc/docker/daemon.json</code>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;registry-mirrors&#34;</span><span class="p">:</span> <span class="p">[],</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;http-proxy&#34;</span><span class="p">:</span> <span class="s2">&#34;http://proxy.example.com:8080&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;https-proxy&#34;</span><span class="p">:</span> <span class="s2">&#34;http://proxy.example.com:8080&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;no-proxy&#34;</span><span class="p">:</span> <span class="s2">&#34;localhost,127.0.0.1,.local&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>重启：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo systemctl restart docker
+</span></span></code></pre></div><h3 id="验证代理是否生效">
+  验证代理是否生效
+  <a class="heading-link" href="#%e9%aa%8c%e8%af%81%e4%bb%a3%e7%90%86%e6%98%af%e5%90%a6%e7%94%9f%e6%95%88">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo systemctl show docker --property Environment
+</span></span><span class="line"><span class="cl"><span class="c1"># 或者</span>
+</span></span><span class="line"><span class="cl">docker info <span class="p">|</span> grep -i proxy
+</span></span></code></pre></div><blockquote>
+<p>systemd 方式本质是给 dockerd 进程注入环境变量（containerd 内部拉镜像也用这个环境变量），daemon.json 方式则是 dockerd 自己读取配置传给 containerd。两种方式效果等价，systemd 方式兼容性更广。</p>
+</blockquote>
+<hr>
+<h2 id="三总结">
+  三、总结
+  <a class="heading-link" href="#%e4%b8%89%e6%80%bb%e7%bb%93">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<table>
+	<thead>
+			<tr>
+					<th>场景</th>
+					<th>配置位置</th>
+					<th>生效对象</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>容器内访问外网</td>
+					<td><code>~/.docker/config.json</code>（<code>proxies</code> 字段）</td>
+					<td>容器</td>
+			</tr>
+			<tr>
+					<td>pull / push 镜像</td>
+					<td>systemd 或 <code>/etc/docker/daemon.json</code></td>
+					<td>dockerd 守护进程</td>
+			</tr>
+	</tbody>
+</table>
+<h1 id="kind-代理配置">
+  kind 代理配置
+  <a class="heading-link" href="#kind-%e4%bb%a3%e7%90%86%e9%85%8d%e7%bd%ae">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h1>
+<p>kind 起的cluster其实是多个本地容器，其实不能管理多个主机，只能拿来学习和测试。</p>
+<p>所以想要kind走代理（kubuctl deploy 就是cri pull时），要么用
+<code>docker exec -it kind-control-plane bash</code>进容器改systemctl 来改cri的环境
+要么用上面的docker容器配置，让所有docker的外网访问陪代理</p>
+
+      </div>
+
+
+      <footer>
+        
+
+<section class="see-also">
+  
+    
+    
+    
+      <h3 id="参见-docker">
+        参见 docker
+        <a class="heading-link" href="#%e5%8f%82%e8%a7%81-docker">
+          <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+          <span class="sr-only">链接到标题</span>
+        </a>
+      </h3>
+      <nav>
+        <ul>
+        
+        
+          
+        
+          
+            <li>
+              <a href="/posts/docker_compose/">docker_learn4_compose</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="/posts/docket_net/">docker_learn3</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="/posts/docket_file/">docker_learn2</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="/posts/docker1/">docker_learn1</a>
+            </li>
+          
+        
+        </ul>
+      </nav>
+    
+  
+</section>
+
+
+        
+        
+        
+        
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+    2026
+     UOGOG 
+    ·
+    
+    技术支持 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js" integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+
+</html>

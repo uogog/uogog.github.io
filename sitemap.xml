@@ -4,30 +4,48 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>http://uogog.github.io/authors/</loc>
-    <lastmod>2026-05-30T21:25:58+08:00</lastmod>
+    <lastmod>2026-06-05T14:14:04+08:00</lastmod>
   </url><url>
     <loc>http://uogog.github.io/categories/</loc>
-    <lastmod>2026-05-30T21:25:58+08:00</lastmod>
+    <lastmod>2026-06-05T14:14:04+08:00</lastmod>
   </url><url>
-    <loc>http://uogog.github.io/tags/linux/</loc>
-    <lastmod>2026-05-30T21:25:58+08:00</lastmod>
+    <loc>http://uogog.github.io/series/docker/</loc>
+    <lastmod>2026-06-05T14:14:04+08:00</lastmod>
+  </url><url>
+    <loc>http://uogog.github.io/tags/docker/</loc>
+    <lastmod>2026-06-05T14:14:04+08:00</lastmod>
+  </url><url>
+    <loc>http://uogog.github.io/posts/docker_proxy/</loc>
+    <lastmod>2026-06-05T14:14:04+08:00</lastmod>
   </url><url>
     <loc>http://uogog.github.io/posts/</loc>
+    <lastmod>2026-06-05T14:14:04+08:00</lastmod>
+  </url><url>
+    <loc>http://uogog.github.io/tags/proxy/</loc>
+    <lastmod>2026-06-05T14:14:04+08:00</lastmod>
+  </url><url>
+    <loc>http://uogog.github.io/series/</loc>
+    <lastmod>2026-06-05T14:14:04+08:00</lastmod>
+  </url><url>
+    <loc>http://uogog.github.io/tags/</loc>
+    <lastmod>2026-06-05T14:14:04+08:00</lastmod>
+  </url><url>
+    <loc>http://uogog.github.io/authors/uogog/</loc>
+    <lastmod>2026-06-05T14:14:04+08:00</lastmod>
+  </url><url>
+    <loc>http://uogog.github.io/</loc>
+    <lastmod>2026-06-05T14:14:04+08:00</lastmod>
+  </url><url>
+    <loc>http://uogog.github.io/categories/%E5%B7%A5%E5%85%B7%E4%B8%8E%E8%BD%AF%E4%BB%B6/</loc>
+    <lastmod>2026-06-05T14:14:04+08:00</lastmod>
+  </url><url>
+    <loc>http://uogog.github.io/tags/linux/</loc>
     <lastmod>2026-05-30T21:25:58+08:00</lastmod>
   </url><url>
     <loc>http://uogog.github.io/tags/selinux/</loc>
     <lastmod>2026-05-30T21:25:58+08:00</lastmod>
   </url><url>
     <loc>http://uogog.github.io/posts/selinux_learn/</loc>
-    <lastmod>2026-05-30T21:25:58+08:00</lastmod>
-  </url><url>
-    <loc>http://uogog.github.io/tags/</loc>
-    <lastmod>2026-05-30T21:25:58+08:00</lastmod>
-  </url><url>
-    <loc>http://uogog.github.io/authors/uogog/</loc>
-    <lastmod>2026-05-30T21:25:58+08:00</lastmod>
-  </url><url>
-    <loc>http://uogog.github.io/</loc>
     <lastmod>2026-05-30T21:25:58+08:00</lastmod>
   </url><url>
     <loc>http://uogog.github.io/tags/%E5%AE%89%E5%85%A8/</loc>
@@ -72,9 +90,6 @@
     <loc>http://uogog.github.io/tags/%E6%9C%8D%E5%8A%A1%E7%AE%A1%E7%90%86/</loc>
     <lastmod>2026-05-14T11:35:43+08:00</lastmod>
   </url><url>
-    <loc>http://uogog.github.io/categories/%E5%B7%A5%E5%85%B7%E4%B8%8E%E8%BD%AF%E4%BB%B6/</loc>
-    <lastmod>2026-05-14T11:35:43+08:00</lastmod>
-  </url><url>
     <loc>http://uogog.github.io/tags/bash/</loc>
     <lastmod>2026-04-24T14:35:13+08:00</lastmod>
   </url><url>
@@ -87,19 +102,10 @@
     <loc>http://uogog.github.io/posts/bash_re/</loc>
     <lastmod>2026-04-24T14:35:13+08:00</lastmod>
   </url><url>
-    <loc>http://uogog.github.io/series/docker/</loc>
-    <lastmod>2026-04-04T17:04:13+08:00</lastmod>
-  </url><url>
-    <loc>http://uogog.github.io/tags/docker/</loc>
-    <lastmod>2026-04-04T17:04:13+08:00</lastmod>
-  </url><url>
     <loc>http://uogog.github.io/posts/docker_compose/</loc>
     <lastmod>2026-04-04T17:04:13+08:00</lastmod>
   </url><url>
     <loc>http://uogog.github.io/tags/docker-compose/</loc>
-    <lastmod>2026-04-04T17:04:13+08:00</lastmod>
-  </url><url>
-    <loc>http://uogog.github.io/series/</loc>
     <lastmod>2026-04-04T17:04:13+08:00</lastmod>
   </url><url>
     <loc>http://uogog.github.io/posts/summary-reading-1/</loc>
