@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>调试 on UOG的BLOG</title>
+		<link>http://uogog.github.io/tags/%E8%B0%83%E8%AF%95/</link>
+		<description>Recent content in 调试 on UOG的BLOG</description>
+		<generator>Hugo</generator>
+		<language>zh-cn</language>
+		
+		
+		
+		
+			<lastBuildDate>Fri, 12 Jun 2026 14:05:24 +0800</lastBuildDate>
+		
+			<atom:link href="http://uogog.github.io/tags/%E8%B0%83%E8%AF%95/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>GDB 调试</title>
+				<link>http://uogog.github.io/posts/gdb/</link>
+				<pubDate>Fri, 12 Jun 2026 14:05:24 +0800</pubDate>
+				<guid>http://uogog.github.io/posts/gdb/</guid>
+				<description>&lt;h1 id=&#34;gdb用于调试c程序&#34;&gt;&#xA;  gdb用于调试C程序&#xA;  &lt;a class=&#34;heading-link&#34; href=&#34;#gdb%e7%94%a8%e4%ba%8e%e8%b0%83%e8%af%95c%e7%a8%8b%e5%ba%8f&#34;&gt;&#xA;    &lt;i class=&#34;fa-solid fa-link&#34; aria-hidden=&#34;true&#34; title=&#34;链接到标题&#34;&gt;&lt;/i&gt;&#xA;    &lt;span class=&#34;sr-only&#34;&gt;链接到标题&lt;/span&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;p&gt;常用指令&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;gdb &amp;lt;可执行文件&amp;gt; &lt;span class=&#34;c1&#34;&gt;# 注意这里的可执行文件一定要用 -g参数生成的&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;list &amp;lt;number&amp;gt; &lt;span class=&#34;c1&#34;&gt;#看源文件的&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;b &lt;span class=&#34;o&#34;&gt;[{&lt;/span&gt;num&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;函数名&lt;span class=&#34;o&#34;&gt;}]&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;i&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;4&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; i!&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;2&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;#设断点&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;r &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;参数&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# 开始执行&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;n &lt;span class=&#34;c1&#34;&gt;# 下一行&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;s &lt;span class=&#34;c1&#34;&gt;# 进入函数&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;p &lt;span class=&#34;c1&#34;&gt;# 查看变量&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;display &lt;span class=&#34;c1&#34;&gt;# 一直查看变量&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;undisplay &lt;span class=&#34;c1&#34;&gt;# 取消一直查看&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;c &lt;span class=&#34;c1&#34;&gt;# 运行到断点&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;q &lt;span class=&#34;c1&#34;&gt;# 退出&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;f &lt;span class=&#34;c1&#34;&gt;# 跳出函数&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;set&lt;/span&gt; args &lt;span class=&#34;c1&#34;&gt;# 设置参数 和 r 【】 一样效果&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;info b &lt;span class=&#34;c1&#34;&gt;# 看所有断点&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;ptype &lt;span class=&#34;c1&#34;&gt;# 看变量类型&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;bt &lt;span class=&#34;c1&#34;&gt;# 看栈帧&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;frame &lt;span class=&#34;c1&#34;&gt;# 切换栈帧&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+			</item>
+	</channel>
+</rss>
