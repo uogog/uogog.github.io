@@ -3,7 +3,7 @@
 
 <head>
   <title>
-  文章 · UOG的BLOG
+   · UOG的BLOG
 </title>
   <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,26 +13,46 @@
 
 
 <meta name="author" content="UOGOG">
-<meta name="description" content="personal website">
+<meta name="description" content="getopt
+open
+close
+strerror
+read
+write
+fcntl
+lseek
+truncate
+stat
+lstat
+link
+unlink
+opendir
+closedir
+readdir
+dup
+dup2">
 <meta name="keywords" content="blog,developer,personal">
 
 
 
 	<meta name="twitter:card" content="summary">
-	<meta name="twitter:title" content="Posts">
-	<meta name="twitter:description" content="personal website">
+	<meta name="twitter:title" content="UOG的BLOG">
+	<meta name="twitter:description" content="getopt open close strerror read write fcntl lseek truncate stat lstat link unlink opendir closedir readdir dup dup2">
 
-<meta property="og:url" content="http://uogog.github.io/posts/">
+<meta property="og:url" content="http://uogog.github.io/posts/linux_coding/">
 	<meta property="og:site_name" content="UOG的BLOG">
-	<meta property="og:title" content="Posts">
-	<meta property="og:description" content="personal website">
+	<meta property="og:title" content="UOG的BLOG">
+	<meta property="og:description" content="getopt open close strerror read write fcntl lseek truncate stat lstat link unlink opendir closedir readdir dup dup2">
 	<meta property="og:locale" content="zh_cn">
-	<meta property="og:type" content="website">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="posts">
+		<meta property="article:published_time" content="2026-06-16T15:44:59+08:00">
+		<meta property="article:modified_time" content="2026-06-16T15:44:59+08:00">
 
 
 
 
-<link rel="canonical" href="http://uogog.github.io/posts/">
+<link rel="canonical" href="http://uogog.github.io/posts/linux_coding/">
 
 
 <link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
@@ -73,7 +93,6 @@
 <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
 
 
-<link rel="alternate" type="application/rss+xml" href="/posts/index.xml" title="UOG的BLOG" />
 
 
 
@@ -132,92 +151,77 @@
 
     <div class="content">
       
-  <section class="container list">
-    <header>
-      <h1 class="title">
-        <a class="title-link" href="http://uogog.github.io/posts/">
-          文章
-        </a>
-      </h1>
-    </header>
-    
-    <ul><li>
-  <span class="date">June 16, 2026</span>
-  <a class="title" href="/posts/linux_coding/"></a>
-</li>
-<li>
-  <span class="date">June 12, 2026</span>
-  <a class="title" href="/posts/gdb/">GDB 调试</a>
-</li>
-<li>
-  <span class="date">June 10, 2026</span>
-  <a class="title" href="/posts/k8s1/">Kubernetes 简单记录</a>
-</li>
-<li>
-  <span class="date">June 5, 2026</span>
-  <a class="title" href="/posts/docker_proxy/">docker_learn5_proxy</a>
-</li>
-<li>
-  <span class="date">May 30, 2026</span>
-  <a class="title" href="/posts/selinux_learn/">SELinux 学习</a>
-</li>
-<li>
-  <span class="date">May 27, 2026</span>
-  <a class="title" href="/posts/linux_kvm/">Linux_kvm</a>
-</li>
-<li>
-  <span class="date">May 22, 2026</span>
-  <a class="title" href="/posts/langchain1/">LangChain学习</a>
-</li>
-<li>
-  <span class="date">May 14, 2026</span>
-  <a class="title" href="/posts/systemd%E5%AD%A6%E4%B9%A0/">systemd学习</a>
-</li>
-<li>
-  <span class="date">April 24, 2026</span>
-  <a class="title" href="/posts/bash_re/">正则语法和bash通配符的记录</a>
-</li>
-<li>
-  <span class="date">April 4, 2026</span>
-  <a class="title" href="/posts/docker_compose/">docker_learn4_compose</a>
-</li>
-<li>
-  <span class="date">April 1, 2026</span>
-  <a class="title" href="/posts/summary-reading-1/">2024年的综述阅读总结</a>
-</li>
-<li>
-  <span class="date">April 1, 2026</span>
-  <a class="title" href="/posts/docket_net/">docker_learn3</a>
-</li>
-<li>
-  <span class="date">March 29, 2026</span>
-  <a class="title" href="/posts/docket_file/">docker_learn2</a>
-</li>
-<li>
-  <span class="date">March 26, 2026</span>
-  <a class="title" href="/posts/docker1/">docker_learn1</a>
-</li>
-<li>
-  <span class="date">March 14, 2026</span>
-  <a class="title" href="/posts/xv6_fs/">xv6-fs实验</a>
-</li>
-<li>
-  <span class="date">March 9, 2026</span>
-  <a class="title" href="/posts/anaconda_%E5%AE%89%E8%A3%85/">anaconda_安装</a>
-</li>
-<li>
-  <span class="date">February 28, 2026</span>
-  <a class="title" href="/posts/xv6_lock/">xv6_lock实验</a>
-</li>
-</ul>
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://uogog.github.io/posts/linux_coding/">
+              
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2026-06-16T15:44:59&#43;08:00">
+                June 16, 2026
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              阅读时间：1 分钟
+            </span>
+          </div>
+          
+          
+          
+        </div>
+      </header>
+
+      
+
+
+      <div class="post-content">
+        
+        <p>getopt
+open
+close
+strerror
+read
+write
+fcntl
+lseek
+truncate
+stat
+lstat
+link
+unlink
+opendir
+closedir
+readdir
+dup
+dup2</p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+        
+        
+      </footer>
+    </article>
 
     
-
-
-
-
-
-
   </section>
 
     </div>

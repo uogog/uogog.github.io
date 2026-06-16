@@ -10,9 +10,16 @@
 		
 		
 		
-			<lastBuildDate>Fri, 12 Jun 2026 14:05:24 +0800</lastBuildDate>
+			<lastBuildDate>Tue, 16 Jun 2026 15:44:59 +0800</lastBuildDate>
 		
 			<atom:link href="http://uogog.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title></title>
+				<link>http://uogog.github.io/posts/linux_coding/</link>
+				<pubDate>Tue, 16 Jun 2026 15:44:59 +0800</pubDate>
+				<guid>http://uogog.github.io/posts/linux_coding/</guid>
+				<description>&lt;p&gt;getopt&#xA;open&#xA;close&#xA;strerror&#xA;read&#xA;write&#xA;fcntl&#xA;lseek&#xA;truncate&#xA;stat&#xA;lstat&#xA;link&#xA;unlink&#xA;opendir&#xA;closedir&#xA;readdir&#xA;dup&#xA;dup2&lt;/p&gt;</description>
+			</item>
 			<item>
 				<title>GDB 调试</title>
 				<link>http://uogog.github.io/posts/gdb/</link>
