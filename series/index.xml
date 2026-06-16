@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 	<channel>
 		<title>Series on UOG的BLOG</title>
-		<link>http://uogog.github.io/series/</link>
+		<link>https://uogog.github.io/series/</link>
 		<description>Recent content in Series on UOG的BLOG</description>
 		<generator>Hugo</generator>
 		<language>zh-cn</language>
@@ -12,19 +12,19 @@
 		
 			<lastBuildDate>Fri, 05 Jun 2026 14:14:04 +0800</lastBuildDate>
 		
-			<atom:link href="http://uogog.github.io/series/index.xml" rel="self" type="application/rss+xml" />
+			<atom:link href="https://uogog.github.io/series/index.xml" rel="self" type="application/rss+xml" />
 			<item>
 				<title>Docker</title>
-				<link>http://uogog.github.io/series/docker/</link>
+				<link>https://uogog.github.io/series/docker/</link>
 				<pubDate>Fri, 05 Jun 2026 14:14:04 +0800</pubDate>
-				<guid>http://uogog.github.io/series/docker/</guid>
+				<guid>https://uogog.github.io/series/docker/</guid>
 				<description></description>
 			</item>
 			<item>
 				<title>Xv6</title>
-				<link>http://uogog.github.io/series/xv6/</link>
+				<link>https://uogog.github.io/series/xv6/</link>
 				<pubDate>Sat, 14 Mar 2026 01:33:23 +0800</pubDate>
-				<guid>http://uogog.github.io/series/xv6/</guid>
+				<guid>https://uogog.github.io/series/xv6/</guid>
 				<description></description>
 			</item>
 	</channel>

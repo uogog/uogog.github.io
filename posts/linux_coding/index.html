@@ -3,7 +3,7 @@
 
 <head>
   <title>
-   · UOG的BLOG
+  Linux 系统编程常用函数 · UOG的BLOG
 </title>
   <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,46 +13,34 @@
 
 
 <meta name="author" content="UOGOG">
-<meta name="description" content="getopt
-open
-close
-strerror
-read
-write
-fcntl
-lseek
-truncate
-stat
-lstat
-link
-unlink
-opendir
-closedir
-readdir
-dup
-dup2">
+<meta name="description" content="Linux C 系统调用与库函数的原型、用法和注意事项">
 <meta name="keywords" content="blog,developer,personal">
 
 
 
 	<meta name="twitter:card" content="summary">
-	<meta name="twitter:title" content="UOG的BLOG">
-	<meta name="twitter:description" content="getopt open close strerror read write fcntl lseek truncate stat lstat link unlink opendir closedir readdir dup dup2">
+	<meta name="twitter:title" content="Linux 系统编程常用函数">
+	<meta name="twitter:description" content="Linux C 系统调用与库函数的原型、用法和注意事项">
 
-<meta property="og:url" content="http://uogog.github.io/posts/linux_coding/">
+<meta property="og:url" content="https://uogog.github.io/posts/linux_coding/">
 	<meta property="og:site_name" content="UOG的BLOG">
-	<meta property="og:title" content="UOG的BLOG">
-	<meta property="og:description" content="getopt open close strerror read write fcntl lseek truncate stat lstat link unlink opendir closedir readdir dup dup2">
+	<meta property="og:title" content="Linux 系统编程常用函数">
+	<meta property="og:description" content="Linux C 系统调用与库函数的原型、用法和注意事项">
 	<meta property="og:locale" content="zh_cn">
 	<meta property="og:type" content="article">
 		<meta property="article:section" content="posts">
 		<meta property="article:published_time" content="2026-06-16T15:44:59+08:00">
 		<meta property="article:modified_time" content="2026-06-16T15:44:59+08:00">
+		<meta property="article:tag" content="Linux">
+		<meta property="article:tag" content="C">
+		<meta property="article:tag" content="系统调用">
+		<meta property="article:tag" content="文件io">
+		<meta property="article:tag" content="目录操作">
 
 
 
 
-<link rel="canonical" href="http://uogog.github.io/posts/linux_coding/">
+<link rel="canonical" href="https://uogog.github.io/posts/linux_coding/">
 
 
 <link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
@@ -121,7 +109,7 @@ dup2">
     <nav class="navigation">
   <section class="container">
     
-    <a class="navigation-title" href="http://uogog.github.io/">
+    <a class="navigation-title" href="https://uogog.github.io/">
       UOG的BLOG
     </a>
     
@@ -156,8 +144,8 @@ dup2">
       <header>
         <div class="post-title">
           <h1 class="title">
-            <a class="title-link" href="http://uogog.github.io/posts/linux_coding/">
-              
+            <a class="title-link" href="https://uogog.github.io/posts/linux_coding/">
+              Linux 系统编程常用函数
             </a>
           </h1>
         </div>
@@ -171,12 +159,39 @@ dup2">
             </span>
             <span class="reading-time">
               <i class="fa-solid fa-clock" aria-hidden="true"></i>
-              阅读时间：1 分钟
+              阅读时间：3 分钟
             </span>
           </div>
-          
-          
-          
+          <div class="authors">
+  <i class="fa-solid fa-user" aria-hidden="true"></i>
+    <a href="/authors/uogog/">Uogog</a></div>
+
+          <div class="categories">
+  <i class="fa-solid fa-folder" aria-hidden="true"></i>
+    <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></div>
+
+          <div class="tags">
+  <i class="fa-solid fa-tag" aria-hidden="true"></i>
+    <span class="tag">
+      <a href="/tags/linux/">Linux</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/tags/c/">C</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/tags/%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8/">系统调用</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/tags/%E6%96%87%E4%BB%B6io/">文件io</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/tags/%E7%9B%AE%E5%BD%95%E6%93%8D%E4%BD%9C/">目录操作</a>
+    </span></div>
+
         </div>
       </header>
 
@@ -185,24 +200,228 @@ dup2">
 
       <div class="post-content">
         
-        <p>getopt
-open
-close
-strerror
-read
-write
-fcntl
-lseek
-truncate
-stat
-lstat
-link
-unlink
-opendir
-closedir
-readdir
-dup
-dup2</p>
+        <h1 id="linux-c-常用函数速查">
+  Linux C 常用函数速查
+  <a class="heading-link" href="#linux-c-%e5%b8%b8%e7%94%a8%e5%87%bd%e6%95%b0%e9%80%9f%e6%9f%a5">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h1>
+<p>以下总结 Linux 环境下编程常用函数的原型、用法与注意事项。每个函数注明头文件。</p>
+<hr>
+<h2 id="遇到忘了的函数可以做以下操作">
+  遇到忘了的函数，可以做以下操作
+  <a class="heading-link" href="#%e9%81%87%e5%88%b0%e5%bf%98%e4%ba%86%e7%9a%84%e5%87%bd%e6%95%b0%e5%8f%af%e4%bb%a5%e5%81%9a%e4%bb%a5%e4%b8%8b%e6%93%8d%e4%bd%9c">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">#install man-pages</span>
+</span></span><span class="line"><span class="cl">man -k &lt;大概的名字&gt; <span class="c1"># 你如果连个大概名字也没印象，那最好上网搜搜了.</span>
+</span></span></code></pre></div><h2 id="getopt--解析命令行选项">
+  getopt — 解析命令行选项
+  <a class="heading-link" href="#getopt--%e8%a7%a3%e6%9e%90%e5%91%bd%e4%bb%a4%e8%a1%8c%e9%80%89%e9%a1%b9">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;unistd.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">getopt</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="k">const</span> <span class="n">argv</span><span class="p">[],</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">optstring</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">extern</span> <span class="kt">char</span> <span class="o">*</span><span class="n">optarg</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">extern</span> <span class="kt">int</span> <span class="n">optind</span><span class="p">,</span> <span class="n">opterr</span><span class="p">,</span> <span class="n">optopt</span><span class="p">;</span>
+</span></span></code></pre></div><p><strong>功能</strong>：解析 <code>-x</code> 短选项，支持带参数 <code>-x val</code>。循环调用直到返回 <code>-1</code>。</p>
+<p><strong>注意</strong>：每次调用修改 <code>optind</code>；解析完所有选项后 <code>optind</code> 指向第一个非选项参数的位置。多线程不安全。</p>
+<hr>
+<h2 id="open--打开创建文件">
+  open — 打开/创建文件
+  <a class="heading-link" href="#open--%e6%89%93%e5%bc%80%e5%88%9b%e5%bb%ba%e6%96%87%e4%bb%b6">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;sys/types.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;sys/stat.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;fcntl.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">open</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">pathname</span><span class="p">,</span> <span class="kt">int</span> <span class="n">flags</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">open</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">pathname</span><span class="p">,</span> <span class="kt">int</span> <span class="n">flags</span><span class="p">,</span> <span class="kt">mode_t</span> <span class="n">mode</span><span class="p">);</span>
+</span></span></code></pre></div><p><strong>功能</strong>：返回文件描述符，失败返回 <code>-1</code> 并设置 <code>errno</code>。</p>
+<p><strong>常用 flags</strong>：<code>O_RDONLY</code>, <code>O_WRONLY</code>, <code>O_RDWR</code>, <code>O_CREAT</code>, <code>O_TRUNC</code>, <code>O_APPEND</code>, <code>O_NONBLOCK</code>。</p>
+<p><strong>注意</strong>：<code>O_CREAT</code> 时必须给出第三个参数 <code>mode</code>（如 0644），否则权限不确定。<code>mode</code> 受 <code>umask</code> 影响。</p>
+<hr>
+<h2 id="close--关闭文件描述符">
+  close — 关闭文件描述符
+  <a class="heading-link" href="#close--%e5%85%b3%e9%97%ad%e6%96%87%e4%bb%b6%e6%8f%8f%e8%bf%b0%e7%ac%a6">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;unistd.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">close</span><span class="p">(</span><span class="kt">int</span> <span class="n">fd</span><span class="p">);</span>
+</span></span></code></pre></div><p><strong>功能</strong>：关闭 fd，释放内核资源。成功返回 0，失败返回 <code>-1</code>。</p>
+<p><strong>注意</strong>：一定要检查返回值——NFS 上的 close 可能失败（数据未刷盘）。多次 close 同一个 fd 是 bug。</p>
+<hr>
+<h2 id="strerror--错误码转字符串">
+  strerror — 错误码转字符串
+  <a class="heading-link" href="#strerror--%e9%94%99%e8%af%af%e7%a0%81%e8%bd%ac%e5%ad%97%e7%ac%a6%e4%b8%b2">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">char</span> <span class="o">*</span><span class="nf">strerror</span><span class="p">(</span><span class="kt">int</span> <span class="n">errnum</span><span class="p">);</span>
+</span></span></code></pre></div><p><strong>功能</strong>：将 <code>errno</code> 值转为可读的错误字符串。</p>
+<p><strong>注意</strong>：返回的指针是静态 buffer，<strong>非线程安全</strong>。多线程用 <code>strerror_r()</code>。不要修改返回的字符串。</p>
+<hr>
+<h2 id="read--读文件">
+  read — 读文件
+  <a class="heading-link" href="#read--%e8%af%bb%e6%96%87%e4%bb%b6">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;unistd.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">ssize_t</span> <span class="nf">read</span><span class="p">(</span><span class="kt">int</span> <span class="n">fd</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">buf</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">count</span><span class="p">);</span>
+</span></span></code></pre></div><p><strong>功能</strong>：从 fd 读最多 <code>count</code> 字节到 <code>buf</code>。返回实际读取字节数，0 表示 EOF，<code>-1</code> 出错。</p>
+<p><strong>注意</strong>：返回的字节数<strong>可以少于</strong>请求数（普通文件遇到 EOF、pipe/socket 部分数据到达、被信号中断）。必须循环读到期望的量。</p>
+<hr>
+<h2 id="write--写文件">
+  write — 写文件
+  <a class="heading-link" href="#write--%e5%86%99%e6%96%87%e4%bb%b6">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;unistd.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">ssize_t</span> <span class="nf">write</span><span class="p">(</span><span class="kt">int</span> <span class="n">fd</span><span class="p">,</span> <span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="n">buf</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">count</span><span class="p">);</span>
+</span></span></code></pre></div><p><strong>功能</strong>：向 fd 写最多 <code>count</code> 字节。返回实际写入字节数，<code>-1</code> 出错。</p>
+<p><strong>注意</strong>：和 read 一样，返回值可能少（磁盘满、信号中断）。写 pipe/socket 时可能写不满。同样需要循环写。</p>
+<hr>
+<h2 id="fcntl--文件描述符控制">
+  fcntl — 文件描述符控制
+  <a class="heading-link" href="#fcntl--%e6%96%87%e4%bb%b6%e6%8f%8f%e8%bf%b0%e7%ac%a6%e6%8e%a7%e5%88%b6">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;unistd.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;fcntl.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">fcntl</span><span class="p">(</span><span class="kt">int</span> <span class="n">fd</span><span class="p">,</span> <span class="kt">int</span> <span class="n">cmd</span><span class="p">,</span> <span class="p">...</span> <span class="cm">/* arg */</span><span class="p">);</span>
+</span></span></code></pre></div><p><strong>功能</strong>：对 fd 执行各种操作：</p>
+<ul>
+<li><code>F_GETFL</code> / <code>F_SETFL</code>：获取/设置文件状态标志（如设为 <code>O_NONBLOCK</code>）</li>
+<li><code>F_DUPFD</code>：复制 fd（比 dup 更精确）</li>
+<li><code>F_GETFD</code> / <code>F_SETFD</code>：获取/设置 fd 标志（目前只有 <code>FD_CLOEXEC</code>）</li>
+</ul>
+<p><strong>注意</strong>：设置 <code>O_NONBLOCK</code> 等标志时，必须先 <code>F_GETFL</code> 再 <strong>按位或</strong> 后再 <code>F_SETFL</code>，不能直接覆盖，否则其他标志丢失。</p>
+<hr>
+<h2 id="lseek--移动文件偏移">
+  lseek — 移动文件偏移
+  <a class="heading-link" href="#lseek--%e7%a7%bb%e5%8a%a8%e6%96%87%e4%bb%b6%e5%81%8f%e7%a7%bb">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;sys/types.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;unistd.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">off_t</span> <span class="nf">lseek</span><span class="p">(</span><span class="kt">int</span> <span class="n">fd</span><span class="p">,</span> <span class="kt">off_t</span> <span class="n">offset</span><span class="p">,</span> <span class="kt">int</span> <span class="n">whence</span><span class="p">);</span>
+</span></span></code></pre></div><p><strong>功能</strong>：修改 fd 的文件偏移量。<code>whence</code> 取值：</p>
+<ul>
+<li><code>SEEK_SET</code> — 从文件头偏移 <code>offset</code></li>
+<li><code>SEEK_CUR</code> — 从当前位置偏移</li>
+<li><code>SEEK_END</code> — 从文件末尾偏移</li>
+</ul>
+<p><strong>注意</strong>：对 pipe、socket、tty 调用 lseek 会失败（<code>ESPIPE</code>）。<code>lseek</code> 超过文件末尾再写入会产生&quot;空洞文件&quot;（hole，占元数据不占磁盘）。</p>
+<hr>
+<h2 id="truncate--ftruncate--截断文件">
+  truncate / ftruncate — 截断文件
+  <a class="heading-link" href="#truncate--ftruncate--%e6%88%aa%e6%96%ad%e6%96%87%e4%bb%b6">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;unistd.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;sys/types.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">truncate</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">path</span><span class="p">,</span> <span class="kt">off_t</span> <span class="n">length</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">ftruncate</span><span class="p">(</span><span class="kt">int</span> <span class="n">fd</span><span class="p">,</span> <span class="kt">off_t</span> <span class="n">length</span><span class="p">);</span>
+</span></span></code></pre></div><p><strong>功能</strong>：将文件截断到指定长度。超出的数据丢失。<code>truncate</code> 用路径，<code>ftruncate</code> 用 fd（需要打开为可写）。</p>
+<p><strong>注意</strong>：不可逆操作。如果 <code>length</code> 大于原文件，文件被扩展（扩展部分填 0，形成空洞）。</p>
+<hr>
+<h2 id="stat--lstat--fstat--获取文件信息">
+  stat / lstat / fstat — 获取文件信息
+  <a class="heading-link" href="#stat--lstat--fstat--%e8%8e%b7%e5%8f%96%e6%96%87%e4%bb%b6%e4%bf%a1%e6%81%af">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;sys/types.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;sys/stat.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;unistd.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">stat</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">pathname</span><span class="p">,</span> <span class="k">struct</span> <span class="n">stat</span> <span class="o">*</span><span class="n">statbuf</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">lstat</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">pathname</span><span class="p">,</span> <span class="k">struct</span> <span class="n">stat</span> <span class="o">*</span><span class="n">statbuf</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">fstat</span><span class="p">(</span><span class="kt">int</span> <span class="n">fd</span><span class="p">,</span> <span class="k">struct</span> <span class="n">stat</span> <span class="o">*</span><span class="n">statbuf</span><span class="p">);</span>
+</span></span></code></pre></div><p><strong>功能</strong>：获取文件元数据（大小、权限、inode、时间戳等）。</p>
+<p><strong><code>stat</code> vs <code>lstat</code></strong>：如果 path 是符号链接，<code>stat</code> 返回链接目标的信息，<code>lstat</code> 返回链接自身的信息。</p>
+<p><strong>注意</strong>：<code>struct stat</code> 中时间字段（<code>st_mtime</code> 等）有的是 <code>time_t</code>，用 <code>difftime()</code> 比较。</p>
+<hr>
+<h2 id="link--unlink--硬链接操作">
+  link / unlink — 硬链接操作
+  <a class="heading-link" href="#link--unlink--%e7%a1%ac%e9%93%be%e6%8e%a5%e6%93%8d%e4%bd%9c">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;unistd.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">link</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">oldpath</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">newpath</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">unlink</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">pathname</span><span class="p">);</span>
+</span></span></code></pre></div><p><strong>link</strong> — 为现有文件创建硬链接（同一 inode 的别名）。
+<strong>unlink</strong> — 删除目录项；当硬链接计数归零且无进程打开文件时，文件被真正删除。</p>
+<p><strong>注意</strong>：<code>unlink</code> 不能删目录（用 <code>rmdir</code>）。硬链接不能跨文件系统、不能链接目录（root 也不行）。<code>unlink</code> 不检查文件内容是否被占用，靠引用计数。</p>
+<hr>
+<h2 id="opendir--closedir--readdir--目录操作">
+  opendir / closedir / readdir — 目录操作
+  <a class="heading-link" href="#opendir--closedir--readdir--%e7%9b%ae%e5%bd%95%e6%93%8d%e4%bd%9c">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;sys/types.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;dirent.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">DIR</span> <span class="o">*</span><span class="nf">opendir</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">name</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">dirent</span> <span class="o">*</span><span class="nf">readdir</span><span class="p">(</span><span class="n">DIR</span> <span class="o">*</span><span class="n">dirp</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">closedir</span><span class="p">(</span><span class="n">DIR</span> <span class="o">*</span><span class="n">dirp</span><span class="p">);</span>
+</span></span></code></pre></div><p><strong>功能</strong>：打开目录、逐条读取目录项、关闭目录。<code>readdir</code> 返回 <code>NULL</code> 表示读完或出错（需检查 <code>errno</code> 区分）。</p>
+<p><strong>dirent 关键字段</strong>：<code>d_name</code>（文件名），<code>d_ino</code>（inode 号），<code>d_type</code>（文件类型，有些文件系统不支持）。</p>
+<p><strong>注意</strong>：<code>readdir</code> 返回的指针可能被下一次调用覆盖，<strong>不是线程安全的</strong>（用 <code>readdir_r</code> 替代，但该函数已过时，推荐在线程间各自打开目录）。目录读取顺序无保证。</p>
+<hr>
+<h2 id="dup--dup2--复制文件描述符">
+  dup / dup2 — 复制文件描述符
+  <a class="heading-link" href="#dup--dup2--%e5%a4%8d%e5%88%b6%e6%96%87%e4%bb%b6%e6%8f%8f%e8%bf%b0%e7%ac%a6">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;unistd.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">dup</span><span class="p">(</span><span class="kt">int</span> <span class="n">oldfd</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">dup2</span><span class="p">(</span><span class="kt">int</span> <span class="n">oldfd</span><span class="p">,</span> <span class="kt">int</span> <span class="n">newfd</span><span class="p">);</span>
+</span></span></code></pre></div><p><strong>功能</strong>：复制 fd。新 fd 与旧 fd 指向同一内核文件表项（共享文件偏移和状态标志）。</p>
+<p><strong>dup</strong> — 返回可用最小 fd。
+<strong>dup2</strong> — 指定新 fd 号码；若 <code>newfd</code> 已打开则先关闭它。若 <code>oldfd == newfd</code>，直接返回 <code>newfd</code>，不关闭。</p>
+<p><strong>注意</strong>：<code>dup2</code> 的 close + dup 是<strong>原子的</strong>（这很重要，避免竞态）。二者不共享 <code>FD_CLOEXEC</code> 标志。</p>
+<hr>
 
       </div>
 
