@@ -35,7 +35,8 @@
 		<meta property="article:tag" content="C">
 		<meta property="article:tag" content="系统调用">
 		<meta property="article:tag" content="文件io">
-		<meta property="article:tag" content="目录操作">
+		<meta property="article:tag" content="信号">
+		<meta property="article:tag" content="进程">
 
 
 
@@ -159,7 +160,7 @@
             </span>
             <span class="reading-time">
               <i class="fa-solid fa-clock" aria-hidden="true"></i>
-              阅读时间：3 分钟
+              阅读时间：9 分钟
             </span>
           </div>
           <div class="authors">
@@ -189,7 +190,19 @@
     </span>
       <span class="separator">•</span>
     <span class="tag">
-      <a href="/tags/%E7%9B%AE%E5%BD%95%E6%93%8D%E4%BD%9C/">目录操作</a>
+      <a href="/tags/%E4%BF%A1%E5%8F%B7/">信号</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/tags/%E8%BF%9B%E7%A8%8B/">进程</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/tags/%E7%BA%BF%E7%A8%8B/">线程</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/tags/ipc/">Ipc</a>
     </span></div>
 
         </div>
@@ -218,7 +231,15 @@
 </h2>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">#install man-pages</span>
 </span></span><span class="line"><span class="cl">man -k &lt;大概的名字&gt; <span class="c1"># 你如果连个大概名字也没印象，那最好上网搜搜了.</span>
-</span></span></code></pre></div><h2 id="getopt--解析命令行选项">
+</span></span></code></pre></div><hr>
+<h1 id="命令行选项">
+  命令行选项
+  <a class="heading-link" href="#%e5%91%bd%e4%bb%a4%e8%a1%8c%e9%80%89%e9%a1%b9">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h1>
+<h2 id="getopt--解析命令行选项">
   getopt — 解析命令行选项
   <a class="heading-link" href="#getopt--%e8%a7%a3%e6%9e%90%e5%91%bd%e4%bb%a4%e8%a1%8c%e9%80%89%e9%a1%b9">
     <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
@@ -234,6 +255,467 @@
 </span></span></code></pre></div><p><strong>功能</strong>：解析 <code>-x</code> 短选项，支持带参数 <code>-x val</code>。循环调用直到返回 <code>-1</code>。</p>
 <p><strong>注意</strong>：每次调用修改 <code>optind</code>；解析完所有选项后 <code>optind</code> 指向第一个非选项参数的位置。多线程不安全。</p>
 <hr>
+<h1 id="错误处理">
+  错误处理
+  <a class="heading-link" href="#%e9%94%99%e8%af%af%e5%a4%84%e7%90%86">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h1>
+<h2 id="strerror--错误码转字符串">
+  strerror — 错误码转字符串
+  <a class="heading-link" href="#strerror--%e9%94%99%e8%af%af%e7%a0%81%e8%bd%ac%e5%ad%97%e7%ac%a6%e4%b8%b2">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">char</span> <span class="o">*</span><span class="nf">strerror</span><span class="p">(</span><span class="kt">int</span> <span class="n">errnum</span><span class="p">);</span>
+</span></span></code></pre></div><p><strong>功能</strong>：将 <code>errno</code> 值转为可读的错误字符串。</p>
+<p><strong>注意</strong>：返回的指针是静态 buffer，<strong>非线程安全</strong>。多线程用 <code>strerror_r()</code>。不要修改返回的字符串。</p>
+<hr>
+<h1 id="进程管理">
+  进程管理
+  <a class="heading-link" href="#%e8%bf%9b%e7%a8%8b%e7%ae%a1%e7%90%86">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h1>
+<h2 id="fork--创建子进程">
+  fork — 创建子进程
+  <a class="heading-link" href="#fork--%e5%88%9b%e5%bb%ba%e5%ad%90%e8%bf%9b%e7%a8%8b">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;unistd.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">pid_t</span> <span class="nf">fork</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+</span></span></code></pre></div><p><strong>功能</strong>：创建子进程，子进程是父进程的<strong>写时复制</strong>副本。父进程中返回子进程 PID，子进程中返回 0，失败返回 -1。</p>
+<p><strong>注意</strong>：<code>fork</code> 后父子并发执行，调度顺序不确定。fd 默认共享（偏移量也共享）——注意 <code>FD_CLOEXEC</code>。<code>fork</code> 在大型进程中开销大（页表复制），高并发场景可考虑 <code>vfork</code> 或 <code>clone</code>。子进程只复制调用线程，其他线程不复制。</p>
+<h2 id="exec-系列--替换进程映像">
+  exec 系列 — 替换进程映像
+  <a class="heading-link" href="#exec-%e7%b3%bb%e5%88%97--%e6%9b%bf%e6%8d%a2%e8%bf%9b%e7%a8%8b%e6%98%a0%e5%83%8f">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;unistd.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">execl</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">path</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">arg</span><span class="p">,</span> <span class="p">...,</span> <span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="p">)</span> <span class="nb">NULL</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">execlp</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">file</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">arg</span><span class="p">,</span> <span class="p">...,</span> <span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="p">)</span> <span class="nb">NULL</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">execle</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">path</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">arg</span><span class="p">,</span> <span class="p">...,</span> <span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="p">)</span> <span class="nb">NULL</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="k">const</span> <span class="n">envp</span><span class="p">[]);</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">execv</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">path</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="k">const</span> <span class="n">argv</span><span class="p">[]);</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">execvp</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">file</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="k">const</span> <span class="n">argv</span><span class="p">[]);</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">execvpe</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">file</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="k">const</span> <span class="n">argv</span><span class="p">[],</span> <span class="kt">char</span> <span class="o">*</span><span class="k">const</span> <span class="n">envp</span><span class="p">[]);</span>
+</span></span></code></pre></div><p><strong>功能</strong>：用新程序替换当前进程。成功不返回，失败返回 -1。</p>
+<p><strong>命名规则</strong>：</p>
+<table>
+	<thead>
+			<tr>
+					<th>后缀</th>
+					<th>含义</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>l</code> (list)</td>
+					<td>参数以变参形式给出，<code>NULL</code> 结尾</td>
+			</tr>
+			<tr>
+					<td><code>v</code> (vector)</td>
+					<td>参数以 <code>char *argv[]</code> 数组给出</td>
+			</tr>
+			<tr>
+					<td><code>p</code> (path)</td>
+					<td>在 <code>PATH</code> 中搜索可执行文件（不包含 <code>/</code> 时）</td>
+			</tr>
+			<tr>
+					<td><code>e</code> (environment)</td>
+					<td>传递自定义环境变量数组，代替 <code>environ</code></td>
+			</tr>
+	</tbody>
+</table>
+<p><strong>注意</strong>：<code>exec</code> 后 <code>FD_CLOEXEC</code> 标记的 fd 会被关闭，其余的保留。<code>execlp</code> 和 <code>execvp</code> 如果 <code>file</code> 不含 <code>/</code>，会遍历 <code>PATH</code> 查找，找不到才失败。</p>
+<h2 id="wait--waitpid--等待子进程状态改变">
+  wait / waitpid — 等待子进程状态改变
+  <a class="heading-link" href="#wait--waitpid--%e7%ad%89%e5%be%85%e5%ad%90%e8%bf%9b%e7%a8%8b%e7%8a%b6%e6%80%81%e6%94%b9%e5%8f%98">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;sys/wait.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">pid_t</span> <span class="nf">wait</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">wstatus</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kt">pid_t</span> <span class="nf">waitpid</span><span class="p">(</span><span class="kt">pid_t</span> <span class="n">pid</span><span class="p">,</span> <span class="kt">int</span> <span class="o">*</span><span class="n">wstatus</span><span class="p">,</span> <span class="kt">int</span> <span class="n">options</span><span class="p">);</span>
+</span></span></code></pre></div><p><strong>功能</strong>：父进程等待子进程状态变化（终止、停止、恢复）。<code>wait</code> 等任意子进程，<code>waitpid</code> 可指定 pid。</p>
+<p><strong><code>waitpid</code> 的 pid 取值</strong>：</p>
+<table>
+	<thead>
+			<tr>
+					<th>值</th>
+					<th>含义</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>&lt; -1</code></td>
+					<td>等待进程组 ID 为 <code>-pid</code> 的任意子进程</td>
+			</tr>
+			<tr>
+					<td><code>-1</code></td>
+					<td>等待任意子进程（等同于 <code>wait</code>）</td>
+			</tr>
+			<tr>
+					<td><code>0</code></td>
+					<td>等待与本进程同进程组的任意子进程</td>
+			</tr>
+			<tr>
+					<td><code>&gt; 0</code></td>
+					<td>等待指定 PID 的子进程</td>
+			</tr>
+	</tbody>
+</table>
+<p><strong>常用 options</strong>：<code>WNOHANG</code>（非阻塞）、<code>WUNTRACED</code>（也返回已停止的子进程）、<code>WCONTINUED</code>（也返回被 <code>SIGCONT</code> 恢复的子进程）。</p>
+<p><strong>状态检查宏</strong>（传入 <code>wstatus</code>）：</p>
+<table>
+	<thead>
+			<tr>
+					<th>宏</th>
+					<th>含义</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>WIFEXITED(status)</code></td>
+					<td>正常退出 → 用 <code>WEXITSTATUS(status)</code> 取退出码</td>
+			</tr>
+			<tr>
+					<td><code>WIFSIGNALED(status)</code></td>
+					<td>被信号杀死 → 用 <code>WTERMSIG(status)</code> 取信号</td>
+			</tr>
+			<tr>
+					<td><code>WIFSTOPPED(status)</code></td>
+					<td>被信号暂停 → 用 <code>WSTOPSIG(status)</code> 取信号</td>
+			</tr>
+			<tr>
+					<td><code>WIFCONTINUED(status)</code></td>
+					<td>被 <code>SIGCONT</code> 恢复执行</td>
+			</tr>
+	</tbody>
+</table>
+<p><strong>注意</strong>：<strong>必须</strong> <code>wait()</code> 回收子进程，否则产生僵尸进程。<code>SIGCHLD</code> 默认忽略，子进程仍产生僵尸（除非显式设为 <code>SIG_IGN</code> 或 <code>SA_NOCLDWAIT</code>）。如果 <code>SIGCHLD</code> 设为 <code>SIG_IGN</code>，子进程自动回收不产生僵尸。</p>
+<hr>
+<h1 id="进程组会话与终端">
+  进程组、会话与终端
+  <a class="heading-link" href="#%e8%bf%9b%e7%a8%8b%e7%bb%84%e4%bc%9a%e8%af%9d%e4%b8%8e%e7%bb%88%e7%ab%af">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h1>
+<h2 id="进程组">
+  进程组
+  <a class="heading-link" href="#%e8%bf%9b%e7%a8%8b%e7%bb%84">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<ul>
+<li>一个或多个进程的集合，由 <code>setpgid()</code> 设置。<code>getpgid(pid)</code> / <code>getpgrp()</code> 获取。</li>
+<li>shell 为每条管道的各个进程建立进程组。前台进程组接收终端输入和信号（<code>Ctrl+C → SIGINT</code> 发往前台进程组全体）。</li>
+<li><code>kill(-pgid, sig)</code> 向整个进程组发信号（负号表示进程组）。</li>
+</ul>
+<h2 id="会话">
+  会话
+  <a class="heading-link" href="#%e4%bc%9a%e8%af%9d">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<ul>
+<li><code>setsid()</code> 创建新会话：调用进程成为 session leader 和新进程组的 leader，脱离控制终端。</li>
+<li><strong>daemon 启动的标准第一步</strong>：<code>fork</code> → 父进程退出 → 子进程 <code>setsid()</code>。</li>
+<li>一个会话最多一个控制终端。session leader 打开终端设备时终端成为控制终端。</li>
+</ul>
+<h2 id="子进程">
+  子进程
+  <a class="heading-link" href="#%e5%ad%90%e8%bf%9b%e7%a8%8b">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<ul>
+<li><code>fork</code> 后父子并发执行，调度顺序不保证。父子关系影响：
+<ul>
+<li>子进程退出 → <code>SIGCHLD</code> 发往父进程。</li>
+<li>父进程先退出 → 子进程被 <code>init</code>（PID 1）收养（<code>ppid</code> 变为 1）。</li>
+<li>父进程不 <code>wait</code> → 子进程变为僵尸（<code>ps</code> 显示 <code>Z</code> 状态），PCB 不释放。</li>
+</ul>
+</li>
+<li><strong>僵尸进程</strong>占 PCB 但不占内存/CPU，大量僵尸会耗尽 PID（因为内核需保留 exit_code 等信息）。解决：<code>wait()</code> 或 <code>SIGCHLD</code> 设为 <code>SIG_IGN</code>。</li>
+</ul>
+<hr>
+<h1 id="信号">
+  信号
+  <a class="heading-link" href="#%e4%bf%a1%e5%8f%b7">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h1>
+<h2 id="signal--注册信号处理函数已过时">
+  signal — 注册信号处理函数（已过时）
+  <a class="heading-link" href="#signal--%e6%b3%a8%e5%86%8c%e4%bf%a1%e5%8f%b7%e5%a4%84%e7%90%86%e5%87%bd%e6%95%b0%e5%b7%b2%e8%bf%87%e6%97%b6">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;signal.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">typedef</span> <span class="nf">void</span> <span class="p">(</span><span class="o">*</span><span class="kt">sighandler_t</span><span class="p">)(</span><span class="kt">int</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kt">sighandler_t</span> <span class="nf">signal</span><span class="p">(</span><span class="kt">int</span> <span class="n">signum</span><span class="p">,</span> <span class="kt">sighandler_t</span> <span class="n">handler</span><span class="p">);</span>
+</span></span></code></pre></div><p><strong>功能</strong>：为 <code>signum</code> 设置处理函数。<code>handler</code> 可以是 <code>SIG_IGN</code>（忽略）、<code>SIG_DFL</code>（默认）或自定义函数指针。</p>
+<p><strong>注意</strong>：<strong>不要用</strong> <code>signal()</code>，用 <code>sigaction()</code>。<code>signal</code> 在不同 UNIX 实现中行为不一致（SysV 一次性注册 vs BSD 持久注册）。Linux 上 <code>signal</code> 等同于 BSD 语义，但缺乏对信号屏蔽字的控制。</p>
+<h2 id="sigaction--可靠的信号处理">
+  sigaction — 可靠的信号处理
+  <a class="heading-link" href="#sigaction--%e5%8f%af%e9%9d%a0%e7%9a%84%e4%bf%a1%e5%8f%b7%e5%a4%84%e7%90%86">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;signal.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">sigaction</span><span class="p">(</span><span class="kt">int</span> <span class="n">signum</span><span class="p">,</span> <span class="k">const</span> <span class="k">struct</span> <span class="n">sigaction</span> <span class="o">*</span><span class="n">act</span><span class="p">,</span> <span class="k">struct</span> <span class="n">sigaction</span> <span class="o">*</span><span class="n">oldact</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">sigaction</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">sa_handler</span><span class="p">)(</span><span class="kt">int</span><span class="p">);</span>     <span class="c1">// SIG_DFL, SIG_IGN 或 handler
+</span></span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">sa_sigaction</span><span class="p">)(</span><span class="kt">int</span><span class="p">,</span> <span class="kt">siginfo_t</span> <span class="o">*</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="p">);</span>  <span class="c1">// sa_flags 含 SA_SIGINFO 时用
+</span></span></span><span class="line"><span class="cl">    <span class="kt">sigset_t</span> <span class="n">sa_mask</span><span class="p">;</span>            <span class="c1">// handler 执行期间额外屏蔽的信号集
+</span></span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">sa_flags</span><span class="p">;</span>                <span class="c1">// SA_RESTART, SA_NOCLDSTOP, SA_SIGINFO 等
+</span></span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">sa_restorer</span><span class="p">)(</span><span class="kt">void</span><span class="p">);</span>   <span class="c1">// 不用填
+</span></span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></div><p><strong>功能</strong>：精确控制信号处理行为，取代 <code>signal</code>。</p>
+<p><strong>关键 flags</strong>：</p>
+<table>
+	<thead>
+			<tr>
+					<th>flag</th>
+					<th>含义</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>SA_RESTART</code></td>
+					<td>被该信号中断的慢速系统调用自动重启</td>
+			</tr>
+			<tr>
+					<td><code>SA_SIGINFO</code></td>
+					<td>使用 <code>sa_sigaction</code>（三参数 handler，可获得发送者 PID、UID 等信息）</td>
+			</tr>
+			<tr>
+					<td><code>SA_NOCLDWAIT</code></td>
+					<td>子进程终止时不产生僵尸（等价于 <code>SIG_IGN</code> 对 <code>SIGCHLD</code> 的效果）</td>
+			</tr>
+			<tr>
+					<td><code>SA_NODEFER</code></td>
+					<td>handler 执行期间不自动屏蔽本信号（默认会屏蔽）</td>
+			</tr>
+	</tbody>
+</table>
+<p><strong>注意</strong>：<code>sa_mask</code> 在 handler 执行期间临时加入进程屏蔽字，handler 返回后自动还原。<code>SIGKILL</code> 和 <code>SIGSTOP</code> 不能自定义处理。</p>
+<h2 id="kill--发送信号">
+  kill — 发送信号
+  <a class="heading-link" href="#kill--%e5%8f%91%e9%80%81%e4%bf%a1%e5%8f%b7">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;signal.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">kill</span><span class="p">(</span><span class="kt">pid_t</span> <span class="n">pid</span><span class="p">,</span> <span class="kt">int</span> <span class="n">sig</span><span class="p">);</span>
+</span></span></code></pre></div><p><strong>功能</strong>：向进程发送信号。<code>pid</code> 语义和 <code>waitpid</code> 相同（<code>&gt;0</code> 指定进程，<code>0</code> 进程组广播，<code>-1</code> 所有进程，<code>&lt;-1</code> 指定进程组）。<code>sig=0</code> 时不发信号，只做权限检查（检测进程是否存在）。</p>
+<p><strong>注意</strong>：<code>kill</code> 不是&quot;杀死&quot;，只是发信号。<code>SIGTERM</code>/<code>SIGKILL</code> 才是终止信号。普通用户只能向自己的进程发信号。</p>
+<h2 id="alarm--定时发送-sigalrm">
+  alarm — 定时发送 SIGALRM
+  <a class="heading-link" href="#alarm--%e5%ae%9a%e6%97%b6%e5%8f%91%e9%80%81-sigalrm">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;unistd.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">unsigned</span> <span class="kt">int</span> <span class="nf">alarm</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">seconds</span><span class="p">);</span>
+</span></span></code></pre></div><p><strong>功能</strong>：<code>seconds</code> 秒后向本进程发 <code>SIGALRM</code>。重复调用会重置计时，返回上次剩余秒数。<code>alarm(0)</code> 取消定时。</p>
+<p><strong>注意</strong>：<strong>只能设一个定时器</strong>。<code>alarm</code> 和 <code>sleep</code>/<code>setitimer</code> 可能相互干扰——它们共享同一内核定时器。不能用于高精度需求（精度 1 秒）。</p>
+<h2 id="setitimer--更精确的间隔定时器">
+  setitimer — 更精确的间隔定时器
+  <a class="heading-link" href="#setitimer--%e6%9b%b4%e7%b2%be%e7%a1%ae%e7%9a%84%e9%97%b4%e9%9a%94%e5%ae%9a%e6%97%b6%e5%99%a8">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;sys/time.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">setitimer</span><span class="p">(</span><span class="kt">int</span> <span class="n">which</span><span class="p">,</span> <span class="k">const</span> <span class="k">struct</span> <span class="n">itimerval</span> <span class="o">*</span><span class="n">new_value</span><span class="p">,</span> <span class="k">struct</span> <span class="n">itimerval</span> <span class="o">*</span><span class="n">old_value</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">itimerval</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">timeval</span> <span class="n">it_interval</span><span class="p">;</span>  <span class="c1">// 周期触发间隔（0 表示单次触发）
+</span></span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">timeval</span> <span class="n">it_value</span><span class="p">;</span>     <span class="c1">// 首次触发时间
+</span></span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></div><p><strong>功能</strong>：比 <code>alarm</code> 更灵活的定时器，支持微秒精度和周期触发。</p>
+<p><strong><code>which</code> 取值</strong>：</p>
+<table>
+	<thead>
+			<tr>
+					<th>值</th>
+					<th>含义</th>
+					<th>触发信号</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>ITIMER_REAL</code></td>
+					<td>真实时间</td>
+					<td><code>SIGALRM</code></td>
+			</tr>
+			<tr>
+					<td><code>ITIMER_VIRTUAL</code></td>
+					<td>用户态 CPU 时间</td>
+					<td><code>SIGVTALRM</code></td>
+			</tr>
+			<tr>
+					<td><code>ITIMER_PROF</code></td>
+					<td>用户+内核态 CPU 时间</td>
+					<td><code>SIGPROF</code></td>
+			</tr>
+	</tbody>
+</table>
+<p><strong>注意</strong>：<code>ITIMER_VIRTUAL</code> 和 <code>ITIMER_PROF</code> 用于性能剖析（profiling）。<code>ITIMER_REAL</code> 和 <code>alarm</code> 共享 <code>SIGALRM</code>，同时只能用一个。微秒精度受系统时钟粒度限制（通常 4ms / 250Hz）。</p>
+<hr>
+<h1 id="慢速系统调用与信号">
+  慢速系统调用与信号
+  <a class="heading-link" href="#%e6%85%a2%e9%80%9f%e7%b3%bb%e7%bb%9f%e8%b0%83%e7%94%a8%e4%b8%8e%e4%bf%a1%e5%8f%b7">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h1>
+<p><strong>慢速系统调用</strong>指可能永久阻塞的调用：<code>read</code>（pipe/tty/网络）、<code>write</code>、<code>open</code>（FIFO）、<code>pause</code>、<code>wait</code>、<code>accept</code>、<code>connect</code> 等。</p>
+<p><strong>核心问题</strong>：慢速系统调用被信号中断后返回 <code>-1</code>，<code>errno = EINTR</code>。必须显式处理：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// 典型写法
+</span></span></span><span class="line"><span class="cl"><span class="k">do</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">n</span> <span class="o">=</span> <span class="nf">read</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="n">buf</span><span class="p">,</span> <span class="n">len</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">errno</span> <span class="o">==</span> <span class="n">EINTR</span><span class="p">);</span>
+</span></span></code></pre></div><p><strong>SA_RESTART</strong>：设置后，被信号中断的慢速系统调用由内核自动重启，handler 中不需要手写重试。但 <code>select</code>、<code>poll</code>、<code>sleep</code>、<code>connect</code> 即使设置了 <code>SA_RESTART</code> 也不会自动重启——这是 POSIX 规定。</p>
+<hr>
+<h1 id="线程">
+  线程
+  <a class="heading-link" href="#%e7%ba%bf%e7%a8%8b">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h1>
+<h2 id="线程概念">
+  线程概念
+  <a class="heading-link" href="#%e7%ba%bf%e7%a8%8b%e6%a6%82%e5%bf%b5">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<p>线程是进程中独立的执行流，同进程的线程共享地址空间、fd 表、信号处理设置、cwd 等。Linux 上线程由 <code>clone(CLONE_VM | CLONE_FS | CLONE_FILES | CLONE_SIGHAND | ...)</code> 实现，内核用 <code>task_struct</code> 表示每个线程，<code>tgid</code> 相同的 task 属于同一进程。</p>
+<blockquote>
+<p>线程间通信直接通过共享内存即可，无需 IPC。每个线程有独立的栈、<code>errno</code>、信号屏蔽字。</p>
+</blockquote>
+<h2 id="pthread_create--创建线程">
+  pthread_create — 创建线程
+  <a class="heading-link" href="#pthread_create--%e5%88%9b%e5%bb%ba%e7%ba%bf%e7%a8%8b">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;pthread.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">pthread_create</span><span class="p">(</span><span class="kt">pthread_t</span> <span class="o">*</span><span class="kr">thread</span><span class="p">,</span> <span class="k">const</span> <span class="kt">pthread_attr_t</span> <span class="o">*</span><span class="n">attr</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                   <span class="kt">void</span> <span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">start_routine</span><span class="p">)(</span><span class="kt">void</span> <span class="o">*</span><span class="p">),</span> <span class="kt">void</span> <span class="o">*</span><span class="n">arg</span><span class="p">);</span>
+</span></span></code></pre></div><p><strong>功能</strong>：创建新线程执行 <code>start_routine(arg)</code>。成功返回 0。</p>
+<p><strong>注意</strong>：编译必须加 <code>-pthread</code>（同时链接 libpthread 并定义 <code>_REENTRANT</code> 等宏）。新线程的调度顺序不保证。<code>attr</code> 传 <code>NULL</code> 用默认属性（joinable + 默认栈大小）。<code>start_routine</code> 通过 return 或 <code>pthread_exit</code> 返回值。</p>
+<h2 id="pthread_exit--线程退出">
+  pthread_exit — 线程退出
+  <a class="heading-link" href="#pthread_exit--%e7%ba%bf%e7%a8%8b%e9%80%80%e5%87%ba">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;pthread.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">pthread_exit</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">retval</span><span class="p">);</span>
+</span></span></code></pre></div><p><strong>功能</strong>：终止调用线程，<code>retval</code> 作为返回值传给 <code>pthread_join</code>。不会影响进程中的其他线程。</p>
+<p><strong>注意</strong>：线程函数直接 <code>return</code> 等价于 <code>pthread_exit(返回值)</code>。不要在线程函数中 <code>exit()</code>——那会终止整个进程。不要返回指向线程栈的指针（线程退出后栈被回收）。</p>
+<h2 id="pthread_join--等待线程终止并回收">
+  pthread_join — 等待线程终止并回收
+  <a class="heading-link" href="#pthread_join--%e7%ad%89%e5%be%85%e7%ba%bf%e7%a8%8b%e7%bb%88%e6%ad%a2%e5%b9%b6%e5%9b%9e%e6%94%b6">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;pthread.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">pthread_join</span><span class="p">(</span><span class="kt">pthread_t</span> <span class="kr">thread</span><span class="p">,</span> <span class="kt">void</span> <span class="o">**</span><span class="n">retval</span><span class="p">);</span>
+</span></span></code></pre></div><p><strong>功能</strong>：阻塞等待指定线程结束，获取其返回值。类似于进程的 <code>waitpid</code>。</p>
+<p><strong>注意</strong>：<strong>必须</strong> <code>join</code> 或 <code>detach</code> 每个线程，否则资源泄漏（类似僵尸进程）。线程必须是 joinable 的（默认），已 detach 的线程不能 join。多个线程不能 join 同一个线程。</p>
+<p>pthread_self
+pthread_detach
+pthread_cancel 取消点
+pthread_attr_init
+pthread_attr_setstate
+pthread_attr_destory</p>
+<p>pthread_mutex_t lock
+pthread_mutex_init
+pthread_mutex_lock
+pthread_mutex_unlock
+pthread_mutex_destory
+pthread_mutex_trylock</p>
+<p>pthread_rwlock_init
+pthread_rwlock_destroy
+pthread_rwlock_rdlock
+pthread_rwlock_wrlock
+pthread_rwlock_tryrdlock
+pthread_rwlock_trywrlock
+pthread_rwlock_unlock</p>
+<p>int pthread_cond_init(pthread_cond_t <em>cond,
+pthread_condattr_t</em>cond_attr);
+int pthread_cond_signal(pthread_cond_t <em>cond);
+int pthread_cond_broadcast(pthread_cond_t</em>cond);
+int pthread_cond_wait(pthread_cond_t <em>cond, pthread_mutex_t</em>mutex);
+int pthread_cond_timedwait(pthread_cond_t <em>cond, pthread_mutex_t</em>mutex,
+const struct timespec <em>abstime);
+int pthread_cond_destroy(pthread_cond_t</em>cond);ond_init</p>
+<p>sem_init
+sem_destroy
+sem_wait
+sem_post</p>
+<p>htonl
+htons
+ntohl
+ntohs</p>
+<p>inet_pton
+inet_ntop
+这俩用得不多</p>
+<p>sockaddr使用
+addr.sin_family = AF_INET
+addr.sin_port= htons(313)
+int dst
+inet_pton(AF_INET,&ldquo;192.168.1.1&rdquo;,(void*)&amp;dst)
+addr.sin_addr.s_addr=dst
+或者addr.sin_addr.s_addr = htonl(INADDR_ANY)//取出任意有效果的ip地址
+bind(fd,(strucjt sockaddr*)&amp;addr,size)</p>
+<hr>
+<h1 id="文件-io">
+  文件 I/O
+  <a class="heading-link" href="#%e6%96%87%e4%bb%b6-io">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h1>
 <h2 id="open--打开创建文件">
   open — 打开/创建文件
   <a class="heading-link" href="#open--%e6%89%93%e5%bc%80%e5%88%9b%e5%bb%ba%e6%96%87%e4%bb%b6">
@@ -250,7 +732,6 @@
 </span></span></code></pre></div><p><strong>功能</strong>：返回文件描述符，失败返回 <code>-1</code> 并设置 <code>errno</code>。</p>
 <p><strong>常用 flags</strong>：<code>O_RDONLY</code>, <code>O_WRONLY</code>, <code>O_RDWR</code>, <code>O_CREAT</code>, <code>O_TRUNC</code>, <code>O_APPEND</code>, <code>O_NONBLOCK</code>。</p>
 <p><strong>注意</strong>：<code>O_CREAT</code> 时必须给出第三个参数 <code>mode</code>（如 0644），否则权限不确定。<code>mode</code> 受 <code>umask</code> 影响。</p>
-<hr>
 <h2 id="close--关闭文件描述符">
   close — 关闭文件描述符
   <a class="heading-link" href="#close--%e5%85%b3%e9%97%ad%e6%96%87%e4%bb%b6%e6%8f%8f%e8%bf%b0%e7%ac%a6">
@@ -263,20 +744,6 @@
 </span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">close</span><span class="p">(</span><span class="kt">int</span> <span class="n">fd</span><span class="p">);</span>
 </span></span></code></pre></div><p><strong>功能</strong>：关闭 fd，释放内核资源。成功返回 0，失败返回 <code>-1</code>。</p>
 <p><strong>注意</strong>：一定要检查返回值——NFS 上的 close 可能失败（数据未刷盘）。多次 close 同一个 fd 是 bug。</p>
-<hr>
-<h2 id="strerror--错误码转字符串">
-  strerror — 错误码转字符串
-  <a class="heading-link" href="#strerror--%e9%94%99%e8%af%af%e7%a0%81%e8%bd%ac%e5%ad%97%e7%ac%a6%e4%b8%b2">
-    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
-    <span class="sr-only">链接到标题</span>
-  </a>
-</h2>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp">
-</span></span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kt">char</span> <span class="o">*</span><span class="nf">strerror</span><span class="p">(</span><span class="kt">int</span> <span class="n">errnum</span><span class="p">);</span>
-</span></span></code></pre></div><p><strong>功能</strong>：将 <code>errno</code> 值转为可读的错误字符串。</p>
-<p><strong>注意</strong>：返回的指针是静态 buffer，<strong>非线程安全</strong>。多线程用 <code>strerror_r()</code>。不要修改返回的字符串。</p>
-<hr>
 <h2 id="read--读文件">
   read — 读文件
   <a class="heading-link" href="#read--%e8%af%bb%e6%96%87%e4%bb%b6">
@@ -288,8 +755,7 @@
 </span></span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="kt">ssize_t</span> <span class="nf">read</span><span class="p">(</span><span class="kt">int</span> <span class="n">fd</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">buf</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">count</span><span class="p">);</span>
 </span></span></code></pre></div><p><strong>功能</strong>：从 fd 读最多 <code>count</code> 字节到 <code>buf</code>。返回实际读取字节数，0 表示 EOF，<code>-1</code> 出错。</p>
-<p><strong>注意</strong>：返回的字节数<strong>可以少于</strong>请求数（普通文件遇到 EOF、pipe/socket 部分数据到达、被信号中断）。必须循环读到期望的量。</p>
-<hr>
+<p><strong>注意</strong>：返回的字节数<strong>可以少于</strong>请求数（普通文件遇到 EOF、pipe/socket 部分数据到达、被信号中断）。必须循环读到期望的量。被信号中断时 <code>errno = EINTR</code>，见&quot;慢速系统调用与信号&quot;节。</p>
 <h2 id="write--写文件">
   write — 写文件
   <a class="heading-link" href="#write--%e5%86%99%e6%96%87%e4%bb%b6">
@@ -302,26 +768,6 @@
 </span></span><span class="line"><span class="cl"><span class="kt">ssize_t</span> <span class="nf">write</span><span class="p">(</span><span class="kt">int</span> <span class="n">fd</span><span class="p">,</span> <span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="n">buf</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">count</span><span class="p">);</span>
 </span></span></code></pre></div><p><strong>功能</strong>：向 fd 写最多 <code>count</code> 字节。返回实际写入字节数，<code>-1</code> 出错。</p>
 <p><strong>注意</strong>：和 read 一样，返回值可能少（磁盘满、信号中断）。写 pipe/socket 时可能写不满。同样需要循环写。</p>
-<hr>
-<h2 id="fcntl--文件描述符控制">
-  fcntl — 文件描述符控制
-  <a class="heading-link" href="#fcntl--%e6%96%87%e4%bb%b6%e6%8f%8f%e8%bf%b0%e7%ac%a6%e6%8e%a7%e5%88%b6">
-    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
-    <span class="sr-only">链接到标题</span>
-  </a>
-</h2>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;unistd.h&gt;</span><span class="cp">
-</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;fcntl.h&gt;</span><span class="cp">
-</span></span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">fcntl</span><span class="p">(</span><span class="kt">int</span> <span class="n">fd</span><span class="p">,</span> <span class="kt">int</span> <span class="n">cmd</span><span class="p">,</span> <span class="p">...</span> <span class="cm">/* arg */</span><span class="p">);</span>
-</span></span></code></pre></div><p><strong>功能</strong>：对 fd 执行各种操作：</p>
-<ul>
-<li><code>F_GETFL</code> / <code>F_SETFL</code>：获取/设置文件状态标志（如设为 <code>O_NONBLOCK</code>）</li>
-<li><code>F_DUPFD</code>：复制 fd（比 dup 更精确）</li>
-<li><code>F_GETFD</code> / <code>F_SETFD</code>：获取/设置 fd 标志（目前只有 <code>FD_CLOEXEC</code>）</li>
-</ul>
-<p><strong>注意</strong>：设置 <code>O_NONBLOCK</code> 等标志时，必须先 <code>F_GETFL</code> 再 <strong>按位或</strong> 后再 <code>F_SETFL</code>，不能直接覆盖，否则其他标志丢失。</p>
-<hr>
 <h2 id="lseek--移动文件偏移">
   lseek — 移动文件偏移
   <a class="heading-link" href="#lseek--%e7%a7%bb%e5%8a%a8%e6%96%87%e4%bb%b6%e5%81%8f%e7%a7%bb">
@@ -340,7 +786,6 @@
 <li><code>SEEK_END</code> — 从文件末尾偏移</li>
 </ul>
 <p><strong>注意</strong>：对 pipe、socket、tty 调用 lseek 会失败（<code>ESPIPE</code>）。<code>lseek</code> 超过文件末尾再写入会产生&quot;空洞文件&quot;（hole，占元数据不占磁盘）。</p>
-<hr>
 <h2 id="truncate--ftruncate--截断文件">
   truncate / ftruncate — 截断文件
   <a class="heading-link" href="#truncate--ftruncate--%e6%88%aa%e6%96%ad%e6%96%87%e4%bb%b6">
@@ -356,6 +801,54 @@
 </span></span></code></pre></div><p><strong>功能</strong>：将文件截断到指定长度。超出的数据丢失。<code>truncate</code> 用路径，<code>ftruncate</code> 用 fd（需要打开为可写）。</p>
 <p><strong>注意</strong>：不可逆操作。如果 <code>length</code> 大于原文件，文件被扩展（扩展部分填 0，形成空洞）。</p>
 <hr>
+<h1 id="文件描述符控制">
+  文件描述符控制
+  <a class="heading-link" href="#%e6%96%87%e4%bb%b6%e6%8f%8f%e8%bf%b0%e7%ac%a6%e6%8e%a7%e5%88%b6">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h1>
+<h2 id="fcntl--文件描述符控制">
+  fcntl — 文件描述符控制
+  <a class="heading-link" href="#fcntl--%e6%96%87%e4%bb%b6%e6%8f%8f%e8%bf%b0%e7%ac%a6%e6%8e%a7%e5%88%b6">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;unistd.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;fcntl.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">fcntl</span><span class="p">(</span><span class="kt">int</span> <span class="n">fd</span><span class="p">,</span> <span class="kt">int</span> <span class="n">cmd</span><span class="p">,</span> <span class="p">...</span> <span class="cm">/* arg */</span><span class="p">);</span>
+</span></span></code></pre></div><p><strong>功能</strong>：对 fd 执行各种操作：</p>
+<ul>
+<li><code>F_GETFL</code> / <code>F_SETFL</code>：获取/设置文件状态标志（如设为 <code>O_NONBLOCK</code>）</li>
+<li><code>F_DUPFD</code>：复制 fd（比 dup 更精确）</li>
+<li><code>F_GETFD</code> / <code>F_SETFD</code>：获取/设置 fd 标志（目前只有 <code>FD_CLOEXEC</code>）</li>
+</ul>
+<p><strong>注意</strong>：设置 <code>O_NONBLOCK</code> 等标志时，必须先 <code>F_GETFL</code> 再 <strong>按位或</strong> 后再 <code>F_SETFL</code>，不能直接覆盖，否则其他标志丢失。</p>
+<h2 id="dup--dup2--复制文件描述符">
+  dup / dup2 — 复制文件描述符
+  <a class="heading-link" href="#dup--dup2--%e5%a4%8d%e5%88%b6%e6%96%87%e4%bb%b6%e6%8f%8f%e8%bf%b0%e7%ac%a6">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;unistd.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">dup</span><span class="p">(</span><span class="kt">int</span> <span class="n">oldfd</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">dup2</span><span class="p">(</span><span class="kt">int</span> <span class="n">oldfd</span><span class="p">,</span> <span class="kt">int</span> <span class="n">newfd</span><span class="p">);</span>
+</span></span></code></pre></div><p><strong>功能</strong>：复制 fd。新 fd 与旧 fd 指向同一内核文件表项（共享文件偏移和状态标志）。</p>
+<p><strong>dup</strong> — 返回可用最小 fd。
+<strong>dup2</strong> — 指定新 fd 号码；若 <code>newfd</code> 已打开则先关闭它。若 <code>oldfd == newfd</code>，直接返回 <code>newfd</code>，不关闭。</p>
+<p><strong>注意</strong>：<code>dup2</code> 的 close + dup 是<strong>原子的</strong>（这很重要，避免竞态）。二者不共享 <code>FD_CLOEXEC</code> 标志。常用于 <code>fork+exec</code> 前实现 I/O 重定向：<code>dup2(fd, STDOUT_FILENO)</code>。</p>
+<hr>
+<h1 id="文件元数据">
+  文件元数据
+  <a class="heading-link" href="#%e6%96%87%e4%bb%b6%e5%85%83%e6%95%b0%e6%8d%ae">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h1>
 <h2 id="stat--lstat--fstat--获取文件信息">
   stat / lstat / fstat — 获取文件信息
   <a class="heading-link" href="#stat--lstat--fstat--%e8%8e%b7%e5%8f%96%e6%96%87%e4%bb%b6%e4%bf%a1%e6%81%af">
@@ -373,7 +866,6 @@
 </span></span></code></pre></div><p><strong>功能</strong>：获取文件元数据（大小、权限、inode、时间戳等）。</p>
 <p><strong><code>stat</code> vs <code>lstat</code></strong>：如果 path 是符号链接，<code>stat</code> 返回链接目标的信息，<code>lstat</code> 返回链接自身的信息。</p>
 <p><strong>注意</strong>：<code>struct stat</code> 中时间字段（<code>st_mtime</code> 等）有的是 <code>time_t</code>，用 <code>difftime()</code> 比较。</p>
-<hr>
 <h2 id="link--unlink--硬链接操作">
   link / unlink — 硬链接操作
   <a class="heading-link" href="#link--unlink--%e7%a1%ac%e9%93%be%e6%8e%a5%e6%93%8d%e4%bd%9c">
@@ -389,6 +881,13 @@
 <strong>unlink</strong> — 删除目录项；当硬链接计数归零且无进程打开文件时，文件被真正删除。</p>
 <p><strong>注意</strong>：<code>unlink</code> 不能删目录（用 <code>rmdir</code>）。硬链接不能跨文件系统、不能链接目录（root 也不行）。<code>unlink</code> 不检查文件内容是否被占用，靠引用计数。</p>
 <hr>
+<h1 id="目录操作">
+  目录操作
+  <a class="heading-link" href="#%e7%9b%ae%e5%bd%95%e6%93%8d%e4%bd%9c">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h1>
 <h2 id="opendir--closedir--readdir--目录操作">
   opendir / closedir / readdir — 目录操作
   <a class="heading-link" href="#opendir--closedir--readdir--%e7%9b%ae%e5%bd%95%e6%93%8d%e4%bd%9c">
@@ -404,25 +903,461 @@
 </span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">closedir</span><span class="p">(</span><span class="n">DIR</span> <span class="o">*</span><span class="n">dirp</span><span class="p">);</span>
 </span></span></code></pre></div><p><strong>功能</strong>：打开目录、逐条读取目录项、关闭目录。<code>readdir</code> 返回 <code>NULL</code> 表示读完或出错（需检查 <code>errno</code> 区分）。</p>
 <p><strong>dirent 关键字段</strong>：<code>d_name</code>（文件名），<code>d_ino</code>（inode 号），<code>d_type</code>（文件类型，有些文件系统不支持）。</p>
-<p><strong>注意</strong>：<code>readdir</code> 返回的指针可能被下一次调用覆盖，<strong>不是线程安全的</strong>（用 <code>readdir_r</code> 替代，但该函数已过时，推荐在线程间各自打开目录）。目录读取顺序无保证。</p>
+<p><strong>注意</strong>：<code>readdir</code> 返回的指针可能被下一次调用覆盖，<strong>不是线程安全的</strong>。目录读取顺序无保证。</p>
 <hr>
-<h2 id="dup--dup2--复制文件描述符">
-  dup / dup2 — 复制文件描述符
-  <a class="heading-link" href="#dup--dup2--%e5%a4%8d%e5%88%b6%e6%96%87%e4%bb%b6%e6%8f%8f%e8%bf%b0%e7%ac%a6">
+<h1 id="进程间通信-ipc">
+  进程间通信 (IPC)
+  <a class="heading-link" href="#%e8%bf%9b%e7%a8%8b%e9%97%b4%e9%80%9a%e4%bf%a1-ipc">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h1>
+<h2 id="pipe--创建匿名管道">
+  pipe — 创建匿名管道
+  <a class="heading-link" href="#pipe--%e5%88%9b%e5%bb%ba%e5%8c%bf%e5%90%8d%e7%ae%a1%e9%81%93">
     <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
     <span class="sr-only">链接到标题</span>
   </a>
 </h2>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;unistd.h&gt;</span><span class="cp">
 </span></span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">dup</span><span class="p">(</span><span class="kt">int</span> <span class="n">oldfd</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">dup2</span><span class="p">(</span><span class="kt">int</span> <span class="n">oldfd</span><span class="p">,</span> <span class="kt">int</span> <span class="n">newfd</span><span class="p">);</span>
-</span></span></code></pre></div><p><strong>功能</strong>：复制 fd。新 fd 与旧 fd 指向同一内核文件表项（共享文件偏移和状态标志）。</p>
-<p><strong>dup</strong> — 返回可用最小 fd。
-<strong>dup2</strong> — 指定新 fd 号码；若 <code>newfd</code> 已打开则先关闭它。若 <code>oldfd == newfd</code>，直接返回 <code>newfd</code>，不关闭。</p>
-<p><strong>注意</strong>：<code>dup2</code> 的 close + dup 是<strong>原子的</strong>（这很重要，避免竞态）。二者不共享 <code>FD_CLOEXEC</code> 标志。</p>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">pipe</span><span class="p">(</span><span class="kt">int</span> <span class="n">pipefd</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span>
+</span></span></code></pre></div><p><strong>功能</strong>：创建单向数据通道。<code>pipefd[0]</code> 读端，<code>pipefd[1]</code> 写端。成功返回 0。</p>
+<p><strong>注意</strong>：只能用于父子/兄弟进程（通过 <code>fork</code> 继承 fd）。读空 pipe 会阻塞到有数据或写端全部关闭。写满 pipe（通常 64KB）会阻塞。所有写端关闭后，<code>read</code> 返回 0（EOF）。所有读端关闭后，<code>write</code> 触发 <code>SIGPIPE</code>（默认动作是终止进程）。</p>
+<h2 id="mkfifo--创建命名管道-fifo">
+  mkfifo — 创建命名管道 (FIFO)
+  <a class="heading-link" href="#mkfifo--%e5%88%9b%e5%bb%ba%e5%91%bd%e5%90%8d%e7%ae%a1%e9%81%93-fifo">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;sys/types.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;sys/stat.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">mkfifo</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">pathname</span><span class="p">,</span> <span class="kt">mode_t</span> <span class="n">mode</span><span class="p">);</span>
+</span></span></code></pre></div><p><strong>功能</strong>：创建有文件名的管道，任意进程可通过路径打开，不限于父子关系。<code>mode</code> 受 <code>umask</code> 限制。</p>
+<p><strong>注意</strong>：<code>open</code> FIFO 时，以 <code>O_RDONLY</code> 打开会阻塞直到有进程以写打开（反之亦然）。<code>O_NONBLOCK</code> 可避免阻塞。FIFO 数据不落盘——文件只是命名入口，内核中的缓冲区才存数据。</p>
 <hr>
-
+<h1 id="内存映射">
+  内存映射
+  <a class="heading-link" href="#%e5%86%85%e5%ad%98%e6%98%a0%e5%b0%84">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h1>
+<h2 id="mmap--映射文件或匿名内存">
+  mmap — 映射文件或匿名内存
+  <a class="heading-link" href="#mmap--%e6%98%a0%e5%b0%84%e6%96%87%e4%bb%b6%e6%88%96%e5%8c%bf%e5%90%8d%e5%86%85%e5%ad%98">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;sys/mman.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="o">*</span><span class="nf">mmap</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">addr</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">length</span><span class="p">,</span> <span class="kt">int</span> <span class="n">prot</span><span class="p">,</span> <span class="kt">int</span> <span class="n">flags</span><span class="p">,</span> <span class="kt">int</span> <span class="n">fd</span><span class="p">,</span> <span class="kt">off_t</span> <span class="n">offset</span><span class="p">);</span>
+</span></span></code></pre></div><p><strong>功能</strong>：将文件内容或匿名内存映射到进程地址空间，返回映射区起始地址，失败返回 <code>MAP_FAILED</code>。</p>
+<p><strong>prot 取值</strong>：<code>PROT_READ | PROT_WRITE | PROT_EXEC | PROT_NONE</code>（组合使用）。</p>
+<p><strong>flags</strong>：</p>
+<table>
+	<thead>
+			<tr>
+					<th>flag</th>
+					<th>含义</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>MAP_SHARED</code></td>
+					<td>修改写回文件，其他映射同一文件的进程可见</td>
+			</tr>
+			<tr>
+					<td><code>MAP_PRIVATE</code></td>
+					<td>COW——修改不写回文件，不影响其他进程</td>
+			</tr>
+			<tr>
+					<td><code>MAP_ANONYMOUS</code></td>
+					<td>不关联文件（fd 传 -1），类似 <code>malloc</code> 大块内存</td>
+			</tr>
+	</tbody>
+</table>
+<p><strong>注意</strong>：<code>offset</code> 必须是页大小（<code>sysconf(_SC_PAGE_SIZE)</code> 即 4096）的整数倍。映射超过文件大小的区域在访问时收到 <code>SIGBUS</code>。<code>mmap</code> 比 <code>read/write</code> 少一次内核拷贝，大文件随机访问更高效。<code>munmap</code> 或进程结束时映射自动解除。</p>
+<hr>
+<h1 id="pcb进程控制块-task_struct-中与编程相关的重要成员">
+  PCB（进程控制块）— <code>task_struct</code> 中与编程相关的重要成员
+  <a class="heading-link" href="#pcb%e8%bf%9b%e7%a8%8b%e6%8e%a7%e5%88%b6%e5%9d%97-task_struct-%e4%b8%ad%e4%b8%8e%e7%bc%96%e7%a8%8b%e7%9b%b8%e5%85%b3%e7%9a%84%e9%87%8d%e8%a6%81%e6%88%90%e5%91%98">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h1>
+<p>Linux 内核中，每个进程由一个 <code>task_struct</code> 结构体表示（定义在 <code>&lt;linux/sched.h&gt;</code>），即 PCB。内核调度、内存管理、信号处理等都依赖其中的字段。以下列出与系统编程关系最密切的成员：</p>
+<h2 id="进程标识">
+  进程标识
+  <a class="heading-link" href="#%e8%bf%9b%e7%a8%8b%e6%a0%87%e8%af%86">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<table>
+	<thead>
+			<tr>
+					<th>成员</th>
+					<th>含义</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>pid_t pid</code></td>
+					<td>进程 ID（用户态 <code>gettid()</code> 返回值，每个线程唯一）</td>
+			</tr>
+			<tr>
+					<td><code>pid_t tgid</code></td>
+					<td>线程组 ID；主线程的 <code>tgid == pid</code>（用户态 <code>getpid()</code> 实际返回 <code>tgid</code>）</td>
+			</tr>
+			<tr>
+					<td><code>pid_t ppid</code></td>
+					<td>父进程 ID（<code>getppid()</code>）</td>
+			</tr>
+	</tbody>
+</table>
+<blockquote>
+<p><strong>注意</strong>：<code>fork</code> 后子进程 <code>tgid == pid</code>。<code>getpid()</code> 返回 <code>tgid</code>，<code>gettid()</code> 返回内核 <code>pid</code>，二者在线程场景下不同。</p>
+</blockquote>
+<h2 id="进程状态">
+  进程状态
+  <a class="heading-link" href="#%e8%bf%9b%e7%a8%8b%e7%8a%b6%e6%80%81">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<table>
+	<thead>
+			<tr>
+					<th>成员</th>
+					<th>含义</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>volatile long state</code></td>
+					<td>进程当前状态：<code>TASK_RUNNING</code>（0 — 运行中或就绪）、<code>TASK_INTERRUPTIBLE</code>（可中断睡眠）、<code>TASK_UNINTERRUPTIBLE</code>（不可中断睡眠，即 D 状态）、<code>TASK_STOPPED</code>、<code>TASK_TRACED</code>、<code>EXIT_ZOMBIE</code>（僵尸）、<code>EXIT_DEAD</code></td>
+			</tr>
+			<tr>
+					<td><code>int exit_state</code></td>
+					<td>退出状态（僵尸 / 已死亡）</td>
+			</tr>
+			<tr>
+					<td><code>int exit_code</code></td>
+					<td>退出码（<code>WEXITSTATUS</code> 的来源）</td>
+			</tr>
+			<tr>
+					<td><code>int exit_signal</code></td>
+					<td>退出时发给父进程的信号（通常 <code>SIGCHLD</code>）</td>
+			</tr>
+	</tbody>
+</table>
+<blockquote>
+<p><strong>编程要点</strong>：<code>ps</code> 看到的 <code>D</code> 状态就是 <code>TASK_UNINTERRUPTIBLE</code>，通常进程卡在内核 IO 上。僵尸进程对应 <code>EXIT_ZOMBIE</code>——进程已结束但父进程未 <code>wait()</code>，PCB 未被回收。</p>
+</blockquote>
+<h2 id="调度相关">
+  调度相关
+  <a class="heading-link" href="#%e8%b0%83%e5%ba%a6%e7%9b%b8%e5%85%b3">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<table>
+	<thead>
+			<tr>
+					<th>成员</th>
+					<th>含义</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>int prio</code> / <code>int static_prio</code> / <code>int normal_prio</code></td>
+					<td>动态优先级 / 静态优先级（<code>nice</code> 值映射，100-139）/ 归一化优先级</td>
+			</tr>
+			<tr>
+					<td><code>unsigned int rt_priority</code></td>
+					<td>实时优先级（<code>SCHED_FIFO</code> / <code>SCHED_RR</code> 策略用，1-99）</td>
+			</tr>
+			<tr>
+					<td><code>unsigned int policy</code></td>
+					<td>调度策略：<code>SCHED_NORMAL</code>（CFS）、<code>SCHED_FIFO</code>、<code>SCHED_RR</code>、<code>SCHED_BATCH</code>、<code>SCHED_IDLE</code>、<code>SCHED_DEADLINE</code></td>
+			</tr>
+			<tr>
+					<td><code>struct sched_entity se</code></td>
+					<td>CFS 调度实体（包含 <code>vruntime</code>——虚拟运行时间，CFS 用红黑树选 <code>vruntime</code> 最小的进程）</td>
+			</tr>
+			<tr>
+					<td><code>cpumask_t cpus_allowed</code></td>
+					<td>进程允许运行的 CPU 集合（<code>taskset</code> / <code>sched_setaffinity</code> 控制）</td>
+			</tr>
+	</tbody>
+</table>
+<blockquote>
+<p><strong>编程要点</strong>：用户态 <code>nice()</code> / <code>setpriority()</code> 修改 <code>static_prio</code>；<code>sched_setscheduler()</code> 修改 <code>policy</code> 和 <code>rt_priority</code>。<code>/proc/[pid]/sched</code> 可以查看调度信息。</p>
+</blockquote>
+<h2 id="文件与-io">
+  文件与 IO
+  <a class="heading-link" href="#%e6%96%87%e4%bb%b6%e4%b8%8e-io">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<table>
+	<thead>
+			<tr>
+					<th>成员</th>
+					<th>含义</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>struct fs_struct *fs</code></td>
+					<td>文件系统信息：<code>umask</code>、根目录（<code>/proc/[pid]/root</code>）、当前工作目录（<code>cwd</code>）</td>
+			</tr>
+			<tr>
+					<td><code>struct files_struct *files</code></td>
+					<td>打开文件表（<code>fdtable</code> 数组）；每个 fd 对应一个 <code>struct file</code> 指针</td>
+			</tr>
+			<tr>
+					<td><code>struct nsproxy *nsproxy</code></td>
+					<td>命名空间代理（mnt、uts、ipc、pid、net、cgroup、time 命名空间）</td>
+			</tr>
+	</tbody>
+</table>
+<blockquote>
+<p><strong>编程要点</strong>：<code>fork</code> 后父子共享 <code>files_struct</code>（引用计数 +1），所以 fd 在父子间共享偏移量——除非设置了 <code>FD_CLOEXEC</code>（<code>exec</code> 时关闭）。<code>clone(CLONE_FILES)</code> 决定是否共享文件表。</p>
+</blockquote>
+<h2 id="内存管理">
+  内存管理
+  <a class="heading-link" href="#%e5%86%85%e5%ad%98%e7%ae%a1%e7%90%86">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<table>
+	<thead>
+			<tr>
+					<th>成员</th>
+					<th>含义</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>struct mm_struct *mm</code></td>
+					<td>进程地址空间描述符（代码段、数据段、堆、栈、mmap 区域等）</td>
+			</tr>
+			<tr>
+					<td><code>struct mm_struct *active_mm</code></td>
+					<td>当前实际使用的 <code>mm</code>；内核线程没有自己的 <code>mm</code>，借用前一个进程的 <code>active_mm</code></td>
+			</tr>
+	</tbody>
+</table>
+<blockquote>
+<p><strong>编程要点</strong>：<code>mm-&gt;mmap</code> 是 VMA（<code>vm_area_struct</code>）链表的头，<code>/proc/[pid]/maps</code> 的内容就来自它。<code>mm-&gt;arg_start</code> / <code>arg_end</code> 指向命令行参数；<code>mm-&gt;env_start</code> / <code>env_end</code> 指向环境变量。线程可通过 <code>clone(CLONE_VM)</code> 共享 <code>mm_struct</code>。</p>
+</blockquote>
+<h2 id="信号处理">
+  信号处理
+  <a class="heading-link" href="#%e4%bf%a1%e5%8f%b7%e5%a4%84%e7%90%86">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<table>
+	<thead>
+			<tr>
+					<th>成员</th>
+					<th>含义</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>struct signal_struct *signal</code></td>
+					<td>信号描述符（线程组共享）：挂起信号集、资源限制（<code>rlim</code> 数组）等</td>
+			</tr>
+			<tr>
+					<td><code>struct sighand_struct *sighand</code></td>
+					<td>信号处理函数表（<code>struct k_sigaction</code> 数组，每个信号一个 handler），引用计数</td>
+			</tr>
+			<tr>
+					<td><code>sigset_t blocked</code></td>
+					<td>当前阻塞（屏蔽）的信号集</td>
+			</tr>
+			<tr>
+					<td><code>sigset_t pending</code></td>
+					<td>本线程私有的挂起信号</td>
+			</tr>
+	</tbody>
+</table>
+<blockquote>
+<p><strong>编程要点</strong>：<code>signal-&gt;rlim</code> 是 <code>struct rlimit</code> 数组，用户态 <code>getrlimit</code>/<code>setrlimit</code> 修改的就是它（如 <code>RLIMIT_NOFILE</code>、<code>RLIMIT_STACK</code>）。信号 handler 通过 <code>sighand</code> 设置，<code>/proc/[pid]/status</code> 中 <code>SigCgt</code>/<code>SigBlk</code>/<code>SigIgn</code> 来自这些字段。</p>
+</blockquote>
+<h2 id="时间与统计">
+  时间与统计
+  <a class="heading-link" href="#%e6%97%b6%e9%97%b4%e4%b8%8e%e7%bb%9f%e8%ae%a1">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<table>
+	<thead>
+			<tr>
+					<th>成员</th>
+					<th>含义</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>u64 utime</code> / <code>u64 stime</code></td>
+					<td>用户态 CPU 时间 / 内核态 CPU 时间（<code>times()</code> 和 <code>/proc/[pid]/stat</code> 的来源）</td>
+			</tr>
+			<tr>
+					<td><code>u64 start_time</code></td>
+					<td>进程启动时间（<code>/proc/[pid]/stat</code> 第 22 列的 boot-based 时间戳）</td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="进程关系">
+  进程关系
+  <a class="heading-link" href="#%e8%bf%9b%e7%a8%8b%e5%85%b3%e7%b3%bb">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<table>
+	<thead>
+			<tr>
+					<th>成员</th>
+					<th>含义</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>struct task_struct __rcu *real_parent</code></td>
+					<td>真实父进程（<code>fork</code> 的那一个）</td>
+			</tr>
+			<tr>
+					<td><code>struct task_struct __rcu *parent</code></td>
+					<td>当前父进程（收到 <code>SIGCHLD</code> 的那个，<code>ptrace</code> 附加时会改变）</td>
+			</tr>
+			<tr>
+					<td><code>struct list_head children</code></td>
+					<td>子进程链表</td>
+			</tr>
+			<tr>
+					<td><code>struct list_head sibling</code></td>
+					<td>兄弟进程链表（同一父进程的子进程链表节点）</td>
+			</tr>
+	</tbody>
+</table>
+<blockquote>
+<p><strong>编程要点</strong>：<code>real_parent != parent</code> 最常见的情形是进程被调试器 <code>ptrace</code> 附加——调试器成为 <code>parent</code>。</p>
+</blockquote>
+<h2 id="其他杂项">
+  其他杂项
+  <a class="heading-link" href="#%e5%85%b6%e4%bb%96%e6%9d%82%e9%a1%b9">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<table>
+	<thead>
+			<tr>
+					<th>成员</th>
+					<th>含义</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>struct tty_struct *tty</code></td>
+					<td>控制终端（<code>/proc/[pid]/stat</code> 第 7 字段的来源）</td>
+			</tr>
+			<tr>
+					<td><code>kuid_t loginuid</code></td>
+					<td>审计用的登录 UID</td>
+			</tr>
+			<tr>
+					<td><code>int link_count</code></td>
+					<td>硬链接计数（防止 task_struct 被过早释放）</td>
+			</tr>
+			<tr>
+					<td><code>struct task_struct *group_leader</code></td>
+					<td>线程组 leader 指针</td>
+			</tr>
+			<tr>
+					<td><code>struct cred *cred</code></td>
+					<td>进程凭证：<code>uid</code>、<code>gid</code>、<code>euid</code>、<code>egid</code>、<code>suid</code>、<code>sgid</code>、<code>fsuid</code>、<code>fsgid</code>、<code>cap_effective</code> 等</td>
+			</tr>
+			<tr>
+					<td><code>char comm[TASK_COMM_LEN]</code></td>
+					<td>进程名（最多 15 字符，<code>prctl(PR_SET_NAME)</code> / <code>/proc/[pid]/comm</code>）</td>
+			</tr>
+			<tr>
+					<td><code>unsigned long nvcsw</code> / <code>nivcsw</code></td>
+					<td>自愿/非自愿上下文切换计数（<code>/proc/[pid]/status</code> 中可见）</td>
+			</tr>
+			<tr>
+					<td><code>struct rlimit rlim[RLIM_NLIMITS]</code></td>
+					<td>进程资源限制（<code>getrlimit</code>/<code>setrlimit</code> 操作的对象）</td>
+			</tr>
+	</tbody>
+</table>
+<blockquote>
+<p><strong>编程要点</strong>：<code>cred</code> 结构中 <code>uid</code>/<code>euid</code>/<code>suid</code> 是 <code>setuid</code> 机制的核心——<code>fork</code> 继承、<code>exec</code> 视 SUID 位变化。<code>rlim</code> 中 <code>RLIMIT_NOFILE</code> 即 <code>ulimit -n</code>，<code>RLIMIT_CORE</code> 控制 core dump 大小。</p>
+</blockquote>
+<h2 id="会话与进程组">
+  会话与进程组
+  <a class="heading-link" href="#%e4%bc%9a%e8%af%9d%e4%b8%8e%e8%bf%9b%e7%a8%8b%e7%bb%84">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<table>
+	<thead>
+			<tr>
+					<th>成员</th>
+					<th>含义</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>pid_t pgrp</code></td>
+					<td>进程组 ID（<code>getpgrp()</code>）</td>
+			</tr>
+			<tr>
+					<td><code>pid_t session</code></td>
+					<td>会话 ID（<code>getsid()</code>）</td>
+			</tr>
+	</tbody>
+</table>
+<blockquote>
+<p><strong>编程要点</strong>：<code>setsid()</code> 创建新会话并成为 session leader（脱离控制终端的关键一步）。shell 的作业控制依赖进程组——<code>Ctrl+C</code> 发给前台进程组的所有进程，<code>kill(-pgid, sig)</code> 发给整个进程组。</p>
+</blockquote>
+<hr>
+<p><strong>总结</strong>：从用户态编程角度看，<code>task_struct</code> 中我们直接/间接打交道的字段就是 <strong>PID 系列</strong>（fork/exec/wait 的基石）、<strong><code>files</code></strong>（每个 fd 追到这里）、<strong><code>mm</code></strong>（<code>mmap</code>、<code>brk</code>、地址空间的真相）、<strong>信号三件套</strong>（blocked/pending/sighand）、<strong>调度字段</strong>（<code>nice</code>/<code>sched_setscheduler</code> 的真实作用点）。理解这些字段，<code>/proc</code> 下的大部分文件、<code>ps</code>/<code>top</code>/<code>strace</code> 输出背后的含义便一目了然。</p>
+<hr>
+<h1 id="常见头文件总汇">
+  常见头文件总汇
+  <a class="heading-link" href="#%e5%b8%b8%e8%a7%81%e5%a4%b4%e6%96%87%e4%bb%b6%e6%80%bb%e6%b1%87">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h1>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;unistd.h&gt;      // read, write, close, lseek, dup, dup2, truncate, ftruncate,</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">                          <span class="c1">// link, unlink, getopt, fork, exec, pipe, alarm, sleep
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;sys/wait.h&gt;    // wait, waitpid</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;fcntl.h&gt;       // open, fcntl (O_*, F_* 宏)</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;sys/types.h&gt;   // off_t, ssize_t, mode_t</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;sys/stat.h&gt;    // stat, lstat, fstat, mkfifo, struct stat, mode 宏</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;dirent.h&gt;      // opendir, readdir, closedir, struct dirent</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;signal.h&gt;      // signal, sigaction, kill, sigprocmask, sigemptyset</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;sys/time.h&gt;    // setitimer, struct itimerval</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;sys/mman.h&gt;    // mmap, munmap, mprotect</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;pthread.h&gt;     // pthread_create, pthread_exit, pthread_join</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;string.h&gt;      // strerror</span><span class="cp">
+</span></span></span></code></pre></div>
       </div>
 
 
