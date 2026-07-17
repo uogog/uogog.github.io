@@ -160,7 +160,7 @@
             </span>
             <span class="reading-time">
               <i class="fa-solid fa-clock" aria-hidden="true"></i>
-              阅读时间：15 分钟
+              阅读时间：18 分钟
             </span>
           </div>
           <div class="authors">
@@ -232,6 +232,115 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">#install man-pages</span>
 </span></span><span class="line"><span class="cl">man -k &lt;大概的名字&gt; <span class="c1"># 你如果连个大概名字也没印象，那最好上网搜搜了.</span>
 </span></span></code></pre></div><hr>
+<h1 id="容易犯的错误">
+  容易犯的错误
+  <a class="heading-link" href="#%e5%ae%b9%e6%98%93%e7%8a%af%e7%9a%84%e9%94%99%e8%af%af">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h1>
+<p>这些是我（和我见过的很多人）反复踩坑的点，放在最前面提醒自己。</p>
+<h2 id="malloc-后忘记-free跨函数">
+  malloc 后忘记 free（跨函数）
+  <a class="heading-link" href="#malloc-%e5%90%8e%e5%bf%98%e8%ae%b0-free%e8%b7%a8%e5%87%bd%e6%95%b0">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// bad — 函数内分配，调用方忘记释放
+</span></span></span><span class="line"><span class="cl"><span class="kt">char</span> <span class="o">*</span><span class="nf">make_message</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">name</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">char</span> <span class="o">*</span><span class="n">buf</span> <span class="o">=</span> <span class="nf">malloc</span><span class="p">(</span><span class="mi">256</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">snprintf</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="s">&#34;hello, %s&#34;</span><span class="p">,</span> <span class="n">name</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">buf</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// ... 100 行之后，调用方直接用完就丢了，泄漏。
+</span></span></span></code></pre></div><p><strong>痛点</strong>：分配和释放不在同一个函数里，写的时候想着&quot;回头再 free&quot;，回头就忘了。代码一长，谁分配谁释放就理不清。</p>
+<p><strong>解决习惯</strong>：</p>
+<ol>
+<li><strong>名字上约定</strong>: <code>new_xxx()</code> / <code>create_xxx()</code> 表示返回需调用方释放的指针；<code>dup_xxx()</code> 同理。</li>
+<li><strong>就地配对</strong>: 能在一个函数内 <code>malloc</code> 和 <code>free</code> 就不要跨函数。</li>
+<li><strong>goto cleanup 模式</strong>: 单函数内多分配场景，统一跳到 <code>cleanup:</code> 标签释放，避免每个 <code>return</code> 前漏掉一个。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">do_stuff</span><span class="p">(</span><span class="kt">int</span> <span class="n">fd</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">char</span> <span class="o">*</span><span class="n">buf</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span>   <span class="n">ret</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">buf</span> <span class="o">=</span> <span class="nf">malloc</span><span class="p">(</span><span class="mi">4096</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">buf</span><span class="p">)</span> <span class="k">goto</span> <span class="n">cleanup</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">ret</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>  <span class="c1">// success
+</span></span></span><span class="line"><span class="cl"><span class="nl">cleanup</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">free</span><span class="p">(</span><span class="n">buf</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><ol start="4">
+<li><strong>用工具查</strong>: <code>valgrind --leak-check=full ./a.out</code>，养成跑完程序随手 valgrind 的习惯。</li>
+</ol>
+<h2 id="read-返回值不检查或检查不完整">
+  <code>read()</code> 返回值不检查或检查不完整
+  <a class="heading-link" href="#read-%e8%bf%94%e5%9b%9e%e5%80%bc%e4%b8%8d%e6%a3%80%e6%9f%a5%e6%88%96%e6%a3%80%e6%9f%a5%e4%b8%8d%e5%ae%8c%e6%95%b4">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// bad 1 — 完全不检查
+</span></span></span><span class="line"><span class="cl"><span class="nf">read</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="n">buf</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">buf</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// bad 2 — 只判断 == -1，忽略 0 和短读
+</span></span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="nf">read</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="n">buf</span><span class="p">,</span> <span class="mi">1024</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span> <span class="nf">perror</span><span class="p">(</span><span class="s">&#34;read&#34;</span><span class="p">);</span> <span class="k">return</span><span class="p">;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// ← n == 0 或 n &lt; 1024 时静默通过，丢掉数据
+</span></span></span></code></pre></div><p><strong><code>read()</code> 三种返回值必须全部处理</strong>：</p>
+<table>
+	<thead>
+			<tr>
+					<th>返回值</th>
+					<th>含义</th>
+					<th>不能忽略</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>&gt; 0</code></td>
+					<td>读到 n 字节，<strong>可能小于请求量</strong>（短读）</td>
+					<td>必须循环读到预期长度或 EOF</td>
+			</tr>
+			<tr>
+					<td><code>== 0</code></td>
+					<td>对端关闭 / 文件结尾</td>
+					<td>必须关闭 fd 或退出循环</td>
+			</tr>
+			<tr>
+					<td><code>== -1</code></td>
+					<td>出错，<code>errno</code> 有具体原因</td>
+					<td><code>EINTR</code> 可重试，其他需处理</td>
+			</tr>
+	</tbody>
+</table>
+<p><strong>正确写法 — 循环读满指定长度</strong>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">ssize_t</span> <span class="nf">read_full</span><span class="p">(</span><span class="kt">int</span> <span class="n">fd</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">buf</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">count</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">size_t</span>  <span class="n">left</span> <span class="o">=</span> <span class="n">count</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="n">left</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">ssize_t</span> <span class="n">n</span> <span class="o">=</span> <span class="nf">read</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="n">buf</span><span class="p">,</span> <span class="n">left</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">errno</span> <span class="o">==</span> <span class="n">EINTR</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span>  <span class="c1">// 被信号打断，重试
+</span></span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>                      <span class="c1">// 真错
+</span></span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span>                  <span class="c1">// EOF，不可继续
+</span></span></span><span class="line"><span class="cl">        <span class="n">left</span> <span class="o">-=</span> <span class="n">n</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">buf</span>  <span class="o">+=</span> <span class="n">n</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">count</span> <span class="o">-</span> <span class="n">left</span><span class="p">;</span>  <span class="c1">// 实际读到的字节数
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><blockquote>
+<p><strong>核心原则</strong>：<code>read()</code> 返回多少就读到多少，不要假设一次循环就拿到预期长度。<code>write()</code> 同理——返回 <code>n &lt; count</code> 时需偏移继续写。</p>
+</blockquote>
+<p><strong>额外提醒</strong>：</p>
+<ul>
+<li>网络编程中 <code>recv()</code> / <code>send()</code> 也有同样问题，别只判断 -1。</li>
+<li><code>EAGAIN/EWOULDBLOCK</code>（非阻塞模式下暂无数据）不算错误，可 <code>continue</code> 或用 epoll/poll 等下次就绪。</li>
+</ul>
+<hr>
 <h1 id="命令行选项">
   命令行选项
   <a class="heading-link" href="#%e5%91%bd%e4%bb%a4%e8%a1%8c%e9%80%89%e9%a1%b9">
@@ -1164,6 +1273,242 @@
 <li><code>select</code> 会<strong>修改</strong>传入的 <code>fd_set</code>——每次调用前必须用 <code>FD_ZERO</code>/<code>FD_SET</code> 重新设置。</li>
 <li>被信号中断返回 -1 且 <code>errno = EINTR</code>（即使 <code>SA_RESTART</code> 也不会自动重启 <code>select</code>）。</li>
 </ul>
+<h2 id="poll--io-多路复用">
+  poll — I/O 多路复用
+  <a class="heading-link" href="#poll--io-%e5%a4%9a%e8%b7%af%e5%a4%8d%e7%94%a8">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;poll.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">poll</span><span class="p">(</span><span class="k">struct</span> <span class="n">pollfd</span> <span class="o">*</span><span class="n">fds</span><span class="p">,</span> <span class="kt">nfds_t</span> <span class="n">nfds</span><span class="p">,</span> <span class="kt">int</span> <span class="n">timeout</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">pollfd</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span>   <span class="n">fd</span><span class="p">;</span>      <span class="cm">/* 监控的文件描述符，-1 表示忽略该项 */</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">short</span> <span class="n">events</span><span class="p">;</span>  <span class="cm">/* 请求监控的事件（输入） */</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">short</span> <span class="n">revents</span><span class="p">;</span> <span class="cm">/* 实际发生的事件（输出） */</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></div><p><strong>功能</strong>：同时监控多个 fd 的就绪状态。<code>fds</code> 为 pollfd 数组，<code>nfds</code> 为数组长度，<code>timeout</code> 为超时毫秒数（-1 表示永远等待，0 表示立即返回）。返回就绪 fd 总数，0 超时，-1 出错。</p>
+<p><strong>常用事件</strong>：</p>
+<table>
+	<thead>
+			<tr>
+					<th>宏</th>
+					<th>含义</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>POLLIN</code></td>
+					<td>数据可读</td>
+			</tr>
+			<tr>
+					<td><code>POLLOUT</code></td>
+					<td>数据可写</td>
+			</tr>
+			<tr>
+					<td><code>POLLERR</code></td>
+					<td>发生错误（<code>revents</code> 中自动设置，无需 <code>events</code> 指定）</td>
+			</tr>
+			<tr>
+					<td><code>POLLHUP</code></td>
+					<td>对端挂断</td>
+			</tr>
+			<tr>
+					<td><code>POLLRDHUP</code></td>
+					<td>对端关闭写（半关闭），需 <code>_GNU_SOURCE</code></td>
+			</tr>
+			<tr>
+					<td><code>POLLNVAL</code></td>
+					<td>fd 未打开</td>
+			</tr>
+	</tbody>
+</table>
+<p><strong><code>events</code> 常用组合</strong>：<code>POLLIN | POLLOUT</code> 同时监控读写。</p>
+<p><strong>注意</strong>：</p>
+<ul>
+<li>调用后检查 <code>revents</code> 判断具体事件，<strong>不需要</strong>每次重建事件集（与 <code>select</code> 不同，<code>poll</code> 不修改 <code>events</code>）。</li>
+<li><code>timeout</code> 单位是毫秒，与 <code>select</code> 的 <code>struct timeval</code>（微秒）不同。<code>timeout = -1</code> 会永久阻塞。</li>
+<li><code>fd = -1</code> 的数组项会被内核忽略，可用于稀疏管理。</li>
+<li>被信号中断返回 -1 且 <code>errno = EINTR</code>（<code>SA_RESTART</code> 不会自动重启 <code>poll</code>）。</li>
+</ul>
+<hr>
+<h2 id="epoll--io-多路复用">
+  epoll — I/O 多路复用
+  <a class="heading-link" href="#epoll--io-%e5%a4%9a%e8%b7%af%e5%a4%8d%e7%94%a8">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;sys/epoll.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">epoll_create</span><span class="p">(</span><span class="kt">int</span> <span class="n">size</span><span class="p">);</span>                <span class="c1">// 已过时，保留 size 仅兼容
+</span></span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">epoll_create1</span><span class="p">(</span><span class="kt">int</span> <span class="n">flags</span><span class="p">);</span>              <span class="c1">// 推荐：flags 支持 EPOLL_CLOEXEC
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">epoll_ctl</span><span class="p">(</span><span class="kt">int</span> <span class="n">epfd</span><span class="p">,</span> <span class="kt">int</span> <span class="n">op</span><span class="p">,</span> <span class="kt">int</span> <span class="n">fd</span><span class="p">,</span> <span class="k">struct</span> <span class="n">epoll_event</span> <span class="o">*</span><span class="n">event</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">epoll_wait</span><span class="p">(</span><span class="kt">int</span> <span class="n">epfd</span><span class="p">,</span> <span class="k">struct</span> <span class="n">epoll_event</span> <span class="o">*</span><span class="n">events</span><span class="p">,</span> <span class="kt">int</span> <span class="n">maxevents</span><span class="p">,</span> <span class="kt">int</span> <span class="n">timeout</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">typedef</span> <span class="k">union</span> <span class="n">epoll_data</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span>    <span class="o">*</span><span class="n">ptr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span>      <span class="n">fd</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint32_t</span> <span class="n">u32</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint64_t</span> <span class="n">u64</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="kt">epoll_data_t</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">epoll_event</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint32_t</span>     <span class="n">events</span><span class="p">;</span>   <span class="cm">/* 事件类型 */</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">epoll_data_t</span> <span class="n">data</span><span class="p">;</span>     <span class="cm">/* 用户数据（常存放 fd 或指针） */</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></div><p><strong>功能</strong>：Linux 独有的高性能 I/O 多路复用。核心思想：将 fd 的&quot;注册&quot;和&quot;等待&quot;分离——<code>epoll_ctl</code> 一次性注册，<code>epoll_wait</code> 只返回就绪事件，无需每次扫描全部 fd。</p>
+<p><strong>epoll_ctl 操作</strong>：</p>
+<table>
+	<thead>
+			<tr>
+					<th>操作</th>
+					<th>含义</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>EPOLL_CTL_ADD</code></td>
+					<td>注册新 fd 到 epoll 实例</td>
+			</tr>
+			<tr>
+					<td><code>EPOLL_CTL_MOD</code></td>
+					<td>修改已注册 fd 的事件类型</td>
+			</tr>
+			<tr>
+					<td><code>EPOLL_CTL_DEL</code></td>
+					<td>从 epoll 实例删除 fd</td>
+			</tr>
+	</tbody>
+</table>
+<p><strong>常用事件</strong>：</p>
+<table>
+	<thead>
+			<tr>
+					<th>宏</th>
+					<th>含义</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>EPOLLIN</code></td>
+					<td>数据可读</td>
+			</tr>
+			<tr>
+					<td><code>EPOLLOUT</code></td>
+					<td>数据可写</td>
+			</tr>
+			<tr>
+					<td><code>EPOLLERR</code></td>
+					<td>错误（自动触发，无需 events 中指定）</td>
+			</tr>
+			<tr>
+					<td><code>EPOLLHUP</code></td>
+					<td>对端挂断（自动触发）</td>
+			</tr>
+			<tr>
+					<td><code>EPOLLRDHUP</code></td>
+					<td>对端关闭写（半关闭），需 <code>_GNU_SOURCE</code></td>
+			</tr>
+			<tr>
+					<td><code>EPOLLET</code></td>
+					<td><strong>边缘触发</strong>（默认是水平触发 LT）</td>
+			</tr>
+			<tr>
+					<td><code>EPOLLONESHOT</code></td>
+					<td>事件触发一次后自动禁用，需 <code>EPOLL_CTL_MOD</code> 重新启用</td>
+			</tr>
+	</tbody>
+</table>
+<p><strong>注意</strong>：</p>
+<ul>
+<li><strong>水平触发 (LT，默认)</strong>：只要缓冲区有数据就反复通知，与 <code>poll</code>/<code>select</code> 行为一致，编程简单。</li>
+<li><strong>边缘触发 (ET)</strong>：仅在状态变化时通知一次。必须用非阻塞 fd，每次循环 <code>read</code>/<code>write</code> 直到返回 <code>EAGAIN</code>，否则可能饿死后续事件。ET 模式可减少系统调用次数，适合高并发。</li>
+<li><code>EPOLLONESHOT</code> 场景：多线程下，一个事件被某线程处理后，其他线程不可能再触发该 fd 的同一事件，避免竞态。处理后需 <code>EPOLL_CTL_MOD</code> 重新注册。</li>
+<li><code>epoll_create1(0)</code> 等价于旧版 <code>epoll_create(0)</code>；建议用 <code>epoll_create1(EPOLL_CLOEXEC)</code> 防止 <code>exec</code> 后 fd 泄露。</li>
+<li><code>epoll_wait</code> 的 <code>timeout</code> 单位是毫秒（与 <code>poll</code> 一致，与 <code>select</code> 不同），-1 永久阻塞。</li>
+<li><code>epoll_wait</code> 返回的 <code>events</code> 数组已填好就绪事件，用户只需遍历 <code>[0, n)</code> 即可——仅遍历<strong>就绪</strong>项，不是全部注册项。</li>
+<li>关闭 fd 时，epoll 会自动将该 fd 从内核事件表中移除，无需手动 <code>EPOLL_CTL_DEL</code>。</li>
+<li><strong>管道/套接字对端关闭与 EPOLLHUP/EPOLLRDHUP</strong>：对端 <code>close</code> 或 <code>shutdown</code> 时，epoll 会将 <code>EPOLLHUP</code>（完全关闭）或 <code>EPOLLRDHUP</code>（半关闭）与 <code>EPOLLIN</code> 同时报告。若同时监听了 <code>EPOLLOUT</code>，也可能触发可写。推荐始终关注 <code>EPOLLRDHUP</code> 以精确识别半关闭。</li>
+</ul>
+<hr>
+<h2 id="select--poll--epoll-对比">
+  select / poll / epoll 对比
+  <a class="heading-link" href="#select--poll--epoll-%e5%af%b9%e6%af%94">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<table>
+	<thead>
+			<tr>
+					<th>特性</th>
+					<th>select</th>
+					<th>poll</th>
+					<th>epoll</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>最大 fd 值</td>
+					<td>&lt; 1024（位图限制）</td>
+					<td>无限制（int 范围）</td>
+					<td>无限制</td>
+			</tr>
+			<tr>
+					<td>最大监听数</td>
+					<td>1024</td>
+					<td><code>ulimit -n</code></td>
+					<td><code>max_user_watches</code>（百万级）</td>
+			</tr>
+			<tr>
+					<td>数据结构</td>
+					<td>固定位图</td>
+					<td>动态数组</td>
+					<td>红黑树 + 就绪链表</td>
+			</tr>
+			<tr>
+					<td>每次调用拷贝数据</td>
+					<td>全部 fd_set（3 个）</td>
+					<td>整个 pollfd 数组</td>
+					<td><strong>不拷贝</strong>（只注册一次）</td>
+			</tr>
+			<tr>
+					<td>内核遍历</td>
+					<td>O(max_fd)</td>
+					<td>O(nfds)</td>
+					<td><strong>O(1)</strong>（回调直接挂链表）</td>
+			</tr>
+			<tr>
+					<td>用户态遍历</td>
+					<td>O(max_fd)</td>
+					<td>O(nfds)</td>
+					<td>O(就绪数)</td>
+			</tr>
+			<tr>
+					<td>事件集可重用</td>
+					<td>否（每次需重建）</td>
+					<td>是（按 <code>revents</code> 判断）</td>
+					<td>是（内核维护状态）</td>
+			</tr>
+			<tr>
+					<td>适用场景</td>
+					<td>兼容老代码</td>
+					<td>中等规模、跨平台</td>
+					<td>高并发 C10K/C10M</td>
+			</tr>
+			<tr>
+					<td>跨平台</td>
+					<td>POSIX，通用</td>
+					<td>POSIX，通用</td>
+					<td>Linux 专有</td>
+			</tr>
+	</tbody>
+</table>
+<hr>
 <h2 id="sockaddr-结构体用法">
   sockaddr 结构体用法
   <a class="heading-link" href="#sockaddr-%e7%bb%93%e6%9e%84%e4%bd%93%e7%94%a8%e6%b3%95">
@@ -1911,6 +2256,8 @@
 </span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;sys/socket.h&gt;  // socket, bind, listen, accept, connect, send, recv,</span><span class="cp">
 </span></span></span><span class="line"><span class="cl">                          <span class="c1">// setsockopt, shutdown
 </span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;sys/select.h&gt;  // select, FD_ZERO, FD_SET, FD_CLR, FD_ISSET</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;poll.h&gt;        // poll, struct pollfd</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;sys/epoll.h&gt;   // epoll_create, epoll_ctl, epoll_wait, epoll_event</span><span class="cp">
 </span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;netinet/in.h&gt;  // struct sockaddr_in, INADDR_ANY</span><span class="cp">
 </span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;arpa/inet.h&gt;   // htonl, htons, ntohl, ntohs, inet_pton, inet_ntop</span><span class="cp">
 </span></span></span></code></pre></div>
