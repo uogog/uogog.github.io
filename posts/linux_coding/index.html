@@ -160,7 +160,7 @@
             </span>
             <span class="reading-time">
               <i class="fa-solid fa-clock" aria-hidden="true"></i>
-              阅读时间：18 分钟
+              阅读时间：19 分钟
             </span>
           </div>
           <div class="authors">
@@ -1195,6 +1195,100 @@
 	</tbody>
 </table>
 <p><strong>注意</strong>：<strong>必须循环收发</strong>——TCP 不保证一次调用收/发完所有数据。和 <code>read</code>/<code>write</code> 一样，返回值可能少于请求量（部分读/部分写）。<code>flags</code> 一般传 0。</p>
+<h2 id="sendto--recvfrom--udp-收发数据">
+  sendto / recvfrom — UDP 收发数据
+  <a class="heading-link" href="#sendto--recvfrom--udp-%e6%94%b6%e5%8f%91%e6%95%b0%e6%8d%ae">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;sys/types.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;sys/socket.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">ssize_t</span> <span class="nf">sendto</span><span class="p">(</span><span class="kt">int</span> <span class="n">sockfd</span><span class="p">,</span> <span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="n">buf</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">len</span><span class="p">,</span> <span class="kt">int</span> <span class="n">flags</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">               <span class="k">const</span> <span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="n">dest_addr</span><span class="p">,</span> <span class="kt">socklen_t</span> <span class="n">addrlen</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">ssize_t</span> <span class="nf">recvfrom</span><span class="p">(</span><span class="kt">int</span> <span class="n">sockfd</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">buf</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">len</span><span class="p">,</span> <span class="kt">int</span> <span class="n">flags</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                 <span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="n">src_addr</span><span class="p">,</span> <span class="kt">socklen_t</span> <span class="o">*</span><span class="n">addrlen</span><span class="p">);</span>
+</span></span></code></pre></div><p><strong>功能</strong>：<code>sendto</code> 向指定地址发送数据报，<code>recvfrom</code> 接收数据报并获取发送方地址。用于 UDP（无连接）通信，也支持原始套接字。</p>
+<p><strong>参数区别</strong>：</p>
+<table>
+	<thead>
+			<tr>
+					<th>参数</th>
+					<th><code>sendto</code></th>
+					<th><code>recvfrom</code></th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>后两个参数</td>
+					<td>目标地址 + 地址长度</td>
+					<td>输出：发送方地址 + 地址长度指针</td>
+			</tr>
+			<tr>
+					<td><code>addrlen</code></td>
+					<td>值传递（<code>socklen_t</code>）</td>
+					<td>指针传递（<code>socklen_t *</code>），调用前需初始化为 <code>sizeof(addr)</code></td>
+			</tr>
+	</tbody>
+</table>
+<p><strong>UDP 注意事项</strong>：</p>
+<ul>
+<li>UDP <strong>有消息边界</strong>——一次 <code>recvfrom</code> 收一条完整数据报，不会像 TCP 那样黏包/拆包。</li>
+<li>一次 <code>recvfrom</code> 只收一个数据报，如果 <code>buf</code> 太小，<strong>多余数据会被丢弃</strong>，不会报错，下次读到的是下一条数据报。</li>
+<li><code>recvfrom</code> 的 <code>src_addr</code> 和 <code>addrlen</code> 可为 <code>NULL</code>/<code>NULL</code>（不关心对方地址时）。</li>
+<li><code>sendto</code> 不能用于已 <code>connect</code> 的 TCP socket（应用 <code>send</code>/<code>write</code>），但 <code>connect</code> 过的 UDP socket 可以用 <code>send</code>/<code>write</code> 代替 <code>sendto</code>。</li>
+<li>TCP 的 <code>send</code>/<code>read</code>/<code>write</code>/<code>recv</code> 能用，只是不获取对端地址，但一般不推荐。</li>
+</ul>
+<p><strong>常用 flags</strong>（与 <code>send</code>/<code>recv</code> 共享）：</p>
+<table>
+	<thead>
+			<tr>
+					<th>flag</th>
+					<th>含义</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>MSG_PEEK</code></td>
+					<td><code>recvfrom</code> 窥探数据，不移除</td>
+			</tr>
+			<tr>
+					<td><code>MSG_DONTWAIT</code></td>
+					<td>本次非阻塞</td>
+			</tr>
+			<tr>
+					<td><code>MSG_TRUNC</code></td>
+					<td><code>recvfrom</code> 返回数据报真实长度（即使被截断），需配合 <code>MSG_PEEK</code></td>
+			</tr>
+	</tbody>
+</table>
+<p><strong>UDP echo 服务端示例</strong>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">fd</span> <span class="o">=</span> <span class="nf">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">SOCK_DGRAM</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="n">addr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nf">memset</span><span class="p">(</span><span class="o">&amp;</span><span class="n">addr</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">addr</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="n">addr</span><span class="p">.</span><span class="n">sin_family</span>      <span class="o">=</span> <span class="n">AF_INET</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">addr</span><span class="p">.</span><span class="n">sin_port</span>        <span class="o">=</span> <span class="nf">htons</span><span class="p">(</span><span class="mi">8080</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">addr</span><span class="p">.</span><span class="n">sin_addr</span><span class="p">.</span><span class="n">s_addr</span> <span class="o">=</span> <span class="nf">htonl</span><span class="p">(</span><span class="n">INADDR_ANY</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nf">bind</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">addr</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">addr</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">while</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">char</span> <span class="n">buf</span><span class="p">[</span><span class="mi">1024</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="n">cli</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">socklen_t</span> <span class="n">cli_len</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">cli</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kt">ssize_t</span> <span class="n">n</span> <span class="o">=</span> <span class="nf">recvfrom</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="n">buf</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">buf</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                         <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">cli</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">cli_len</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nf">sendto</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="n">buf</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">cli</span><span class="p">,</span> <span class="n">cli_len</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="nf">close</span><span class="p">(</span><span class="n">fd</span><span class="p">);</span>
+</span></span></code></pre></div><blockquote>
+<p><strong>关键点</strong>：① <code>recvfrom</code> 的 <code>addrlen</code> 必须先初始化为 <code>sizeof(sockaddr_in)</code>；② UDP 一个数据报对应一条消息，<strong>不需要</strong>像 TCP 那样循环收/发；③ 用同一个 socket 可以给不同客户端分别回包（无连接）。</p>
+</blockquote>
 <h2 id="setsockopt--设置套接字选项">
   setsockopt — 设置套接字选项
   <a class="heading-link" href="#setsockopt--%e8%ae%be%e7%bd%ae%e5%a5%97%e6%8e%a5%e5%ad%97%e9%80%89%e9%a1%b9">
@@ -2254,7 +2348,7 @@
 </span></span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="cm">/* ---------- 网络编程 ---------- */</span>
 </span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;sys/socket.h&gt;  // socket, bind, listen, accept, connect, send, recv,</span><span class="cp">
-</span></span></span><span class="line"><span class="cl">                          <span class="c1">// setsockopt, shutdown
+</span></span></span><span class="line"><span class="cl">                          <span class="c1">// sendto, recvfrom, setsockopt, shutdown
 </span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;sys/select.h&gt;  // select, FD_ZERO, FD_SET, FD_CLR, FD_ISSET</span><span class="cp">
 </span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;poll.h&gt;        // poll, struct pollfd</span><span class="cp">
 </span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;sys/epoll.h&gt;   // epoll_create, epoll_ctl, epoll_wait, epoll_event</span><span class="cp">
