@@ -160,7 +160,7 @@
             </span>
             <span class="reading-time">
               <i class="fa-solid fa-clock" aria-hidden="true"></i>
-              阅读时间：19 分钟
+              阅读时间：21 分钟
             </span>
           </div>
           <div class="authors">
@@ -1921,6 +1921,192 @@
 </span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">mkfifo</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">pathname</span><span class="p">,</span> <span class="kt">mode_t</span> <span class="n">mode</span><span class="p">);</span>
 </span></span></code></pre></div><p><strong>功能</strong>：创建有文件名的管道，任意进程可通过路径打开，不限于父子关系。<code>mode</code> 受 <code>umask</code> 限制。</p>
 <p><strong>注意</strong>：<code>open</code> FIFO 时，以 <code>O_RDONLY</code> 打开会阻塞直到有进程以写打开（反之亦然）。<code>O_NONBLOCK</code> 可避免阻塞。FIFO 数据不落盘——文件只是命名入口，内核中的缓冲区才存数据。</p>
+<h2 id="unix-domain-socket--本地进程间通信">
+  Unix Domain Socket — 本地进程间通信
+  <a class="heading-link" href="#unix-domain-socket--%e6%9c%ac%e5%9c%b0%e8%bf%9b%e7%a8%8b%e9%97%b4%e9%80%9a%e4%bf%a1">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;sys/un.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">sockaddr_un</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">sa_family_t</span> <span class="n">sun_family</span><span class="p">;</span>  <span class="cm">/* AF_UNIX */</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">char</span>        <span class="n">sun_path</span><span class="p">[</span><span class="mi">108</span><span class="p">];</span> <span class="cm">/* socket 文件路径（Linux），其他系统可能更短 */</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></div><p><strong>功能</strong>：<code>AF_UNIX</code>（又称 <code>AF_LOCAL</code>）域套接字，专门用于同一台机器上的进程间通信。走内核缓冲区，不走网络栈，性能远高于 TCP/UDP loopback。支持 <code>SOCK_STREAM</code>（可靠、有序、面向连接）和 <code>SOCK_DGRAM</code>（数据报，在内核中也是可靠有序的——<strong>不会丢包</strong>）。</p>
+<h3 id="服务端写法sock_stream">
+  服务端写法（SOCK_STREAM）
+  <a class="heading-link" href="#%e6%9c%8d%e5%8a%a1%e7%ab%af%e5%86%99%e6%b3%95sock_stream">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;sys/un.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;sys/socket.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;stddef.h&gt;   // offsetof</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;unistd.h&gt;   // unlink</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">PATH</span> <span class="o">=</span> <span class="s">&#34;/tmp/my.sock&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">fd</span> <span class="o">=</span> <span class="nf">socket</span><span class="p">(</span><span class="n">AF_UNIX</span><span class="p">,</span> <span class="n">SOCK_STREAM</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>           <span class="c1">// ① STREAM 通信
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">sockaddr_un</span> <span class="n">addr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">memset</span><span class="p">(</span><span class="o">&amp;</span><span class="n">addr</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">addr</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">    <span class="n">addr</span><span class="p">.</span><span class="n">sun_family</span> <span class="o">=</span> <span class="n">AF_UNIX</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">strncpy</span><span class="p">(</span><span class="n">addr</span><span class="p">.</span><span class="n">sun_path</span><span class="p">,</span> <span class="n">PATH</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">addr</span><span class="p">.</span><span class="n">sun_path</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span> <span class="c1">// ② 路径，务必 -1 防溢出
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nf">unlink</span><span class="p">(</span><span class="n">PATH</span><span class="p">);</span>                                        <span class="c1">// ③ 删除残留文件，避免 EADDRINUSE
+</span></span></span><span class="line"><span class="cl">    <span class="nf">bind</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">addr</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">addr</span><span class="p">));</span>    <span class="c1">// ④ bind 会创建 socket 文件
+</span></span></span><span class="line"><span class="cl">    <span class="nf">listen</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">int</span> <span class="n">cli</span> <span class="o">=</span> <span class="nf">accept</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>                <span class="c1">// ⑤ 不需要客户端地址时传 NULL
+</span></span></span><span class="line"><span class="cl">        <span class="nf">write</span><span class="p">(</span><span class="n">cli</span><span class="p">,</span> <span class="s">&#34;hello</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="mi">6</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">close</span><span class="p">(</span><span class="n">cli</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">close</span><span class="p">(</span><span class="n">fd</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">unlink</span><span class="p">(</span><span class="n">PATH</span><span class="p">);</span>                                        <span class="c1">// ⑥ 退出时清理文件
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="客户端写法sock_stream">
+  客户端写法（SOCK_STREAM）
+  <a class="heading-link" href="#%e5%ae%a2%e6%88%b7%e7%ab%af%e5%86%99%e6%b3%95sock_stream">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">cli</span> <span class="o">=</span> <span class="nf">socket</span><span class="p">(</span><span class="n">AF_UNIX</span><span class="p">,</span> <span class="n">SOCK_STREAM</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">sockaddr_un</span> <span class="n">addr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nf">memset</span><span class="p">(</span><span class="o">&amp;</span><span class="n">addr</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">addr</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="n">addr</span><span class="p">.</span><span class="n">sun_family</span> <span class="o">=</span> <span class="n">AF_UNIX</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nf">strncpy</span><span class="p">(</span><span class="n">addr</span><span class="p">.</span><span class="n">sun_path</span><span class="p">,</span> <span class="s">&#34;/tmp/my.sock&#34;</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">addr</span><span class="p">.</span><span class="n">sun_path</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nf">connect</span><span class="p">(</span><span class="n">cli</span><span class="p">,</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">addr</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">addr</span><span class="p">));</span>    <span class="c1">// 连接服务端
+</span></span></span><span class="line"><span class="cl"><span class="c1">// ... read / write ...
+</span></span></span><span class="line"><span class="cl"><span class="nf">close</span><span class="p">(</span><span class="n">cli</span><span class="p">);</span>
+</span></span></code></pre></div><h3 id="sock_dgram-数据报">
+  SOCK_DGRAM 数据报
+  <a class="heading-link" href="#sock_dgram-%e6%95%b0%e6%8d%ae%e6%8a%a5">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// 服务端
+</span></span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">fd</span> <span class="o">=</span> <span class="nf">socket</span><span class="p">(</span><span class="n">AF_UNIX</span><span class="p">,</span> <span class="n">SOCK_DGRAM</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">sockaddr_un</span> <span class="n">addr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nf">memset</span><span class="p">(</span><span class="o">&amp;</span><span class="n">addr</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">addr</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="n">addr</span><span class="p">.</span><span class="n">sun_family</span> <span class="o">=</span> <span class="n">AF_UNIX</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nf">strncpy</span><span class="p">(</span><span class="n">addr</span><span class="p">.</span><span class="n">sun_path</span><span class="p">,</span> <span class="s">&#34;/tmp/dgram.srv&#34;</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">addr</span><span class="p">.</span><span class="n">sun_path</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nf">unlink</span><span class="p">(</span><span class="s">&#34;/tmp/dgram.srv&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nf">bind</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">addr</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">addr</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">char</span> <span class="n">buf</span><span class="p">[</span><span class="mi">256</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="kt">socklen_t</span> <span class="n">len</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">addr</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kt">ssize_t</span> <span class="n">n</span> <span class="o">=</span> <span class="nf">recvfrom</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="n">buf</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">buf</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                     <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">addr</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">len</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// ⑤ 客户端也必须 bind 后，服务端才可以用 sendto 回包
+</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// 客户端（也必须 bind 才能接收回复）
+</span></span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">fd</span> <span class="o">=</span> <span class="nf">socket</span><span class="p">(</span><span class="n">AF_UNIX</span><span class="p">,</span> <span class="n">SOCK_DGRAM</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">sockaddr_un</span> <span class="n">my_addr</span><span class="p">;</span>                              <span class="c1">// 客户端自己的地址
+</span></span></span><span class="line"><span class="cl"><span class="nf">memset</span><span class="p">(</span><span class="o">&amp;</span><span class="n">my_addr</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">my_addr</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="n">my_addr</span><span class="p">.</span><span class="n">sun_family</span> <span class="o">=</span> <span class="n">AF_UNIX</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nf">strncpy</span><span class="p">(</span><span class="n">my_addr</span><span class="p">.</span><span class="n">sun_path</span><span class="p">,</span> <span class="s">&#34;/tmp/dgram.cli&#34;</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">my_addr</span><span class="p">.</span><span class="n">sun_path</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nf">unlink</span><span class="p">(</span><span class="s">&#34;/tmp/dgram.cli&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nf">bind</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">my_addr</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">my_addr</span><span class="p">));</span>  <span class="c1">// bind 后才有&#34;回信地址&#34;
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">sockaddr_un</span> <span class="n">srv</span><span class="p">;</span>                                  <span class="c1">// 服务端地址
+</span></span></span><span class="line"><span class="cl"><span class="nf">memset</span><span class="p">(</span><span class="o">&amp;</span><span class="n">srv</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">srv</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="n">srv</span><span class="p">.</span><span class="n">sun_family</span> <span class="o">=</span> <span class="n">AF_UNIX</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nf">strncpy</span><span class="p">(</span><span class="n">srv</span><span class="p">.</span><span class="n">sun_path</span><span class="p">,</span> <span class="s">&#34;/tmp/dgram.srv&#34;</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">srv</span><span class="p">.</span><span class="n">sun_path</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nf">sendto</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="s">&#34;ping&#34;</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">srv</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">srv</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="nf">close</span><span class="p">(</span><span class="n">fd</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nf">unlink</span><span class="p">(</span><span class="s">&#34;/tmp/dgram.cli&#34;</span><span class="p">);</span>
+</span></span></code></pre></div><p><strong>注意</strong>：</p>
+<ul>
+<li><strong>路径长度</strong>：<code>sun_path</code> 在 Linux 上是 108 字节，不同 Unix 系统可能有差异（BSD 是 104，Solaris 是 108）。可移植写法用 <code>sizeof(addr.sun_path) - 1</code>。</li>
+<li><strong>stale 文件</strong>：<code>bind</code> 会创建 socket 文件，但进程崩溃/crash 后不会自动删除。下次启动时 <code>bind</code> 会因文件已存在而失败（<code>EADDRINUSE</code>）。<strong>必须 <code>unlink</code> 再 <code>bind</code></strong>。</li>
+<li><strong>路径限制</strong>：必须是绝对路径且目录需存在。不能用相对路径，也不支持 <code>~</code> 展开。<code>/tmp</code> 是最常见的选择。</li>
+<li><strong>对比 TCP loopback</strong>：Unix domain socket 比 <code>127.0.0.1</code> 的 TCP 快约 <strong>2 倍</strong>（无协议栈开销、无校验和、无路由），是高性���本地 IPC 的首选。</li>
+</ul>
+<p><strong>额外功能 — 凭据传递与 fd 传递</strong>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// 发送端：通过辅助数据传递自己的 PID/UID/GID（SCM_CREDENTIALS）或 fd（SCM_RIGHTS）
+</span></span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">msghdr</span> <span class="n">msg</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">cmsghdr</span> <span class="o">*</span><span class="n">cmsg</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">char</span> <span class="n">cbuf</span><span class="p">[</span><span class="nf">CMSG_SPACE</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">))];</span>  <span class="c1">// 传一个 fd 需要的空间
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">msg</span><span class="p">.</span><span class="n">msg_control</span>    <span class="o">=</span> <span class="n">cbuf</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">msg</span><span class="p">.</span><span class="n">msg_controllen</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">cbuf</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">cmsg</span> <span class="o">=</span> <span class="nf">CMSG_FIRSTHDR</span><span class="p">(</span><span class="o">&amp;</span><span class="n">msg</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">cmsg</span><span class="o">-&gt;</span><span class="n">cmsg_level</span> <span class="o">=</span> <span class="n">SOL_SOCKET</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">cmsg</span><span class="o">-&gt;</span><span class="n">cmsg_type</span>  <span class="o">=</span> <span class="n">SCM_RIGHTS</span><span class="p">;</span>         <span class="c1">// 传 fd
+</span></span></span><span class="line"><span class="cl"><span class="n">cmsg</span><span class="o">-&gt;</span><span class="n">cmsg_len</span>   <span class="o">=</span> <span class="nf">CMSG_LEN</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="nf">memcpy</span><span class="p">(</span><span class="nf">CMSG_DATA</span><span class="p">(</span><span class="n">cmsg</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">fd_to_send</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">msg</span><span class="p">.</span><span class="n">msg_controllen</span> <span class="o">=</span> <span class="n">cmsg</span><span class="o">-&gt;</span><span class="n">cmsg_len</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nf">sendmsg</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">msg</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>             <span class="c1">// fd 通过辅助数据&#34;飞&#34;过去
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 接收端用 recvmsg 配合 CMSG_* 宏解析，获取传过来的 fd
+</span></span></span></code></pre></div><blockquote>
+<p><strong>注意</strong>：<code>CMSG_*</code> 宏来自 <code>&lt;sys/socket.h&gt;</code>。<code>SCM_CREDENTIALS</code>（传递 <code>struct ucred</code>）和 <code>SCM_RIGHTS</code>（传递 fd）是 Unix domain socket 独有的杀手级特性，对网络套接字不适用。</p>
+</blockquote>
+<p><strong>与 127.0.0.1 TCP 对比</strong>：</p>
+<table>
+	<thead>
+			<tr>
+					<th>特性</th>
+					<th>Unix Domain Socket</th>
+					<th>127.0.0.1 TCP</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>走网络栈</td>
+					<td>否</td>
+					<td>是（loopback 接口）</td>
+			</tr>
+			<tr>
+					<td>速度</td>
+					<td>快 ~2x</td>
+					<td>有协议栈开销</td>
+			</tr>
+			<tr>
+					<td>地址</td>
+					<td>文件路径</td>
+					<td>IP + 端口</td>
+			</tr>
+			<tr>
+					<td>凭据传递</td>
+					<td>支持 <code>SCM_CREDENTIALS</code></td>
+					<td>不支持</td>
+			</tr>
+			<tr>
+					<td>fd 传递</td>
+					<td>支持 <code>SCM_RIGHTS</code></td>
+					<td>不支持</td>
+			</tr>
+			<tr>
+					<td>跨主机</td>
+					<td>否</td>
+					<td>否（127.0.0.1 也只在本机）</td>
+			</tr>
+			<tr>
+					<td>清理</td>
+					<td>需手动 <code>unlink</code></td>
+					<td>TCP 无残留文件</td>
+			</tr>
+			<tr>
+					<td>权限控制</td>
+					<td>文件权限（<code>chmod</code>）</td>
+					<td>仅限 root 绑定 &lt;1024 端口</td>
+			</tr>
+	</tbody>
+</table>
 <hr>
 <h1 id="内存映射">
   内存映射
@@ -2349,6 +2535,7 @@
 </span></span><span class="line"><span class="cl"><span class="cm">/* ---------- 网络编程 ---------- */</span>
 </span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;sys/socket.h&gt;  // socket, bind, listen, accept, connect, send, recv,</span><span class="cp">
 </span></span></span><span class="line"><span class="cl">                          <span class="c1">// sendto, recvfrom, setsockopt, shutdown
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;sys/un.h&gt;      // struct sockaddr_un (AF_UNIX)</span><span class="cp">
 </span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;sys/select.h&gt;  // select, FD_ZERO, FD_SET, FD_CLR, FD_ISSET</span><span class="cp">
 </span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;poll.h&gt;        // poll, struct pollfd</span><span class="cp">
 </span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;sys/epoll.h&gt;   // epoll_create, epoll_ctl, epoll_wait, epoll_event</span><span class="cp">

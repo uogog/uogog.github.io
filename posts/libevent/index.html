@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+  <title>
+  libevent 常用函数速查 · UOG的BLOG
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="UOGOG">
+<meta name="description" content="libevent 事件驱动库的安装、使用方法和核心 API 原型与注意事项">
+<meta name="keywords" content="blog,developer,personal">
+
+
+
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="libevent 常用函数速查">
+	<meta name="twitter:description" content="libevent 事件驱动库的安装、使用方法和核心 API 原型与注意事项">
+
+<meta property="og:url" content="https://uogog.github.io/posts/libevent/">
+	<meta property="og:site_name" content="UOG的BLOG">
+	<meta property="og:title" content="libevent 常用函数速查">
+	<meta property="og:description" content="libevent 事件驱动库的安装、使用方法和核心 API 原型与注意事项">
+	<meta property="og:locale" content="zh_cn">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="posts">
+		<meta property="article:published_time" content="2026-07-21T10:00:00+08:00">
+		<meta property="article:modified_time" content="2026-07-21T10:00:00+08:00">
+		<meta property="article:tag" content="Linux">
+		<meta property="article:tag" content="C">
+		<meta property="article:tag" content="Libevent">
+		<meta property="article:tag" content="事件驱动">
+		<meta property="article:tag" content="网络编程">
+		<meta property="article:tag" content="高并发">
+
+
+
+
+<link rel="canonical" href="https://uogog.github.io/posts/libevent/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.min.d8d883ac6ca34ee459193aff427d97eec73a7ffd982379fe3064c06a45859e30.css" integrity="sha256-2NiDrGyjTuRZGTr/Qn2X7sc6f/2YI3n&#43;MGTAakWFnjA=" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    
+    
+    <link rel="stylesheet" href="/css/coder-dark.min.ad48f476275974885bdc03d5251e3cdbe1678c54a63ff772376b0ed2adc468dd.css" integrity="sha256-rUj0didZdIhb3APVJR482&#43;FnjFSmP/dyN2sO0q3EaN0=" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/img/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/img/favicon.ico" sizes="32x32">
+<link rel="icon" type="image/png" href="/img/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-dark">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="https://uogog.github.io/">
+      UOG的BLOG
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">博客(Blog)</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/about/">关于(About)</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://uogog.github.io/posts/libevent/">
+              libevent 常用函数速查
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2026-07-21T10:00:00&#43;08:00">
+                July 21, 2026
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              阅读时间：7 分钟
+            </span>
+          </div>
+          <div class="authors">
+  <i class="fa-solid fa-user" aria-hidden="true"></i>
+    <a href="/authors/uogog/">Uogog</a></div>
+
+          <div class="categories">
+  <i class="fa-solid fa-folder" aria-hidden="true"></i>
+    <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></div>
+
+          <div class="tags">
+  <i class="fa-solid fa-tag" aria-hidden="true"></i>
+    <span class="tag">
+      <a href="/tags/linux/">Linux</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/tags/c/">C</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/tags/libevent/">Libevent</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/tags/%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8/">事件驱动</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/tags/%E9%AB%98%E5%B9%B6%E5%8F%91/">高并发</a>
+    </span></div>
+
+        </div>
+      </header>
+
+      
+
+
+      <div class="post-content">
+        
+        <h1 id="libevent-常用函数速查">
+  libevent 常用函数速查
+  <a class="heading-link" href="#libevent-%e5%b8%b8%e7%94%a8%e5%87%bd%e6%95%b0%e9%80%9f%e6%9f%a5">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h1>
+<p>libevent 是一个轻量级、高性能的事件通知库，封装了 <code>select</code>/<code>poll</code>/<code>epoll</code>/<code>kqueue</code> 等底层多路复用机制，提供统一的事件驱动 API。</p>
+<hr>
+<h1 id="安装">
+  安装
+  <a class="heading-link" href="#%e5%ae%89%e8%a3%85">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h1>
+<h2 id="ubuntu--debian">
+  Ubuntu / Debian
+  <a class="heading-link" href="#ubuntu--debian">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo apt install libevent-dev
+</span></span></code></pre></div><p>安装后头文件在 <code>/usr/include/event2/</code>，库文件为 <code>libevent_core.so</code> 和 <code>libevent_extra.so</code>。</p>
+<h2 id="源码编译">
+  源码编译
+  <a class="heading-link" href="#%e6%ba%90%e7%a0%81%e7%bc%96%e8%af%91">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">wget https://github.com/libevent/libevent/releases/download/release-2.1.12-stable/libevent-2.1.12-stable.tar.gz
+</span></span><span class="line"><span class="cl">tar xzf libevent-2.1.12-stable.tar.gz
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> libevent-2.1.12-stable
+</span></span><span class="line"><span class="cl">./configure --prefix<span class="o">=</span>/usr/local
+</span></span><span class="line"><span class="cl">make -j<span class="k">$(</span>nproc<span class="k">)</span>
+</span></span><span class="line"><span class="cl">sudo make install
+</span></span><span class="line"><span class="cl"><span class="c1"># ldconfig 更新动态库缓存</span>
+</span></span><span class="line"><span class="cl">sudo ldconfig
+</span></span></code></pre></div><h2 id="编译链接">
+  编译链接
+  <a class="heading-link" href="#%e7%bc%96%e8%af%91%e9%93%be%e6%8e%a5">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">gcc -o myapp myapp.c -levent
+</span></span><span class="line"><span class="cl"><span class="c1"># 如果使用了 bufferevent 等扩展功能：</span>
+</span></span><span class="line"><span class="cl">gcc -o myapp myapp.c -levent -levent_extra
+</span></span></code></pre></div><blockquote>
+<p><strong>注意</strong>：<code>-levent</code> 链接的是 <code>libevent_core.so</code>，bufferevent / evhttp / evdns 等功能在 <code>libevent_extra.so</code> 中，需要 <code>-levent_extra</code>。</p>
+</blockquote>
+<hr>
+<h1 id="使用方法">
+  使用方法
+  <a class="heading-link" href="#%e4%bd%bf%e7%94%a8%e6%96%b9%e6%b3%95">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h1>
+<p>libevent 编程的基本流程：</p>
+<pre tabindex="0"><code>① 创建 event_base（相当于一个事件循环实例）
+② 创建 event（把 fd + 事件类型 + 回调 绑定到一起），设置好监听的事件类型
+③ event_add 将 event 加入 event_base 开始监听
+④ event_base_dispatch 启动事件循环（阻塞直到没有活跃事件）
+⑤ 退出时 event_free 释放 event，event_base_free 释放 event_base
+</code></pre><hr>
+<h1 id="核心-api">
+  核心 API
+  <a class="heading-link" href="#%e6%a0%b8%e5%bf%83-api">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h1>
+<p>libevent 2.x 使用 <code>event2/</code> 前缀的头文件。</p>
+<h2 id="event_base_new--创建事件循环">
+  event_base_new — 创建事件循环
+  <a class="heading-link" href="#event_base_new--%e5%88%9b%e5%bb%ba%e4%ba%8b%e4%bb%b6%e5%be%aa%e7%8e%af">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;event2/event.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">event_base</span> <span class="o">*</span><span class="nf">event_base_new</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+</span></span></code></pre></div><p><strong>功能</strong>：创建一个新的事件循环实例（内部自动选择最优的后端，如 epoll）。成功返回 <code>event_base *</code>，失败返回 <code>NULL</code>。</p>
+<p><strong>注意</strong>：每个线程应该有自己的 <code>event_base</code>，跨线程共享需加锁。<code>event_base_new</code> 内部分配内存，使用完毕后必须 <code>event_base_free</code> 释放。也可以传 <code>event_config</code> 来定制后端行为（如禁用某些后端、设置优先级等），用 <code>event_base_new_with_config</code>。</p>
+<p><strong>对应 linux_coding</strong>：相当于 <code>epoll_create1</code> 得到 epoll fd。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">event_base</span> <span class="o">*</span><span class="n">base</span> <span class="o">=</span> <span class="nf">event_base_new</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">base</span><span class="p">)</span> <span class="p">{</span> <span class="nf">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">&#34;event_base_new failed</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span> <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="p">}</span>
+</span></span></code></pre></div><hr>
+<h2 id="event_new--创建事件">
+  event_new — 创建事件
+  <a class="heading-link" href="#event_new--%e5%88%9b%e5%bb%ba%e4%ba%8b%e4%bb%b6">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;event2/event.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">event</span> <span class="o">*</span><span class="nf">event_new</span><span class="p">(</span><span class="k">struct</span> <span class="n">event_base</span> <span class="o">*</span><span class="n">base</span><span class="p">,</span> <span class="kt">evutil_socket_t</span> <span class="n">fd</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                        <span class="kt">short</span> <span class="n">what</span><span class="p">,</span> <span class="n">event_callback_fn</span> <span class="n">cb</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">arg</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">typedef</span> <span class="nf">void</span> <span class="p">(</span><span class="o">*</span><span class="n">event_callback_fn</span><span class="p">)(</span><span class="kt">evutil_socket_t</span> <span class="n">fd</span><span class="p">,</span> <span class="kt">short</span> <span class="n">events</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">arg</span><span class="p">);</span>
+</span></span></code></pre></div><p><strong>功能</strong>：在一个 event_base 上创建一个事件。<code>fd</code> 为要监控的文件描述符，<code>what</code> 为事件类型，<code>cb</code> 为回调函数，<code>arg</code> 为用户自定义参数。</p>
+<p><strong><code>what</code> 事件类型（可用 <code>|</code> 组合）</strong>：</p>
+<table>
+	<thead>
+			<tr>
+					<th>宏</th>
+					<th>含义</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>EV_READ</code></td>
+					<td>fd 可读</td>
+			</tr>
+			<tr>
+					<td><code>EV_WRITE</code></td>
+					<td>fd 可写</td>
+			</tr>
+			<tr>
+					<td><code>EV_PERSIST</code></td>
+					<td>事件触发后<strong>自动重新注册</strong>，无需在回调中再次 <code>event_add</code>，直到手动 <code>event_del</code></td>
+			</tr>
+			<tr>
+					<td><code>EV_ET</code></td>
+					<td>边缘触发（需后端支持，epoll 支持）——与 epoll 的 <code>EPOLLET</code> 含义相同</td>
+			</tr>
+			<tr>
+					<td><code>EV_TIMEOUT</code></td>
+					<td>超时事件（通常不直接用，而是配合 <code>event_add</code> 的 <code>timeval</code> 参数）</td>
+			</tr>
+			<tr>
+					<td><code>EV_SIGNAL</code></td>
+					<td>信号事件（用 <code>evsignal_new</code> 更简洁）</td>
+			</tr>
+	</tbody>
+</table>
+<p><strong>注意</strong>：</p>
+<ul>
+<li>不加 <code>EV_PERSIST</code> 时，事件触发一次后自动变为&quot;未决&quot;（pending）状态，不会再触发，除非在回调中再次 <code>event_add</code>——这是 <code>select</code>/<code>epoll</code> 没有的概念。</li>
+<li>回调原型是 <code>void cb(evutil_socket_t fd, short events, void *arg)</code>，其中 <code>events</code> 参数告诉你实际触发了哪些事件（<code>EV_READ</code> / <code>EV_WRITE</code> 等），<code>arg</code> 是 <code>event_new</code> 传入的自定义参数。</li>
+<li>只分配内存和初始化，<strong>尚未开始监听</strong>，还需要 <code>event_add</code>。</li>
+</ul>
+<p><strong>对应 linux_coding</strong>：相当于 <code>epoll_ctl(epfd, EPOLL_CTL_ADD, fd, &amp;ev)</code>，但更抽象——event 把 fd、事件类型、回调、参数打包成一个对象。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">event</span> <span class="o">*</span><span class="n">ev</span> <span class="o">=</span> <span class="nf">event_new</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="n">sockfd</span><span class="p">,</span> <span class="n">EV_READ</span> <span class="o">|</span> <span class="n">EV_PERSIST</span><span class="p">,</span> <span class="n">on_read</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</span></span></code></pre></div><hr>
+<h2 id="event_add--将事件加入事件循环">
+  event_add — 将事件加入事件循环
+  <a class="heading-link" href="#event_add--%e5%b0%86%e4%ba%8b%e4%bb%b6%e5%8a%a0%e5%85%a5%e4%ba%8b%e4%bb%b6%e5%be%aa%e7%8e%af">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;event2/event.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">event_add</span><span class="p">(</span><span class="k">struct</span> <span class="n">event</span> <span class="o">*</span><span class="n">ev</span><span class="p">,</span> <span class="k">const</span> <span class="k">struct</span> <span class="n">timeval</span> <span class="o">*</span><span class="n">tv</span><span class="p">);</span>
+</span></span></code></pre></div><p><strong>功能</strong>：将 event 注册到循环中，使其开始&quot;监控&quot;对应的 fd。<code>tv</code> 为超时时间，<code>NULL</code> 表示无超时等待。成功返回 0，失败返回 -1。</p>
+<p><strong><code>tv</code> 参数的三种用法</strong>：</p>
+<table>
+	<thead>
+			<tr>
+					<th><code>tv</code> 值</th>
+					<th>含义</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>NULL</code></td>
+					<td>无限等待，事件触发时回调</td>
+			</tr>
+			<tr>
+					<td><code>tv = {0, 0}</code></td>
+					<td>超时为 0，立即触发（配合 <code>EV_TIMEOUT</code> 做定时任务）</td>
+			</tr>
+			<tr>
+					<td><code>tv = {n, 0}</code></td>
+					<td>n 秒后超时触发（即使 fd 上没有活动）</td>
+			</tr>
+	</tbody>
+</table>
+<p><strong>注意</strong>：</p>
+<ul>
+<li>同一个 event 可以多次 <code>event_add</code>（例如修改超时时间），但必须先 <code>event_del</code> 再 <code>event_add</code>（除非变化可以自动合并）。</li>
+<li><code>EV_PERSIST</code> 事件触发后会自动维持&quot;已添加&quot;状态，不需要在回调里重新 <code>event_add</code>。如果有 <code>EV_TIMEOUT</code> 配合 <code>EV_PERSIST</code>，则是周期性定时器。</li>
+<li>如果 event 已经 active，<code>event_add</code> 行为未定义——一般 pattern 是回调末尾重新 add。</li>
+</ul>
+<p><strong>对应 linux_coding</strong>：相当于 <code>epoll_ctl(epfd, EPOLL_CTL_ADD, ...)</code> 真正开始监控。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// 加入循环，永久等待可读事件
+</span></span></span><span class="line"><span class="cl"><span class="nf">event_add</span><span class="p">(</span><span class="n">ev</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 带超时：5 秒内没可读就触发超时
+</span></span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">timeval</span> <span class="n">tv</span> <span class="o">=</span> <span class="p">{</span><span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="nf">event_add</span><span class="p">(</span><span class="n">ev</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">tv</span><span class="p">);</span>
+</span></span></code></pre></div><hr>
+<h2 id="event_base_dispatch--启动事件循环">
+  event_base_dispatch — 启动事件循环
+  <a class="heading-link" href="#event_base_dispatch--%e5%90%af%e5%8a%a8%e4%ba%8b%e4%bb%b6%e5%be%aa%e7%8e%af">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;event2/event.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">event_base_dispatch</span><span class="p">(</span><span class="k">struct</span> <span class="n">event_base</span> <span class="o">*</span><span class="n">base</span><span class="p">);</span>
+</span></span></code></pre></div><p><strong>功能</strong>：启动事件循环，阻塞等待事件发生并分派给对应的回调。循环持续运行直到所有事件都被移除（或 <code>event_base_loopbreak</code> 被调用）。成功返回 0，失败返回 -1。</p>
+<p><strong>注意</strong>：</p>
+<ul>
+<li>内部等价于 <code>event_base_loop(base, 0)</code>。</li>
+<li>只要 event_base 中还有 pending/active 事件，就不会返回——所以必须有一个 &ldquo;退出条件&rdquo;，比如在某个回调中调用 <code>event_base_loopbreak</code>，或在信号回调中进行清理。</li>
+<li><strong>没有事件时</strong>（所有 event 都已 <code>event_del</code> 且没有 pending 的），<code>event_base_dispatch</code> 会立即返回。</li>
+<li>多线程场景每个线程调用自己的 event_base 的 <code>event_base_dispatch</code>。</li>
+<li><strong>只调用一次</strong>——不要在循环中反复调 <code>event_base_dispatch</code>，而是让循环本身活着，在回调里处理逻辑。</li>
+</ul>
+<p><strong>对应 linux_coding</strong>：相当于 <code>while (1) { epoll_wait(epfd, events, max, -1); /* 遍历 events 调回调 */ }</code>。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="nf">event_base_dispatch</span><span class="p">(</span><span class="n">base</span><span class="p">);</span>  <span class="c1">// 阻塞，直到所有事件被移除
+</span></span></span></code></pre></div><hr>
+<h2 id="event_base_loopbreak--停止事件循环">
+  event_base_loopbreak — 停止事件循环
+  <a class="heading-link" href="#event_base_loopbreak--%e5%81%9c%e6%ad%a2%e4%ba%8b%e4%bb%b6%e5%be%aa%e7%8e%af">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;event2/event.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">event_base_loopbreak</span><span class="p">(</span><span class="k">struct</span> <span class="n">event_base</span> <span class="o">*</span><span class="n">base</span><span class="p">);</span>
+</span></span></code></pre></div><p><strong>功能</strong>：通知 event_base 在完成当前正在处理的回调后退出循环。成功返回 0，失败返回 -1。</p>
+<p><strong>注意</strong>：</p>
+<ul>
+<li>与 <code>event_base_loopexit</code> 的区别：<code>loopbreak</code> 立即生效（处理完当前回调就退出），<code>loopexit</code> 要等到下一个超时时间过后才退出。</li>
+<li>通常在信号处理回调或&quot;关闭&quot;事件中调用。</li>
+<li>不会释放任何资源——你仍需手动 <code>event_free</code> 和 <code>event_base_free</code>。</li>
+</ul>
+<hr>
+<h2 id="event_del--从事件循环中移除事件">
+  event_del — 从事件循环中移除事件
+  <a class="heading-link" href="#event_del--%e4%bb%8e%e4%ba%8b%e4%bb%b6%e5%be%aa%e7%8e%af%e4%b8%ad%e7%a7%bb%e9%99%a4%e4%ba%8b%e4%bb%b6">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;event2/event.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">event_del</span><span class="p">(</span><span class="k">struct</span> <span class="n">event</span> <span class="o">*</span><span class="n">ev</span><span class="p">);</span>
+</span></span></code></pre></div><p><strong>功能</strong>：将 event 从 event_base 中移除（不再监听）。成功返回 0，失败返回 -1。</p>
+<p><strong>注意</strong>：即使事件是 active 状态（回调正在执行），也可以调用 <code>event_del</code>，它会在回调返回后生效。<strong>非 <code>EV_PERSIST</code> 事件触发后自动变&quot;未激活&quot;，不需要显式 <code>event_del</code></strong>，但 <code>EV_PERSIST</code> 事件必须用 <code>event_del</code> 来停止。</p>
+<p><strong>对应 linux_coding</strong>：相当于 <code>epoll_ctl(epfd, EPOLL_CTL_DEL, fd, NULL)</code>。</p>
+<hr>
+<h2 id="event_free--释放事件">
+  event_free — 释放事件
+  <a class="heading-link" href="#event_free--%e9%87%8a%e6%94%be%e4%ba%8b%e4%bb%b6">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;event2/event.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">event_free</span><span class="p">(</span><span class="k">struct</span> <span class="n">event</span> <span class="o">*</span><span class="n">ev</span><span class="p">);</span>
+</span></span></code></pre></div><p><strong>功能</strong>：释放 <code>event_new</code> 分配的内存。如果 event 还在 pending 或 active 状态，会先隐式调用 <code>event_del</code>。</p>
+<p><strong>注意</strong>：调用后 <code>ev</code> 指针不可再使用。通常配合 <code>event_del</code> → <code>event_free</code> 顺序调用。即使 <code>ev</code> 是 <code>EV_PERSIST</code> 且加入了循环，<code>event_free</code> 也会安全地移除并释放。</p>
+<hr>
+<h2 id="event_base_free--释放事件循环">
+  event_base_free — 释放事件循环
+  <a class="heading-link" href="#event_base_free--%e9%87%8a%e6%94%be%e4%ba%8b%e4%bb%b6%e5%be%aa%e7%8e%af">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;event2/event.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">event_base_free</span><span class="p">(</span><span class="k">struct</span> <span class="n">event_base</span> <span class="o">*</span><span class="n">base</span><span class="p">);</span>
+</span></span></code></pre></div><p><strong>功能</strong>：释放 <code>event_base_new</code> 分配的所有资源。循环必须已停止（<code>event_base_loopbreak</code> 后或 <code>dispatch</code> 已返回），否则行为未定义。</p>
+<p><strong>注意</strong>：</p>
+<ul>
+<li>调用前应确保所有 event 都已 <code>event_free</code>（或至少不再引用该 base）。</li>
+<li>如果 base 中还有活跃事件，<code>event_base_free</code> 不会自动释放它们——先清理 event，再释放 base。</li>
+</ul>
+<hr>
+<h2 id="bufferevent_socket_new--创建带缓冲区的-socket-事件">
+  bufferevent_socket_new — 创建带缓冲区的 socket 事件
+  <a class="heading-link" href="#bufferevent_socket_new--%e5%88%9b%e5%bb%ba%e5%b8%a6%e7%bc%93%e5%86%b2%e5%8c%ba%e7%9a%84-socket-%e4%ba%8b%e4%bb%b6">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;event2/bufferevent.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;event2/buffer.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">bufferevent</span> <span class="o">*</span><span class="nf">bufferevent_socket_new</span><span class="p">(</span><span class="k">struct</span> <span class="n">event_base</span> <span class="o">*</span><span class="n">base</span><span class="p">,</span> <span class="kt">evutil_socket_t</span> <span class="n">fd</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                           <span class="kt">int</span> <span class="n">options</span><span class="p">);</span>
+</span></span></code></pre></div><p><strong>功能</strong>：在已有 socket fd 上创建一个 bufferevent。bufferevent 自带输入/输出缓冲区，自动处理 I/O（你只管从 buffer 读、往 buffer 写），无需手动 <code>read</code>/<code>write</code>。</p>
+<p><strong><code>options</code> 常用取值（<code>|</code> 组合）</strong>：</p>
+<table>
+	<thead>
+			<tr>
+					<th>option</th>
+					<th>含义</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>BEV_OPT_CLOSE_ON_FREE</code></td>
+					<td><code>bufferevent_free</code> 时自动 <code>close(fd)</code></td>
+			</tr>
+			<tr>
+					<td><code>BEV_OPT_THREADSAFE</code></td>
+					<td>为 bufferevent 加锁，允许多线程访问</td>
+			</tr>
+			<tr>
+					<td><code>BEV_OPT_DEFER_CALLBACKS</code></td>
+					<td>将回调延迟到 event_base 的锁释放后执行（与 <code>BEV_OPT_THREADSAFE</code> 搭配）</td>
+			</tr>
+			<tr>
+					<td><code>BEV_OPT_UNLOCK_CALLBACKS</code></td>
+					<td>回调执行时不持有锁（默认回调执行时持有锁）</td>
+			</tr>
+	</tbody>
+</table>
+<p><strong>设置回调</strong>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;event2/bufferevent.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">bufferevent_setcb</span><span class="p">(</span><span class="k">struct</span> <span class="n">bufferevent</span> <span class="o">*</span><span class="n">bev</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                       <span class="n">bufferevent_data_cb</span> <span class="n">readcb</span><span class="p">,</span>   <span class="c1">// 数据可读时调用
+</span></span></span><span class="line"><span class="cl">                       <span class="n">bufferevent_data_cb</span> <span class="n">writecb</span><span class="p">,</span>  <span class="c1">// 写缓冲区清空时调用（可传 NULL）
+</span></span></span><span class="line"><span class="cl">                       <span class="n">bufferevent_event_cb</span> <span class="n">eventcb</span><span class="p">,</span> <span class="c1">// 连接/错误/EOF 时调用
+</span></span></span><span class="line"><span class="cl">                       <span class="kt">void</span> <span class="o">*</span><span class="n">cbarg</span><span class="p">);</span>                  <span class="c1">// 用户参数
+</span></span></span></code></pre></div><p><strong>注意</strong>：</p>
+<ul>
+<li>bufferevent 内部用两个 <code>evbuffer</code> 管理读写缓冲（通过 <code>bufferevent_get_input</code> / <code>bufferevent_get_output</code> 获取）。</li>
+<li><code>eventcb</code> 的第二个参数是 <code>what</code>（<code>BEV_EVENT_READING</code> / <code>BEV_EVENT_WRITING</code> / <code>BEV_EVENT_EOF</code> / <code>BEV_EVENT_ERROR</code> / <code>BEV_EVENT_CONNECTED</code>），用于区分事件类型。</li>
+<li><code>readcb</code> 中你用 <code>bufferevent_read</code> 从输入缓冲区拿数据；<code>writecb</code> 意味着写缓冲区已清空（写完了），可以在此时继续写更多数据。</li>
+<li>与 event 不同，bufferevent 不需要手动 <code>event_add</code>，创建后自动处于&quot;未激活但就绪&quot;状态，用 <code>bufferevent_enable</code> 开启读写。</li>
+</ul>
+<hr>
+<h2 id="bufferevent_enable--bufferevent_disable--控制读写">
+  bufferevent_enable / bufferevent_disable — 控制读写
+  <a class="heading-link" href="#bufferevent_enable--bufferevent_disable--%e6%8e%a7%e5%88%b6%e8%af%bb%e5%86%99">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;event2/bufferevent.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">bufferevent_enable</span><span class="p">(</span><span class="k">struct</span> <span class="n">bufferevent</span> <span class="o">*</span><span class="n">bev</span><span class="p">,</span> <span class="kt">short</span> <span class="n">events</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">bufferevent_disable</span><span class="p">(</span><span class="k">struct</span> <span class="n">bufferevent</span> <span class="o">*</span><span class="n">bev</span><span class="p">,</span> <span class="kt">short</span> <span class="n">events</span><span class="p">);</span>
+</span></span></code></pre></div><p><strong>功能</strong>：开启/关闭 bufferevent 的读或写。<code>events</code> 为 <code>EV_READ | EV_WRITE</code>。</p>
+<p><strong>注意</strong>：创建 bufferevent 后，默认读写都是<strong>禁用</strong>的——<strong>必须 <code>bufferevent_enable(bev, EV_READ | EV_WRITE)</code></strong>，否则回调不会被调用。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="nf">bufferevent_setcb</span><span class="p">(</span><span class="n">bev</span><span class="p">,</span> <span class="n">on_read</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="n">on_event</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nf">bufferevent_enable</span><span class="p">(</span><span class="n">bev</span><span class="p">,</span> <span class="n">EV_READ</span> <span class="o">|</span> <span class="n">EV_WRITE</span><span class="p">);</span>  <span class="c1">// 关键！
+</span></span></span></code></pre></div><hr>
+<h2 id="bufferevent_read--bufferevent_write--bufferevent_write_buffer">
+  bufferevent_read / bufferevent_write / bufferevent_write_buffer
+  <a class="heading-link" href="#bufferevent_read--bufferevent_write--bufferevent_write_buffer">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;event2/bufferevent.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;event2/buffer.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">size_t</span> <span class="nf">bufferevent_read</span><span class="p">(</span><span class="k">struct</span> <span class="n">bufferevent</span> <span class="o">*</span><span class="n">bev</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">data</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">size</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">bufferevent_write</span><span class="p">(</span><span class="k">struct</span> <span class="n">bufferevent</span> <span class="o">*</span><span class="n">bev</span><span class="p">,</span> <span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="n">data</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">size</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">bufferevent_write_buffer</span><span class="p">(</span><span class="k">struct</span> <span class="n">bufferevent</span> <span class="o">*</span><span class="n">bev</span><span class="p">,</span> <span class="k">struct</span> <span class="n">evbuffer</span> <span class="o">*</span><span class="n">buf</span><span class="p">);</span>
+</span></span></code></pre></div><p><strong>功能</strong>：</p>
+<ul>
+<li><code>bufferevent_read</code>：从输入缓冲区读取数据，返回实际读取的字节数。输入缓冲区为空时不阻塞——依赖 libevent 的读回调来驱动。</li>
+<li><code>bufferevent_write</code>：将数据写入输出缓冲区（不立即发送，由 libevent 在可写时自动发出），返回 0 成功，-1 失败。</li>
+<li><code>bufferevent_write_buffer</code>：将整个 evbuffer 的内容全部追加到输出缓冲区（常用于转发/代理场景）。</li>
+</ul>
+<p><strong>注意</strong>：</p>
+<ul>
+<li><strong>不要在 readcb 中多次调用 <code>bufferevent_read</code> 拿不满数据</strong>——每次 readcb 触发，输入缓冲区可能有任意长度的数据。循环读直到返回 0 或小于 size。</li>
+<li><code>bufferevent_write</code> 返回 -1 仅表示&quot;缓冲区满了或出错&quot;，正常情况下数据只是 pending，不会立即发送。</li>
+<li>输出缓冲区的数据由 libevent 在 socket 可写时自动发送，你不需要手动监控 <code>EV_WRITE</code>。</li>
+</ul>
+<hr>
+<h2 id="bufferevent_setwatermark--设置水位线">
+  bufferevent_setwatermark — 设置水位线
+  <a class="heading-link" href="#bufferevent_setwatermark--%e8%ae%be%e7%bd%ae%e6%b0%b4%e4%bd%8d%e7%ba%bf">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;event2/bufferevent.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">bufferevent_setwatermark</span><span class="p">(</span><span class="k">struct</span> <span class="n">bufferevent</span> <span class="o">*</span><span class="n">bev</span><span class="p">,</span> <span class="kt">short</span> <span class="n">events</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                              <span class="kt">size_t</span> <span class="n">lowmark</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">highmark</span><span class="p">);</span>
+</span></span></code></pre></div><p><strong>功能</strong>：</p>
+<ul>
+<li><strong>低水位 (lowmark)</strong>：输入缓冲区累积到 <code>lowmark</code> 字节才触发 <code>readcb</code>；输出缓冲区降到 <code>lowmark</code> 以下才触发 <code>writecb</code>。</li>
+<li><strong>高水位 (highmark)</strong>：输入/输出缓冲区达到 <code>highmark</code> 后停止读取/写入。</li>
+</ul>
+<p><strong>注意</strong>：<code>events</code> 为 <code>EV_READ</code>（读水位）、<code>EV_WRITE</code>（写水位），可分别设置。读高水位到达后，<code>eventcb</code> 收到 <code>BEV_EVENT_READING</code> 错误。</p>
+<hr>
+<h2 id="bufferevent_free--释放-bufferevent">
+  bufferevent_free — 释放 bufferevent
+  <a class="heading-link" href="#bufferevent_free--%e9%87%8a%e6%94%be-bufferevent">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;event2/bufferevent.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">bufferevent_free</span><span class="p">(</span><span class="k">struct</span> <span class="n">bufferevent</span> <span class="o">*</span><span class="n">bev</span><span class="p">);</span>
+</span></span></code></pre></div><p><strong>功能</strong>：释放 bufferevent 及其内部缓冲区。如果设置了 <code>BEV_OPT_CLOSE_ON_FREE</code>，还会自动 <code>close(fd)</code>。</p>
+<p><strong>注意</strong>：调用后 <code>bev</code> 不再可用。确保 bufferevent 已被 disable 或不在事件循环中（通常 <code>bufferevent_free</code> 内部会处理，但最好先 <code>bufferevent_disable</code>）。</p>
+<hr>
+<h2 id="evconnlistener_new_bind--监听并接受连接">
+  evconnlistener_new_bind — 监听并接受连接
+  <a class="heading-link" href="#evconnlistener_new_bind--%e7%9b%91%e5%90%ac%e5%b9%b6%e6%8e%a5%e5%8f%97%e8%bf%9e%e6%8e%a5">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;event2/listener.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">evconnlistener</span> <span class="o">*</span><span class="nf">evconnlistener_new_bind</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">event_base</span> <span class="o">*</span><span class="n">base</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">evconnlistener_cb</span> <span class="n">cb</span><span class="p">,</span>        <span class="c1">// 接受新连接时调用
+</span></span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="o">*</span><span class="n">ptr</span><span class="p">,</span>                   <span class="c1">// 用户参数
+</span></span></span><span class="line"><span class="cl">    <span class="kt">unsigned</span> <span class="n">flags</span><span class="p">,</span>              <span class="c1">// LEV_OPT_*
+</span></span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">backlog</span><span class="p">,</span>                 <span class="c1">// listen 队列长度
+</span></span></span><span class="line"><span class="cl">    <span class="k">const</span> <span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="n">sa</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">socklen</span><span class="p">);</span>
+</span></span></code></pre></div><p><strong>功能</strong>：一站式创建监听 socket，bind + listen + accept 全自动完成。新连接到达时调用 <code>cb</code>，在 <code>cb</code> 中拿到 fd 和地址。</p>
+<p><strong>常用 flags</strong>：</p>
+<table>
+	<thead>
+			<tr>
+					<th>flag</th>
+					<th>含义</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>LEV_OPT_CLOSE_ON_FREE</code></td>
+					<td>释放 listener 时 close 监听 fd</td>
+			</tr>
+			<tr>
+					<td><code>LEV_OPT_REUSEABLE</code></td>
+					<td>设置 <code>SO_REUSEADDR</code>（等同手动 <code>setsockopt</code>）</td>
+			</tr>
+	</tbody>
+</table>
+<p><strong>回调原型</strong>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">typedef</span> <span class="nf">void</span> <span class="p">(</span><span class="o">*</span><span class="n">evconnlistener_cb</span><span class="p">)(</span><span class="k">struct</span> <span class="n">evconnlistener</span> <span class="o">*</span><span class="n">listener</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                  <span class="kt">evutil_socket_t</span> <span class="n">fd</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                  <span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="n">addr</span><span class="p">,</span> <span class="kt">int</span> <span class="n">socklen</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                  <span class="kt">void</span> <span class="o">*</span><span class="n">ctx</span><span class="p">);</span>
+</span></span></code></pre></div><p><strong>注意</strong>：在回调中一般创建 bufferevent 来处理这个 fd——<code>bufferevent_socket_new(base, fd, BEV_OPT_CLOSE_ON_FREE)</code>，然后 <code>bufferevent_setcb</code> + <code>bufferevent_enable</code>。</p>
+<hr>
+<h1 id="完整示例tcp-echo-服务端">
+  完整示例：TCP Echo 服务端
+  <a class="heading-link" href="#%e5%ae%8c%e6%95%b4%e7%a4%ba%e4%be%8btcp-echo-%e6%9c%8d%e5%8a%a1%e7%ab%af">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h1>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;signal.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;event2/event.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;event2/listener.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;event2/bufferevent.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;event2/buffer.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;arpa/inet.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">event_base</span> <span class="o">*</span><span class="n">base</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">static</span> <span class="kt">void</span> <span class="nf">on_read</span><span class="p">(</span><span class="k">struct</span> <span class="n">bufferevent</span> <span class="o">*</span><span class="n">bev</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">ctx</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">evbuffer</span> <span class="o">*</span><span class="n">input</span>  <span class="o">=</span> <span class="nf">bufferevent_get_input</span><span class="p">(</span><span class="n">bev</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">evbuffer</span> <span class="o">*</span><span class="n">output</span> <span class="o">=</span> <span class="nf">bufferevent_get_output</span><span class="p">(</span><span class="n">bev</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nf">evbuffer_add_buffer</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">input</span><span class="p">);</span>  <span class="c1">// ① 输入 → 输出 = echo
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">static</span> <span class="kt">void</span> <span class="nf">on_event</span><span class="p">(</span><span class="k">struct</span> <span class="n">bufferevent</span> <span class="o">*</span><span class="n">bev</span><span class="p">,</span> <span class="kt">short</span> <span class="n">what</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">ctx</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">what</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">BEV_EVENT_EOF</span> <span class="o">|</span> <span class="n">BEV_EVENT_ERROR</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">bufferevent_free</span><span class="p">(</span><span class="n">bev</span><span class="p">);</span>  <span class="c1">// ② 对端关闭或出错，释放 bufferevent
+</span></span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">static</span> <span class="kt">void</span> <span class="nf">on_accept</span><span class="p">(</span><span class="k">struct</span> <span class="n">evconnlistener</span> <span class="o">*</span><span class="n">listener</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                      <span class="kt">evutil_socket_t</span> <span class="n">fd</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                      <span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="n">addr</span><span class="p">,</span> <span class="kt">int</span> <span class="n">socklen</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                      <span class="kt">void</span> <span class="o">*</span><span class="n">ctx</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ③ 每个新连接创建一个 bufferevent
+</span></span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">bufferevent</span> <span class="o">*</span><span class="n">bev</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">bufferevent_socket_new</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="n">fd</span><span class="p">,</span> <span class="n">BEV_OPT_CLOSE_ON_FREE</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">bufferevent_setcb</span><span class="p">(</span><span class="n">bev</span><span class="p">,</span> <span class="n">on_read</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="n">on_event</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">bufferevent_enable</span><span class="p">(</span><span class="n">bev</span><span class="p">,</span> <span class="n">EV_READ</span> <span class="o">|</span> <span class="n">EV_WRITE</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">static</span> <span class="kt">void</span> <span class="nf">on_signal</span><span class="p">(</span><span class="kt">evutil_socket_t</span> <span class="n">sig</span><span class="p">,</span> <span class="kt">short</span> <span class="n">events</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">ctx</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;Shutting down...</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">event_base_loopbreak</span><span class="p">(</span><span class="n">base</span><span class="p">);</span>  <span class="c1">// ④ Ctrl-C 停止循环
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">base</span> <span class="o">=</span> <span class="nf">event_base_new</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 信号处理，Ctrl-C 优雅退出
+</span></span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">event</span> <span class="o">*</span><span class="n">sigev</span> <span class="o">=</span> <span class="nf">evsignal_new</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="n">SIGINT</span><span class="p">,</span> <span class="n">on_signal</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">event_add</span><span class="p">(</span><span class="n">sigev</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 监听
+</span></span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="n">sin</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">memset</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sin</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">sin</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">    <span class="n">sin</span><span class="p">.</span><span class="n">sin_family</span>      <span class="o">=</span> <span class="n">AF_INET</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">sin</span><span class="p">.</span><span class="n">sin_port</span>        <span class="o">=</span> <span class="nf">htons</span><span class="p">(</span><span class="mi">8080</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">sin</span><span class="p">.</span><span class="n">sin_addr</span><span class="p">.</span><span class="n">s_addr</span> <span class="o">=</span> <span class="nf">htonl</span><span class="p">(</span><span class="n">INADDR_ANY</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">evconnlistener</span> <span class="o">*</span><span class="n">listener</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">evconnlistener_new_bind</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="n">on_accept</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                <span class="n">LEV_OPT_CLOSE_ON_FREE</span> <span class="o">|</span> <span class="n">LEV_OPT_REUSEABLE</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                <span class="o">-</span><span class="mi">1</span><span class="p">,</span>  <span class="c1">// ⑤ backlog = -1，由 libevent 自动选合理值
+</span></span></span><span class="line"><span class="cl">                                <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">sin</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">sin</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;Echo server on port 8080</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">event_base_dispatch</span><span class="p">(</span><span class="n">base</span><span class="p">);</span>  <span class="c1">// ⑥ 开始循环
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 清理
+</span></span></span><span class="line"><span class="cl">    <span class="nf">evconnlistener_free</span><span class="p">(</span><span class="n">listener</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">event_free</span><span class="p">(</span><span class="n">sigev</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">event_base_free</span><span class="p">(</span><span class="n">base</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><blockquote>
+<p><strong>要点回顾</strong>：① bufferevent 用 <code>evbuffer_add_buffer</code> 高效转发（零拷贝）；② <code>BEV_OPT_CLOSE_ON_FREE</code> 让 socket 生命周期与 bufferevent 绑定，无需手动 <code>close</code>；③ <code>event_base_loopbreak</code> 在信号回调中安全停止循环；④ <code>event_base_dispatch</code> 返回后才能 <code>event_base_free</code>。</p>
+</blockquote>
+<hr>
+<h1 id="evbuffer-操作">
+  evbuffer 操作
+  <a class="heading-link" href="#evbuffer-%e6%93%8d%e4%bd%9c">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h1>
+<p>bufferevent 底层使用 <code>evbuffer</code>（可自动增长的字节缓冲区）。</p>
+<h2 id="常用-evbuffer-函数">
+  常用 evbuffer 函数
+  <a class="heading-link" href="#%e5%b8%b8%e7%94%a8-evbuffer-%e5%87%bd%e6%95%b0">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;event2/buffer.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">evbuffer</span> <span class="o">*</span><span class="nf">evbuffer_new</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>                   <span class="c1">// 创建空缓冲区
+</span></span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">evbuffer_free</span><span class="p">(</span><span class="k">struct</span> <span class="n">evbuffer</span> <span class="o">*</span><span class="n">buf</span><span class="p">);</span>              <span class="c1">// 释放
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">evbuffer_add</span><span class="p">(</span><span class="k">struct</span> <span class="n">evbuffer</span> <span class="o">*</span><span class="n">buf</span><span class="p">,</span> <span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="n">data</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">size</span><span class="p">);</span>  <span class="c1">// 追加数据
+</span></span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">evbuffer_add_buffer</span><span class="p">(</span><span class="k">struct</span> <span class="n">evbuffer</span> <span class="o">*</span><span class="n">dst</span><span class="p">,</span> <span class="k">struct</span> <span class="n">evbuffer</span> <span class="o">*</span><span class="n">src</span><span class="p">);</span>    <span class="c1">// 移动整个 src 到 dst（零拷贝）
+</span></span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">evbuffer_add_printf</span><span class="p">(</span><span class="k">struct</span> <span class="n">evbuffer</span> <span class="o">*</span><span class="n">buf</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">fmt</span><span class="p">,</span> <span class="p">...);</span>    <span class="c1">// 格式化追加
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">size_t</span> <span class="nf">evbuffer_get_length</span><span class="p">(</span><span class="k">const</span> <span class="k">struct</span> <span class="n">evbuffer</span> <span class="o">*</span><span class="n">buf</span><span class="p">);</span>                 <span class="c1">// 缓冲区中数据长度
+</span></span></span><span class="line"><span class="cl"><span class="kt">size_t</span> <span class="nf">evbuffer_copyout</span><span class="p">(</span><span class="k">struct</span> <span class="n">evbuffer</span> <span class="o">*</span><span class="n">buf</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">data</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">size</span><span class="p">);</span> <span class="c1">// 拷出数据（不消费）
+</span></span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">evbuffer_remove</span><span class="p">(</span><span class="k">struct</span> <span class="n">evbuffer</span> <span class="o">*</span><span class="n">buf</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">data</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">size</span><span class="p">);</span>     <span class="c1">// 消费（读出并移除）
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">char</span> <span class="o">*</span><span class="nf">evbuffer_readln</span><span class="p">(</span><span class="k">struct</span> <span class="n">evbuffer</span> <span class="o">*</span><span class="n">buf</span><span class="p">,</span> <span class="kt">size_t</span> <span class="o">*</span><span class="n">n_read</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                      <span class="k">enum</span> <span class="n">evbuffer_eol_style</span> <span class="n">eol_style</span><span class="p">);</span>               <span class="c1">// 读一行
+</span></span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">evbuffer_ptr</span> <span class="nf">evbuffer_search</span><span class="p">(</span><span class="k">struct</span> <span class="n">evbuffer</span> <span class="o">*</span><span class="n">buf</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                    <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">what</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">len</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                    <span class="k">const</span> <span class="k">struct</span> <span class="n">evbuffer_ptr</span> <span class="o">*</span><span class="n">start</span><span class="p">);</span>  <span class="c1">// 搜索子串
+</span></span></span></code></pre></div><p><strong>行尾风格</strong>：<code>EVBUFFER_EOL_LF</code>（<code>\n</code>）、<code>EVBUFFER_EOL_CRLF</code>（<code>\r\n</code>）、<code>EVBUFFER_EOL_ANY</code> 等。</p>
+<hr>
+<h1 id="常见模式">
+  常见模式
+  <a class="heading-link" href="#%e5%b8%b8%e8%a7%81%e6%a8%a1%e5%bc%8f">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h1>
+<h2 id="超时控制">
+  超时控制
+  <a class="heading-link" href="#%e8%b6%85%e6%97%b6%e6%8e%a7%e5%88%b6">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// 带读取超时的 bufferevent
+</span></span></span><span class="line"><span class="cl"><span class="nf">bufferevent_setcb</span><span class="p">(</span><span class="n">bev</span><span class="p">,</span> <span class="n">on_read</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="n">on_event</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nf">bufferevent_enable</span><span class="p">(</span><span class="n">bev</span><span class="p">,</span> <span class="n">EV_READ</span> <span class="o">|</span> <span class="n">EV_WRITE</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 设置 10 秒超时
+</span></span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">timeval</span> <span class="n">tv</span> <span class="o">=</span> <span class="p">{</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="nf">bufferevent_set_timeouts</span><span class="p">(</span><span class="n">bev</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">tv</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>  <span class="c1">// 读超时 10s，写无超时
+</span></span></span></code></pre></div><h2 id="定时任务一次性或周期性">
+  定时任务（一次性或周期性）
+  <a class="heading-link" href="#%e5%ae%9a%e6%97%b6%e4%bb%bb%e5%8a%a1%e4%b8%80%e6%ac%a1%e6%80%a7%e6%88%96%e5%91%a8%e6%9c%9f%e6%80%a7">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// 一次性：3 秒后执行
+</span></span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">event</span> <span class="o">*</span><span class="n">timer</span> <span class="o">=</span> <span class="nf">event_new</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on_timer</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">timeval</span> <span class="n">tv</span> <span class="o">=</span> <span class="p">{</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="nf">event_add</span><span class="p">(</span><span class="n">timer</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">tv</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 周期性：每 2 秒执行一次
+</span></span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">event</span> <span class="o">*</span><span class="n">persist_timer</span> <span class="o">=</span> <span class="nf">event_new</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">EV_PERSIST</span><span class="p">,</span> <span class="n">on_timer</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">timeval</span> <span class="n">tv2</span> <span class="o">=</span> <span class="p">{</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="nf">event_add</span><span class="p">(</span><span class="n">persist_timer</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">tv2</span><span class="p">);</span>
+</span></span></code></pre></div><blockquote>
+<p><strong>注意</strong>：定时器用 <code>fd = -1</code> 表示与任何 socket 无关。</p>
+</blockquote>
+<h2 id="非阻塞-connect配合-bufferevent">
+  非阻塞 connect（配合 bufferevent）
+  <a class="heading-link" href="#%e9%9d%9e%e9%98%bb%e5%a1%9e-connect%e9%85%8d%e5%90%88-bufferevent">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">bufferevent</span> <span class="o">*</span><span class="n">bev</span> <span class="o">=</span> <span class="nf">bufferevent_socket_new</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">BEV_OPT_CLOSE_ON_FREE</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nf">bufferevent_setcb</span><span class="p">(</span><span class="n">bev</span><span class="p">,</span> <span class="n">on_read</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="n">on_event</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 异步连接，连接成功时 eventcb 收到 BEV_EVENT_CONNECTED
+</span></span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="n">sin</span> <span class="o">=</span> <span class="p">{</span> <span class="p">...</span> <span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="nf">bufferevent_socket_connect</span><span class="p">(</span><span class="n">bev</span><span class="p">,</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">sin</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">sin</span><span class="p">));</span>
+</span></span></code></pre></div><hr>
+<h1 id="注意事项">
+  注意事项
+  <a class="heading-link" href="#%e6%b3%a8%e6%84%8f%e4%ba%8b%e9%a1%b9">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h1>
+<ol>
+<li><strong>回调中不要阻塞</strong>：libevent 是单线程事件循环模型（默认），回调执行期间其他事件无法被处理。耗时操作应放到线程池或异步处理。</li>
+<li><strong>多线程</strong>：每个线程一个 <code>event_base</code>，用 <code>evthread_use_pthreads()</code> 启用线程支持。bufferevent 的 <code>BEV_OPT_THREADSAFE</code> 允许多线程安全访问。</li>
+<li><strong>内存管理</strong>：bufferevent 的输入/输出缓冲区默认无上限——高水位到达后停止接收，避免内存爆炸。用 <code>bufferevent_setwatermark</code> 设置。</li>
+<li><strong>bufferevent 与裸 event 的选择</strong>：bufferevent 封装了缓冲区和自动 I/O，适合大多数 TCP 场景；裸 <code>event</code> 适合自定义 I/O（如 <code>event_new(fd, EV_READ|EV_PERSIST, cb, arg)</code> 然后你手动 <code>read</code>/<code>write</code>）。</li>
+<li><strong><code>BEV_OPT_CLOSE_ON_FREE</code></strong>：强烈推荐——避免 fd 泄露。bufferevent 生命周期与 fd 绑定。</li>
+<li><strong>event_base_loopbreak vs event_base_loopexit</strong>：<code>loopbreak</code> 立即退出，<code>loopexit</code> 等到下一个 event 处理完毕。清理阶段用 <code>loopbreak</code>。</li>
+<li><strong>引用计数</strong>：libevent 2.x 中 <code>event_base</code> 有内部引用计数，<code>event_free</code> / <code>bufferevent_free</code> 会自动减少计数，不会在使用中的对象上崩溃。但仍建议按正确顺序释放。</li>
+</ol>
+<hr>
+<h1 id="头文件汇总">
+  头文件汇总
+  <a class="heading-link" href="#%e5%a4%b4%e6%96%87%e4%bb%b6%e6%b1%87%e6%80%bb">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h1>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cm">/* ---------- libevent 核心 ---------- */</span>
+</span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;event2/event.h&gt;       // event_base_new, event_new, event_add, event_del,</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">                                 <span class="c1">// event_free, event_base_free, event_base_dispatch,
+</span></span></span><span class="line"><span class="cl">                                 <span class="c1">// event_base_loopbreak, struct event
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;event2/buffer.h&gt;      // evbuffer_new, evbuffer_add, evbuffer_add_buffer,</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">                                 <span class="c1">// evbuffer_remove, evbuffer_readln, evbuffer_get_length
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;event2/bufferevent.h&gt; // bufferevent_socket_new, bufferevent_setcb,</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">                                 <span class="c1">// bufferevent_enable, bufferevent_read,
+</span></span></span><span class="line"><span class="cl">                                 <span class="c1">// bufferevent_write, bufferevent_free,
+</span></span></span><span class="line"><span class="cl">                                 <span class="c1">// bufferevent_set_timeouts, bufferevent_setwatermark,
+</span></span></span><span class="line"><span class="cl">                                 <span class="c1">// BEV_OPT_CLOSE_ON_FREE, struct bufferevent
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;event2/listener.h&gt;    // evconnlistener_new_bind, evconnlistener_free,</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">                                 <span class="c1">// LEV_OPT_CLOSE_ON_FREE, LEV_OPT_REUSEABLE
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;event2/util.h&gt;        // evutil_socket_t, evutil_make_socket_nonblocking</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cm">/* ---------- 线程支持（可选） ---------- */</span>
+</span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;event2/thread.h&gt;      // evthread_use_pthreads, evthread_enable_lock_debugging</span><span class="cp">
+</span></span></span></code></pre></div>
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+    2026
+     UOGOG 
+    ·
+    
+    技术支持 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js" integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+
+</html>
