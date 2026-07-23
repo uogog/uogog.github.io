@@ -160,7 +160,7 @@
             </span>
             <span class="reading-time">
               <i class="fa-solid fa-clock" aria-hidden="true"></i>
-              阅读时间：7 分钟
+              阅读时间：8 分钟
             </span>
           </div>
           <div class="authors">
@@ -296,7 +296,68 @@
 <p><strong>对应 linux_coding</strong>：相当于 <code>epoll_create1</code> 得到 epoll fd。</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">event_base</span> <span class="o">*</span><span class="n">base</span> <span class="o">=</span> <span class="nf">event_base_new</span><span class="p">();</span>
 </span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">base</span><span class="p">)</span> <span class="p">{</span> <span class="nf">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">&#34;event_base_new failed</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span> <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="p">}</span>
-</span></span></code></pre></div><hr>
+</span></span></code></pre></div><h2 id="event_get_supported_methods--查看支持的多路复用后端">
+  event_get_supported_methods — 查看支持的多路复用后端
+  <a class="heading-link" href="#event_get_supported_methods--%e6%9f%a5%e7%9c%8b%e6%94%af%e6%8c%81%e7%9a%84%e5%a4%9a%e8%b7%af%e5%a4%8d%e7%94%a8%e5%90%8e%e7%ab%af">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;event2/event.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">const</span> <span class="kt">char</span> <span class="o">**</span><span class="nf">event_get_supported_methods</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+</span></span></code></pre></div><p><strong>功能</strong>：返回一个以 <code>NULL</code> 结尾的字符串数组，列出当前平台所有可用的多路复用后端（如 <code>epoll</code>、<code>poll</code>、<code>select</code>、<code>kqueue</code>、<code>devpoll</code> 等）。libevent 创建 <code>event_base</code> 时自动选最优的那个。</p>
+<p><strong>典型用法</strong>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">const</span> <span class="kt">char</span> <span class="o">**</span><span class="n">methods</span> <span class="o">=</span> <span class="nf">event_get_supported_methods</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="nf">printf</span><span class="p">(</span><span class="s">&#34;Supported backends:</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">methods</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;  %s</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">methods</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+</span></span></code></pre></div><p><strong>注意</strong>：返回的数组是静态区，<strong>不要 <code>free</code></strong>。不同平台编译的 libevent 可用后端不同——Linux 有 epoll，macOS 有 kqueue，Windows 有 IOCP。</p>
+<h2 id="event_base_get_method--查看当前使用的后端">
+  event_base_get_method — 查看当前使用的后端
+  <a class="heading-link" href="#event_base_get_method--%e6%9f%a5%e7%9c%8b%e5%bd%93%e5%89%8d%e4%bd%bf%e7%94%a8%e7%9a%84%e5%90%8e%e7%ab%af">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;event2/event.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="nf">event_base_get_method</span><span class="p">(</span><span class="k">const</span> <span class="k">struct</span> <span class="n">event_base</span> <span class="o">*</span><span class="n">base</span><span class="p">);</span>
+</span></span></code></pre></div><p><strong>功能</strong>：返回当前 <code>event_base</code> 实例实际使用的多路复用后端名称。成功返回字符串指针，失败返回 <code>NULL</code>。</p>
+<p><strong>注意</strong>：返回的字符串是内部静态 buffer，不要释放。常用做日志/调试输出：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="nf">printf</span><span class="p">(</span><span class="s">&#34;Using backend: %s</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="nf">event_base_get_method</span><span class="p">(</span><span class="n">base</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 典型输出: &#34;epoll&#34;、&#34;poll&#34;、&#34;kqueue&#34; 等
+</span></span></span></code></pre></div><h2 id="event_reinit--fork-后重新初始化-event_base">
+  event_reinit — fork 后重新初始化 event_base
+  <a class="heading-link" href="#event_reinit--fork-%e5%90%8e%e9%87%8d%e6%96%b0%e5%88%9d%e5%a7%8b%e5%8c%96-event_base">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;event2/event.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">event_reinit</span><span class="p">(</span><span class="k">struct</span> <span class="n">event_base</span> <span class="o">*</span><span class="n">base</span><span class="p">);</span>
+</span></span></code></pre></div><p><strong>功能</strong>：在 <code>fork()</code> 之后，子进程中必须调用此函数来重新初始化 event_base 的内部状态（尤其是多路复用 fd，如 epoll fd），否则子进程会继续使用父进程遗留的 epoll fd，导致诡异的行为。成功返回 0，失败返回 -1。</p>
+<p><strong>典型用法</strong>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">pid_t</span> <span class="n">pid</span> <span class="o">=</span> <span class="nf">fork</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">pid</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 子进程
+</span></span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nf">event_reinit</span><span class="p">(</span><span class="n">base</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">perror</span><span class="p">(</span><span class="s">&#34;event_reinit&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">_exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 不要再使用父进程创建的 event（event_del / event_free 它们）
+</span></span></span><span class="line"><span class="cl">    <span class="c1">// 然后重新 event_new 子进程自己的 event
+</span></span></span><span class="line"><span class="cl">    <span class="nf">event_base_dispatch</span><span class="p">(</span><span class="n">base</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p><strong>注意</strong>：</p>
+<ul>
+<li><strong>只在子进程调用</strong>，父进程不需要（父进程的 event_base 不受影响）。</li>
+<li><code>event_reinit</code> 只修复内核数据结构（epoll fd 等），<strong>不会迁移父进程的 event 列表</strong>——子进程应 <code>event_del</code> 所有从父进程继承的 event，然后重新创建自己的。</li>
+<li>如果你用 <code>pthread_atfork</code> 注册回调，把 <code>event_reinit</code> 放在 <code>child</code> 回调中可以保证每次 fork 都自动调用。</li>
+<li>有些后端（如 kqueue、IOCP）不支持 <code>event_reinit</code>，<code>fork</code> 后应直接在子进程中 <code>event_base_free</code> + <code>event_base_new</code>，此方式最保险。</li>
+</ul>
+<hr>
 <h2 id="event_new--创建事件">
   event_new — 创建事件
   <a class="heading-link" href="#event_new--%e5%88%9b%e5%bb%ba%e4%ba%8b%e4%bb%b6">
