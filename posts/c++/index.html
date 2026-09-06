@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+  <title>
+  C&#43;&#43; · UOG的BLOG
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="UOGOG">
+<meta name="description" content="默认参数只能从右到左一个一个指定
+对于派生类，可以用一个基类的引用来引用这个实现多态
+函数重载，要看能不能区别函数，但是const，volatile，&amp;这3个不影响区别
+函数模板，template只作用于下一个函数，使用时确定会用实例化和具体化
+在用函数模板和函数重载时，几乎一定会出现一个函数调用能用几个定义好的函数，
+这个要看最佳匹配，优先常规函数，再是提升转换，规则转换，最后用户定义的转换
+在模板的使用中，有decltype这个关键字，用于自动推断类型
+decltypr(A) x; // x是A的类型
+decltypr(func()) x; // x是返回值的类类型
+decltypr((A)) x; // x是A的引用类型
+decltypr(10&#43;1.0) x; // x是表达试的类型
+还需要后置返回值
+template&lt;class T1,class T2&gt;
+auto func(T1 x,T2 y) -&gt; decltype(x&#43;y){
+}
+
+  名称
+  
+    
+    链接到标题
+  
+
+cin &gt;&gt; , cin.get() , cin.getline() , getline() — C&#43;&#43; 标准输入函数
+
+  概述
+  
+    
+    链接到标题
+  
+
+
+	
+			
+					函数
+					返回值
+					读到的内容
+					是否读走 \n
+					是否储存 \n
+			
+	
+	
+			
+					cin &gt;&gt; var
+					istream&amp;
+					跳过前导空白，读到空白前
+					否
+					—
+			
+			
+					cin.get()
+					int
+					一个字符（含 \n）
+					—
+					—
+			
+			
+					cin.get(ch)
+					istream&amp;
+					一个字符（含 \n）
+					—
+					—
+			
+			
+					cin.get(buf, len)
+					istream&amp;
+					一行，最多 len-1 个字符
+					否
+					否
+			
+			
+					cin.get(buf, len, delim)
+					istream&amp;
+					读到 delim 前，最多 len-1 个字符
+					否
+					否
+			
+			
+					cin.getline(buf, len)
+					istream&amp;
+					一行，最多 len-1 个字符
+					是
+					否
+			
+			
+					cin.getline(buf, len, delim)
+					istream&amp;
+					读到 delim 前，最多 len-1 个字符
+					是
+					否
+			
+			
+					getline(cin, str)
+					istream&amp;
+					一行
+					是
+					否
+			
+			
+					getline(cin, str, delim)
+					istream&amp;
+					读到 delim 前
+					是
+					否
+			
+	
+
+
+
+  istream 如何转换为 bool
+  
+    
+    链接到标题
+  
+
+istream 可在 if / while 中直接作为条件判断，通过 explicit operator bool()（C&#43;&#43;11 起）。">
+<meta name="keywords" content="blog,developer,personal">
+
+
+
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="C&#43;&#43;">
+	<meta name="twitter:description" content="默认参数只能从右到左一个一个指定 对于派生类，可以用一个基类的引用来引用这个实现多态 函数重载，要看能不能区别函数，但是const，volatile，&amp;这3个不影响区别 函数模板，template只作用于下一个函数，使用时确定会用实例化和具体化 在用函数模板和函数重载时，几乎一定会出现一个函数调用能用几个定义好的函数， 这个要看最佳匹配，优先常规函数，再是提升转换，规则转换，最后用户定义的转换 在模板的使用中，有decltype这个关键字，用于自动推断类型 decltypr(A) x; // x是A的类型 decltypr(func()) x; // x是返回值的类类型 decltypr((A)) x; // x是A的引用类型 decltypr(10&#43;1.0) x; // x是表达试的类型 还需要后置返回值 template&lt;class T1,class T2&gt; auto func(T1 x,T2 y) -&gt; decltype(x&#43;y){ }
+名称 链接到标题 cin &gt;&gt; , cin.get() , cin.getline() , getline() — C&#43;&#43; 标准输入函数
+概述 链接到标题 函数 返回值 读到的内容 是否读走 \n 是否储存 \n cin &gt;&gt; var istream&amp; 跳过前导空白，读到空白前 否 — cin.get() int 一个字符（含 \n） — — cin.get(ch) istream&amp; 一个字符（含 \n） — — cin.get(buf, len) istream&amp; 一行，最多 len-1 个字符 否 否 cin.get(buf, len, delim) istream&amp; 读到 delim 前，最多 len-1 个字符 否 否 cin.getline(buf, len) istream&amp; 一行，最多 len-1 个字符 是 否 cin.getline(buf, len, delim) istream&amp; 读到 delim 前，最多 len-1 个字符 是 否 getline(cin, str) istream&amp; 一行 是 否 getline(cin, str, delim) istream&amp; 读到 delim 前 是 否 istream 如何转换为 bool 链接到标题 istream 可在 if / while 中直接作为条件判断，通过 explicit operator bool()（C&#43;&#43;11 起）。">
+
+<meta property="og:url" content="https://uogog.github.io/posts/c&#43;&#43;/">
+	<meta property="og:site_name" content="UOG的BLOG">
+	<meta property="og:title" content="C&#43;&#43;">
+	<meta property="og:description" content="默认参数只能从右到左一个一个指定 对于派生类，可以用一个基类的引用来引用这个实现多态 函数重载，要看能不能区别函数，但是const，volatile，&amp;这3个不影响区别 函数模板，template只作用于下一个函数，使用时确定会用实例化和具体化 在用函数模板和函数重载时，几乎一定会出现一个函数调用能用几个定义好的函数， 这个要看最佳匹配，优先常规函数，再是提升转换，规则转换，最后用户定义的转换 在模板的使用中，有decltype这个关键字，用于自动推断类型 decltypr(A) x; // x是A的类型 decltypr(func()) x; // x是返回值的类类型 decltypr((A)) x; // x是A的引用类型 decltypr(10&#43;1.0) x; // x是表达试的类型 还需要后置返回值 template&lt;class T1,class T2&gt; auto func(T1 x,T2 y) -&gt; decltype(x&#43;y){ }
+名称 链接到标题 cin &gt;&gt; , cin.get() , cin.getline() , getline() — C&#43;&#43; 标准输入函数
+概述 链接到标题 函数 返回值 读到的内容 是否读走 \n 是否储存 \n cin &gt;&gt; var istream&amp; 跳过前导空白，读到空白前 否 — cin.get() int 一个字符（含 \n） — — cin.get(ch) istream&amp; 一个字符（含 \n） — — cin.get(buf, len) istream&amp; 一行，最多 len-1 个字符 否 否 cin.get(buf, len, delim) istream&amp; 读到 delim 前，最多 len-1 个字符 否 否 cin.getline(buf, len) istream&amp; 一行，最多 len-1 个字符 是 否 cin.getline(buf, len, delim) istream&amp; 读到 delim 前，最多 len-1 个字符 是 否 getline(cin, str) istream&amp; 一行 是 否 getline(cin, str, delim) istream&amp; 读到 delim 前 是 否 istream 如何转换为 bool 链接到标题 istream 可在 if / while 中直接作为条件判断，通过 explicit operator bool()（C&#43;&#43;11 起）。">
+	<meta property="og:locale" content="zh_cn">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="posts">
+		<meta property="article:published_time" content="2026-07-27T15:25:39+08:00">
+		<meta property="article:modified_time" content="2026-07-27T15:25:39+08:00">
+
+
+
+
+<link rel="canonical" href="https://uogog.github.io/posts/c&#43;&#43;/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.min.eb24cf90dc36787516f31b2daef18b57a332c84021386a167d6a040e78be5c1e.css" integrity="sha256-6yTPkNw2eHUW8xstrvGLV6MyyEAhOGoWfWoEDni&#43;XB4=" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    
+    
+    <link rel="stylesheet" href="/css/coder-dark.min.ad48f476275974885bdc03d5251e3cdbe1678c54a63ff772376b0ed2adc468dd.css" integrity="sha256-rUj0didZdIhb3APVJR482&#43;FnjFSmP/dyN2sO0q3EaN0=" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/img/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/img/favicon.ico" sizes="32x32">
+<link rel="icon" type="image/png" href="/img/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-dark">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="https://uogog.github.io/">
+      UOG的BLOG
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">博客(Blog)</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/about/">关于(About)</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://uogog.github.io/posts/c&#43;&#43;/">
+              C&#43;&#43;
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2026-07-27T15:25:39&#43;08:00">
+                July 27, 2026
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              阅读时间：5 分钟
+            </span>
+          </div>
+          
+          
+          
+        </div>
+      </header>
+
+      
+
+
+      <div class="post-content">
+        
+        <p>默认参数只能从右到左一个一个指定
+对于派生类，可以用一个基类的引用来引用这个实现多态
+函数重载，要看能不能区别函数，但是const，volatile，&amp;这3个不影响区别
+函数模板，template只作用于下一个函数，使用时确定会用实例化和具体化
+在用函数模板和函数重载时，几乎一定会出现一个函数调用能用几个定义好的函数，
+这个要看最佳匹配，优先常规函数，再是提升转换，规则转换，最后用户定义的转换
+在模板的使用中，有decltype这个关键字，用于自动推断类型
+decltypr(A) x; // x是A的类型
+decltypr(func()) x; // x是返回值的类类型
+decltypr((A)) x; // x是A的引用类型
+decltypr(10+1.0) x; // x是表达试的类型
+还需要后置返回值
+template&lt;class T1,class T2&gt;
+auto func(T1 x,T2 y) -&gt; decltype(x+y){
+}</p>
+<h2 id="名称">
+  名称
+  <a class="heading-link" href="#%e5%90%8d%e7%a7%b0">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<p><code>cin &gt;&gt;</code> , <code>cin.get()</code> , <code>cin.getline()</code> , <code>getline()</code> — C++ 标准输入函数</p>
+<h2 id="概述">
+  概述
+  <a class="heading-link" href="#%e6%a6%82%e8%bf%b0">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<table>
+	<thead>
+			<tr>
+					<th>函数</th>
+					<th style="text-align: center">返回值</th>
+					<th>读到的内容</th>
+					<th style="text-align: center">是否读走 <code>\n</code></th>
+					<th style="text-align: center">是否储存 <code>\n</code></th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>cin &gt;&gt; var</code></td>
+					<td style="text-align: center"><code>istream&amp;</code></td>
+					<td>跳过前导空白，读到空白前</td>
+					<td style="text-align: center">否</td>
+					<td style="text-align: center">—</td>
+			</tr>
+			<tr>
+					<td><code>cin.get()</code></td>
+					<td style="text-align: center"><code>int</code></td>
+					<td>一个字符（含 <code>\n</code>）</td>
+					<td style="text-align: center">—</td>
+					<td style="text-align: center">—</td>
+			</tr>
+			<tr>
+					<td><code>cin.get(ch)</code></td>
+					<td style="text-align: center"><code>istream&amp;</code></td>
+					<td>一个字符（含 <code>\n</code>）</td>
+					<td style="text-align: center">—</td>
+					<td style="text-align: center">—</td>
+			</tr>
+			<tr>
+					<td><code>cin.get(buf, len)</code></td>
+					<td style="text-align: center"><code>istream&amp;</code></td>
+					<td>一行，最多 len-1 个字符</td>
+					<td style="text-align: center">否</td>
+					<td style="text-align: center">否</td>
+			</tr>
+			<tr>
+					<td><code>cin.get(buf, len, delim)</code></td>
+					<td style="text-align: center"><code>istream&amp;</code></td>
+					<td>读到 delim 前，最多 len-1 个字符</td>
+					<td style="text-align: center">否</td>
+					<td style="text-align: center">否</td>
+			</tr>
+			<tr>
+					<td><code>cin.getline(buf, len)</code></td>
+					<td style="text-align: center"><code>istream&amp;</code></td>
+					<td>一行，最多 len-1 个字符</td>
+					<td style="text-align: center"><strong>是</strong></td>
+					<td style="text-align: center">否</td>
+			</tr>
+			<tr>
+					<td><code>cin.getline(buf, len, delim)</code></td>
+					<td style="text-align: center"><code>istream&amp;</code></td>
+					<td>读到 delim 前，最多 len-1 个字符</td>
+					<td style="text-align: center"><strong>是</strong></td>
+					<td style="text-align: center">否</td>
+			</tr>
+			<tr>
+					<td><code>getline(cin, str)</code></td>
+					<td style="text-align: center"><code>istream&amp;</code></td>
+					<td>一行</td>
+					<td style="text-align: center"><strong>是</strong></td>
+					<td style="text-align: center">否</td>
+			</tr>
+			<tr>
+					<td><code>getline(cin, str, delim)</code></td>
+					<td style="text-align: center"><code>istream&amp;</code></td>
+					<td>读到 delim 前</td>
+					<td style="text-align: center"><strong>是</strong></td>
+					<td style="text-align: center">否</td>
+			</tr>
+	</tbody>
+</table>
+<hr>
+<h2 id="istream-如何转换为-bool">
+  <code>istream</code> 如何转换为 <code>bool</code>
+  <a class="heading-link" href="#istream-%e5%a6%82%e4%bd%95%e8%bd%ac%e6%8d%a2%e4%b8%ba-bool">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<p><code>istream</code> 可在 <code>if</code> / <code>while</code> 中直接作为条件判断，通过 <code>explicit operator bool()</code>（C++11 起）。</p>
+<h3 id="工作原理">
+  工作原理
+  <a class="heading-link" href="#%e5%b7%a5%e4%bd%9c%e5%8e%9f%e7%90%86">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<p><code>operator bool</code> 内部返回 <code>!fail()</code> —— 即流没有 <code>failbit</code> 或 <code>badbit</code> 时为 <code>true</code>，出错或到 EOF 后下一次读取失败时为 <code>false</code>。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">cin</span><span class="p">)</span>             <span class="c1">// cin.fail() 为 false 时进入
+</span></span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">n</span><span class="p">)</span>        <span class="c1">// 读取成功时进入，失败则不进
+</span></span></span><span class="line"><span class="cl"><span class="k">while</span> <span class="p">(</span><span class="n">cin</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">ch</span><span class="p">))</span>  <span class="c1">// 读到 EOF 自动退出
+</span></span></span><span class="line"><span class="cl"><span class="k">while</span> <span class="p">(</span><span class="n">getline</span><span class="p">(</span><span class="n">cin</span><span class="p">,</span> <span class="n">s</span><span class="p">))</span> <span class="c1">// 读到 EOF 自动退出
+</span></span></span></code></pre></div><h3 id="关键不检查-eofbit">
+  关键：不检查 <code>eofbit</code>
+  <a class="heading-link" href="#%e5%85%b3%e9%94%ae%e4%b8%8d%e6%a3%80%e6%9f%a5-eofbit">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<p>仅 <code>eofbit</code> 置位而 <code>failbit</code>/<code>badbit</code> 未置位时，流仍为 <code>true</code>。只有<strong>下一次读取失败</strong>导致 <code>failbit</code> 也置位后，才转为 <code>false</code>。</p>
+<h3 id="历史">
+  历史
+  <a class="heading-link" href="#%e5%8e%86%e5%8f%b2">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<p>C++98/03 使用 <code>operator void*</code>（返回空指针表示失败），存在漏洞（如 <code>cin == true</code> 可通过编译）。C++11 起改为 <code>explicit operator bool</code>，禁止了这类荒唐用法，但 <code>if(cin)</code> 仍正常工作。</p>
+<hr>
+<h2 id="1-cin---格式化提取运算符">
+  1. <code>cin &gt;&gt;</code> — 格式化提取运算符
+  <a class="heading-link" href="#1-cin---%e6%a0%bc%e5%bc%8f%e5%8c%96%e6%8f%90%e5%8f%96%e8%bf%90%e7%ae%97%e7%ac%a6">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<h3 id="头文件">
+  头文件
+  <a class="heading-link" href="#%e5%a4%b4%e6%96%87%e4%bb%b6">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<p><code>#include &lt;iostream&gt;</code></p>
+<h3 id="语法">
+  语法
+  <a class="heading-link" href="#%e8%af%ad%e6%b3%95">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">var</span><span class="p">;</span>
+</span></span></code></pre></div><h3 id="说明">
+  说明
+  <a class="heading-link" href="#%e8%af%b4%e6%98%8e">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<p>从输入流中提取数据存入变量 <code>var</code>。读取前<strong>跳过所有前导空白字符</strong>（空格、制表符、换行符），读取到下一个空白字符前停止，且<strong>不会读走停止时的那个空白字符</strong>（留在缓冲区中）。</p>
+<p>支持的类型：<code>int</code>、<code>double</code>、<code>char</code>、<code>string</code> 等重载了 <code>operator&gt;&gt;</code> 的类型。</p>
+<h3 id="返回值">
+  返回值
+  <a class="heading-link" href="#%e8%bf%94%e5%9b%9e%e5%80%bc">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<p>返回 <code>istream&amp;</code>（即 <code>cin</code> 自身的引用），可链式调用：<code>cin &gt;&gt; a &gt;&gt; b &gt;&gt; c;</code>。</p>
+<p>流状态反映了操作成败：</p>
+<ul>
+<li><code>cin.good()</code> — 读取成功</li>
+<li><code>cin.fail()</code> — 类型不匹配（如输入字母给 <code>int</code>）</li>
+<li><code>cin.eof()</code> — 读到文件末尾</li>
+</ul>
+<h3 id="示例">
+  示例
+  <a class="heading-link" href="#%e7%a4%ba%e4%be%8b">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">n</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">string</span> <span class="n">s</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;输入一个整数和字符串: &#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">n</span> <span class="o">&gt;&gt;</span> <span class="n">s</span><span class="p">;</span>          <span class="c1">// 输入: 42 hello
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;n = &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">n</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>  <span class="c1">// n = 42
+</span></span></span><span class="line"><span class="cl">    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;s = &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">s</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>  <span class="c1">// s = hello
+</span></span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="陷阱残留的换行符">
+  陷阱：残留的换行符
+  <a class="heading-link" href="#%e9%99%b7%e9%98%b1%e6%ae%8b%e7%95%99%e7%9a%84%e6%8d%a2%e8%a1%8c%e7%ac%a6">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">n</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">string</span> <span class="n">line</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">n</span><span class="p">;</span>                  <span class="c1">// 输入 &#34;42\n&#34;，读走 42，\n 留在缓冲区
+</span></span></span><span class="line"><span class="cl"><span class="n">getline</span><span class="p">(</span><span class="n">cin</span><span class="p">,</span> <span class="n">line</span><span class="p">);</span>        <span class="c1">// 立刻读到 \n，line 为空串！
+</span></span></span></code></pre></div><p>解决方法：在 <code>cin &gt;&gt; n</code> 后用 <code>cin.ignore()</code> 吃掉残留的 <code>\n</code>。</p>
+<hr>
+<h2 id="2-cinget--无参版本">
+  2. <code>cin.get()</code> — 无参版本
+  <a class="heading-link" href="#2-cinget--%e6%97%a0%e5%8f%82%e7%89%88%e6%9c%ac">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<h3 id="语法-1">
+  语法
+  <a class="heading-link" href="#%e8%af%ad%e6%b3%95-1">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">cin</span><span class="p">.</span><span class="n">get</span><span class="p">();</span>
+</span></span></code></pre></div><h3 id="说明-1">
+  说明
+  <a class="heading-link" href="#%e8%af%b4%e6%98%8e-1">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<p>从输入流中读取<strong>一个字符</strong>（包括空白、换行符），并以 <code>int</code> 类型返回其 ASCII 码。读到文件末尾返回 <code>EOF</code>（通常为 -1）。</p>
+<h3 id="返回值-1">
+  返回值
+  <a class="heading-link" href="#%e8%bf%94%e5%9b%9e%e5%80%bc-1">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<p>返回 <code>int</code> 类型：成功时返回所读字符的 ASCII 码（0–255）；读到文件末尾或出错时返回 <code>EOF</code>（通常为 <code>-1</code>，定义在 <code>&lt;cstdio&gt;</code>）。</p>
+<h3 id="示例-1">
+  示例
+  <a class="heading-link" href="#%e7%a4%ba%e4%be%8b-1">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;输入: &#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">ch</span> <span class="o">=</span> <span class="n">cin</span><span class="p">.</span><span class="n">get</span><span class="p">();</span>    <span class="c1">// 输入 A
+</span></span></span><span class="line"><span class="cl">    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;读取字符: &#34;</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="kt">char</span><span class="p">)</span><span class="n">ch</span>
+</span></span><span class="line"><span class="cl">         <span class="o">&lt;&lt;</span> <span class="s">&#34; (ASCII &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">ch</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;)&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><hr>
+<h2 id="3-cingetch--单参数版本">
+  3. <code>cin.get(ch)</code> — 单参数版本
+  <a class="heading-link" href="#3-cingetch--%e5%8d%95%e5%8f%82%e6%95%b0%e7%89%88%e6%9c%ac">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<h3 id="语法-2">
+  语法
+  <a class="heading-link" href="#%e8%af%ad%e6%b3%95-2">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">istream</span><span class="o">&amp;</span> <span class="n">cin</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="kt">char</span><span class="o">&amp;</span> <span class="n">ch</span><span class="p">);</span>
+</span></span></code></pre></div><h3 id="说明-2">
+  说明
+  <a class="heading-link" href="#%e8%af%b4%e6%98%8e-2">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<p>从输入流中读取<strong>一个字符</strong>（包括 <code>\n</code>）存入 <code>ch</code>，返回 <code>istream&amp;</code>，支持链式调用。读到文件末尾返回 <code>EOF</code>，流状态变为 <code>fail</code>。</p>
+<h3 id="返回值-2">
+  返回值
+  <a class="heading-link" href="#%e8%bf%94%e5%9b%9e%e5%80%bc-2">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<p>返回 <code>istream&amp;</code>（即 <code>cin</code> 自身的引用）。可通过条件判断检验成败：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">while</span> <span class="p">(</span><span class="n">cin</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">ch</span><span class="p">))</span>   <span class="c1">// 读取成功时为 true
+</span></span></span><span class="line"><span class="cl">    <span class="n">process</span><span class="p">(</span><span class="n">ch</span><span class="p">);</span>
+</span></span></code></pre></div><p>读到文件末尾时 <code>cin.fail()</code> 返回 <code>true</code>，可用于条件退出的布尔转换。</p>
+<h3 id="示例-2">
+  示例
+  <a class="heading-link" href="#%e7%a4%ba%e4%be%8b-2">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">char</span> <span class="n">ch</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;逐个读取字符，按 # 结束:</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="n">cin</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">ch</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">ch</span> <span class="o">!=</span> <span class="sc">&#39;#&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;读到: &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">ch</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><hr>
+<h2 id="4-cingetbuf-len-和-cingetbuf-len-delim--双参三参版本">
+  4. <code>cin.get(buf, len)</code> 和 <code>cin.get(buf, len, delim)</code> — 双参/三参版本
+  <a class="heading-link" href="#4-cingetbuf-len-%e5%92%8c-cingetbuf-len-delim--%e5%8f%8c%e5%8f%82%e4%b8%89%e5%8f%82%e7%89%88%e6%9c%ac">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<h3 id="语法-3">
+  语法
+  <a class="heading-link" href="#%e8%af%ad%e6%b3%95-3">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">istream</span><span class="o">&amp;</span> <span class="n">cin</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="kt">char</span><span class="o">*</span> <span class="n">buf</span><span class="p">,</span> <span class="n">streamsize</span> <span class="n">len</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">istream</span><span class="o">&amp;</span> <span class="n">cin</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="kt">char</span><span class="o">*</span> <span class="n">buf</span><span class="p">,</span> <span class="n">streamsize</span> <span class="n">len</span><span class="p">,</span> <span class="kt">char</span> <span class="n">delim</span><span class="p">);</span>
+</span></span></code></pre></div><h3 id="说明-3">
+  说明
+  <a class="heading-link" href="#%e8%af%b4%e6%98%8e-3">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<p>从输入流中读取字符存入 C 风格字符串 <code>buf</code>：</p>
+<ul>
+<li><strong>最多读取 <code>len-1</code> 个字符</strong>（剩余一个位置自动补 <code>\0</code>）</li>
+<li>遇到分隔符 <code>delim</code>（默认 <code>\n</code>）时停止</li>
+<li><strong>不会读走分隔符</strong> — 分隔符留在缓冲区中</li>
+<li>如果下一个字符就是分隔符则立即停止，<code>buf</code> 为空串</li>
+</ul>
+<h3 id="返回值-3">
+  返回值
+  <a class="heading-link" href="#%e8%bf%94%e5%9b%9e%e5%80%bc-3">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<p>返回 <code>istream&amp;</code>。若未读到任何字符就遇到分隔符或 EOF，则设置 <code>failbit</code>，可通过 <code>cin.fail()</code> 检测。</p>
+<h3 id="示例-3">
+  示例
+  <a class="heading-link" href="#%e7%a4%ba%e4%be%8b-3">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">char</span> <span class="n">buf</span><span class="p">[</span><span class="mi">100</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;输入一行: &#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cin</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="mi">100</span><span class="p">);</span>        <span class="c1">// 输入: hello world\n
+</span></span></span><span class="line"><span class="cl">    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;buf = &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">buf</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>  <span class="c1">// buf = hello world
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// \n 还在缓冲区里！
+</span></span></span><span class="line"><span class="cl">    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;缓冲区下一个字符的 ASCII: &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">cin</span><span class="p">.</span><span class="n">peek</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span> <span class="c1">// 10 (即 \n)
+</span></span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p><strong>连续读取必须吃掉分隔符</strong>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">char</span> <span class="n">a</span><span class="p">[</span><span class="mi">100</span><span class="p">],</span> <span class="n">b</span><span class="p">[</span><span class="mi">100</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="n">cin</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mi">100</span><span class="p">);</span>             <span class="c1">// 读第一行，\n 留在缓冲区
+</span></span></span><span class="line"><span class="cl"><span class="n">cin</span><span class="p">.</span><span class="n">get</span><span class="p">();</span>                   <span class="c1">// 吃掉残留的 \n
+</span></span></span><span class="line"><span class="cl"><span class="n">cin</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="mi">100</span><span class="p">);</span>             <span class="c1">// 读第二行
+</span></span></span></code></pre></div><hr>
+<h2 id="5-cingetlinebuf-len-和-cingetlinebuf-len-delim">
+  5. <code>cin.getline(buf, len)</code> 和 <code>cin.getline(buf, len, delim)</code>
+  <a class="heading-link" href="#5-cingetlinebuf-len-%e5%92%8c-cingetlinebuf-len-delim">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<h3 id="语法-4">
+  语法
+  <a class="heading-link" href="#%e8%af%ad%e6%b3%95-4">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">istream</span><span class="o">&amp;</span> <span class="n">cin</span><span class="p">.</span><span class="n">getline</span><span class="p">(</span><span class="kt">char</span><span class="o">*</span> <span class="n">buf</span><span class="p">,</span> <span class="n">streamsize</span> <span class="n">len</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">istream</span><span class="o">&amp;</span> <span class="n">cin</span><span class="p">.</span><span class="n">getline</span><span class="p">(</span><span class="kt">char</span><span class="o">*</span> <span class="n">buf</span><span class="p">,</span> <span class="n">streamsize</span> <span class="n">len</span><span class="p">,</span> <span class="kt">char</span> <span class="n">delim</span><span class="p">);</span>
+</span></span></code></pre></div><h3 id="说明-4">
+  说明
+  <a class="heading-link" href="#%e8%af%b4%e6%98%8e-4">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<p>与 <code>cin.get(buf, len, delim)</code> 类似，但关键区别是：<strong>会读走并丢弃分隔符</strong>。</p>
+<ul>
+<li>最多读取 <code>len-1</code> 个字符，自动补 <code>\0</code></li>
+<li>遇到分隔符（默认 <code>\n</code>）停止并<strong>将其从缓冲区中读走（丢弃）</strong></li>
+<li>如果一行长度超过 <code>len-1</code>，流状态会变为 <code>fail</code></li>
+</ul>
+<h3 id="返回值-4">
+  返回值
+  <a class="heading-link" href="#%e8%bf%94%e5%9b%9e%e5%80%bc-4">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<p>返回 <code>istream&amp;</code>。若未读到任何字符就遇到分隔符或 EOF，设置 <code>failbit</code>；若一行长度超过 <code>len-1</code>，也设置 <code>failbit</code>。</p>
+<h3 id="示例-4">
+  示例
+  <a class="heading-link" href="#%e7%a4%ba%e4%be%8b-4">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">char</span> <span class="n">a</span><span class="p">[</span><span class="mi">100</span><span class="p">],</span> <span class="n">b</span><span class="p">[</span><span class="mi">100</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;输入两行:</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cin</span><span class="p">.</span><span class="n">getline</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mi">100</span><span class="p">);</span>     <span class="c1">// \n 被读走丢弃
+</span></span></span><span class="line"><span class="cl">    <span class="n">cin</span><span class="p">.</span><span class="n">getline</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="mi">100</span><span class="p">);</span>     <span class="c1">// 直接读下一行，无需 cin.get()
+</span></span></span><span class="line"><span class="cl">    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;a = &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">a</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;b = &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">b</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><hr>
+<h2 id="6-getlinecin-str-和-getlinecin-str-delim">
+  6. <code>getline(cin, str)</code> 和 <code>getline(cin, str, delim)</code>
+  <a class="heading-link" href="#6-getlinecin-str-%e5%92%8c-getlinecin-str-delim">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<h3 id="头文件-1">
+  头文件
+  <a class="heading-link" href="#%e5%a4%b4%e6%96%87%e4%bb%b6-1">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<p><code>#include &lt;string&gt;</code></p>
+<h3 id="语法-5">
+  语法
+  <a class="heading-link" href="#%e8%af%ad%e6%b3%95-5">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">istream</span><span class="o">&amp;</span> <span class="n">getline</span><span class="p">(</span><span class="n">istream</span><span class="o">&amp;</span> <span class="n">is</span><span class="p">,</span> <span class="n">string</span><span class="o">&amp;</span> <span class="n">str</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">istream</span><span class="o">&amp;</span> <span class="n">getline</span><span class="p">(</span><span class="n">istream</span><span class="o">&amp;</span> <span class="n">is</span><span class="p">,</span> <span class="n">string</span><span class="o">&amp;</span> <span class="n">str</span><span class="p">,</span> <span class="kt">char</span> <span class="n">delim</span><span class="p">);</span>
+</span></span></code></pre></div><h3 id="说明-5">
+  说明
+  <a class="heading-link" href="#%e8%af%b4%e6%98%8e-5">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<p>从输入流中读取一行存入 <code>std::string</code>：</p>
+<ul>
+<li>遇到分隔符（默认 <code>\n</code>）停止</li>
+<li><strong>读走并丢弃分隔符</strong></li>
+<li>不会将分隔符存入 <code>str</code></li>
+<li>自动管理内存，无需预设长度</li>
+</ul>
+<h3 id="返回值-5">
+  返回值
+  <a class="heading-link" href="#%e8%bf%94%e5%9b%9e%e5%80%bc-5">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<p>返回 <code>istream&amp;</code>（第一个参数的引用）。读到文件末尾设置 <code>eofbit</code>，无字符可读时设置 <code>failbit</code>。</p>
+<h3 id="示例-5">
+  示例
+  <a class="heading-link" href="#%e7%a4%ba%e4%be%8b-5">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">string</span> <span class="n">name</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;你的名字？&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">getline</span><span class="p">(</span><span class="n">cin</span><span class="p">,</span> <span class="n">name</span><span class="p">);</span>             <span class="c1">// 输入: Zhang San\n
+</span></span></span><span class="line"><span class="cl">    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;你好, &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">name</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;!&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span> <span class="c1">// 你好, Zhang San!
+</span></span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p><strong>自定义分隔符</strong>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">string</span> <span class="n">item</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">getline</span><span class="p">(</span><span class="n">cin</span><span class="p">,</span> <span class="n">item</span><span class="p">,</span> <span class="sc">&#39;,&#39;</span><span class="p">);</span>  <span class="c1">// 用逗号分隔，读取 &#34;张三,李四,王五&#34; 时依次得到 &#34;张三&#34; &#34;李四&#34; &#34;王五&#34;
+</span></span></span></code></pre></div><hr>
+<h2 id="核心对比cingetbuflen-vs-cingetlinebuflen">
+  核心对比：<code>cin.get(buf,len)</code> vs <code>cin.getline(buf,len)</code>
+  <a class="heading-link" href="#%e6%a0%b8%e5%bf%83%e5%af%b9%e6%af%94cingetbuflen-vs-cingetlinebuflen">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">char</span> <span class="n">a</span><span class="p">[</span><span class="mi">100</span><span class="p">],</span> <span class="n">b</span><span class="p">[</span><span class="mi">100</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// --- get() 版本：\n 留在缓冲区 ---
+</span></span></span><span class="line"><span class="cl"><span class="n">cin</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mi">100</span><span class="p">);</span>  <span class="c1">// 输入: abc\n  → a=&#34;abc&#34;,  \n 仍在缓冲区
+</span></span></span><span class="line"><span class="cl"><span class="n">cin</span><span class="p">.</span><span class="n">get</span><span class="p">();</span>        <span class="c1">// 必须手动吃掉 \n
+</span></span></span><span class="line"><span class="cl"><span class="n">cin</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="mi">100</span><span class="p">);</span>  <span class="c1">// 才能读下一行
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// --- getline() 版本：\n 被自动丢弃 ---
+</span></span></span><span class="line"><span class="cl"><span class="n">cin</span><span class="p">.</span><span class="n">getline</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mi">100</span><span class="p">);</span>  <span class="c1">// 输入: abc\n  → a=&#34;abc&#34;,  \n 被读走丢弃
+</span></span></span><span class="line"><span class="cl"><span class="n">cin</span><span class="p">.</span><span class="n">getline</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="mi">100</span><span class="p">);</span>  <span class="c1">// 直接读下一行
+</span></span></span></code></pre></div><hr>
+<h2 id="相关函数">
+  相关函数
+  <a class="heading-link" href="#%e7%9b%b8%e5%85%b3%e5%87%bd%e6%95%b0">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<table>
+	<thead>
+			<tr>
+					<th>函数</th>
+					<th>作用</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>cin.peek()</code></td>
+					<td>查看缓冲区下一个字符但不读走</td>
+			</tr>
+			<tr>
+					<td><code>cin.ignore(n, delim)</code></td>
+					<td>丢弃 n 个字符或直到遇到 delim</td>
+			</tr>
+			<tr>
+					<td><code>cin.putback(ch)</code></td>
+					<td>将字符 ch 放回缓冲区</td>
+			</tr>
+			<tr>
+					<td><code>cin.clear()</code></td>
+					<td>清除错误状态（如 <code>failbit</code>）</td>
+			</tr>
+	</tbody>
+</table>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+    2026
+     UOGOG 
+    ·
+    
+    技术支持 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js" integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+
+</html>
