@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+  <title>
+   · UOG的BLOG
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="UOGOG">
+<meta name="description" content="
+  参考网站
+  
+    
+    链接到标题
+  
+
+https://refactoring.guru/store
+
+  分类
+  
+    
+    链接到标题
+  
+
+所有设计模式按目的分成3种
+
+行为模式：如何划分类的职责
+结构模式：如何用类来组成大类
+创造模式：如何创造新类，就是新类创造的准则
+
+这种分类有重叠的部分在，就是有的设计模式你说他是行为模式也行，说他是结构模式也行这种。
+有个大致概念就好。
+A pattern isn’t just a recipe for structuring your code in a specific way. It can also communicate to other developers the problem the pattern solves.
+假如一个类想用多个模式，就直接在抽象类里多列几个纯虚函数就好。
+prototype&#43;Observer. 就是在subcriber那个抽象类里写clone和update两个纯虚函数。
+注意，抽象模式是为了大型项目开发中，人与人代码方法协作的，所以用法和写法都要懂，不要只懂怎么设计，却忘了怎么用(大部分的使用其实不用记，但有些模式的使用就是需要client配合)。
+有些一般原则，不一定对，但大部分是这样：要用谁就用一个成员指向相应对象。要细化谁就继承谁。e.g. facade里，要用子系统，就指向一个，要让人家（）用
+
+  template pattern
+  
+    
+    链接到标题
+  
+
+类别：行为模式（多是设计成员函数的）
+模板模式: 其实就是基本的虚函数，多态的应用，加入要实现动物叫唤函数，狗对象是狗叫，猫对象猫叫。
+
+  适用条件
+  
+    
+    链接到标题
+  
+
+设计时：
+Use the Template Method pattern when you want to let clients extend only particular steps of an algorithm, but not the whole algorithm or its structure.">
+<meta name="keywords" content="blog,developer,personal">
+
+
+
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="UOG的BLOG">
+	<meta name="twitter:description" content="参考网站 链接到标题 https://refactoring.guru/store
+分类 链接到标题 所有设计模式按目的分成3种
+行为模式：如何划分类的职责 结构模式：如何用类来组成大类 创造模式：如何创造新类，就是新类创造的准则 这种分类有重叠的部分在，就是有的设计模式你说他是行为模式也行，说他是结构模式也行这种。 有个大致概念就好。
+A pattern isn’t just a recipe for structuring your code in a specific way. It can also communicate to other developers the problem the pattern solves.
+假如一个类想用多个模式，就直接在抽象类里多列几个纯虚函数就好。 prototype&#43;Observer. 就是在subcriber那个抽象类里写clone和update两个纯虚函数。
+注意，抽象模式是为了大型项目开发中，人与人代码方法协作的，所以用法和写法都要懂，不要只懂怎么设计，却忘了怎么用(大部分的使用其实不用记，但有些模式的使用就是需要client配合)。
+有些一般原则，不一定对，但大部分是这样：要用谁就用一个成员指向相应对象。要细化谁就继承谁。e.g. facade里，要用子系统，就指向一个，要让人家（）用
+template pattern 链接到标题 类别：行为模式（多是设计成员函数的） 模板模式: 其实就是基本的虚函数，多态的应用，加入要实现动物叫唤函数，狗对象是狗叫，猫对象猫叫。
+适用条件 链接到标题 设计时： Use the Template Method pattern when you want to let clients extend only particular steps of an algorithm, but not the whole algorithm or its structure.">
+
+<meta property="og:url" content="https://uogog.github.io/posts/design_pattern/">
+	<meta property="og:site_name" content="UOG的BLOG">
+	<meta property="og:title" content="UOG的BLOG">
+	<meta property="og:description" content="参考网站 链接到标题 https://refactoring.guru/store
+分类 链接到标题 所有设计模式按目的分成3种
+行为模式：如何划分类的职责 结构模式：如何用类来组成大类 创造模式：如何创造新类，就是新类创造的准则 这种分类有重叠的部分在，就是有的设计模式你说他是行为模式也行，说他是结构模式也行这种。 有个大致概念就好。
+A pattern isn’t just a recipe for structuring your code in a specific way. It can also communicate to other developers the problem the pattern solves.
+假如一个类想用多个模式，就直接在抽象类里多列几个纯虚函数就好。 prototype&#43;Observer. 就是在subcriber那个抽象类里写clone和update两个纯虚函数。
+注意，抽象模式是为了大型项目开发中，人与人代码方法协作的，所以用法和写法都要懂，不要只懂怎么设计，却忘了怎么用(大部分的使用其实不用记，但有些模式的使用就是需要client配合)。
+有些一般原则，不一定对，但大部分是这样：要用谁就用一个成员指向相应对象。要细化谁就继承谁。e.g. facade里，要用子系统，就指向一个，要让人家（）用
+template pattern 链接到标题 类别：行为模式（多是设计成员函数的） 模板模式: 其实就是基本的虚函数，多态的应用，加入要实现动物叫唤函数，狗对象是狗叫，猫对象猫叫。
+适用条件 链接到标题 设计时： Use the Template Method pattern when you want to let clients extend only particular steps of an algorithm, but not the whole algorithm or its structure.">
+	<meta property="og:locale" content="zh_cn">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="posts">
+		<meta property="article:published_time" content="2026-08-21T14:51:36+08:00">
+		<meta property="article:modified_time" content="2026-08-21T14:51:36+08:00">
+
+
+
+
+<link rel="canonical" href="https://uogog.github.io/posts/design_pattern/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.min.eb24cf90dc36787516f31b2daef18b57a332c84021386a167d6a040e78be5c1e.css" integrity="sha256-6yTPkNw2eHUW8xstrvGLV6MyyEAhOGoWfWoEDni&#43;XB4=" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    
+    
+    <link rel="stylesheet" href="/css/coder-dark.min.ad48f476275974885bdc03d5251e3cdbe1678c54a63ff772376b0ed2adc468dd.css" integrity="sha256-rUj0didZdIhb3APVJR482&#43;FnjFSmP/dyN2sO0q3EaN0=" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/img/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/img/favicon.ico" sizes="32x32">
+<link rel="icon" type="image/png" href="/img/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-dark">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="https://uogog.github.io/">
+      UOG的BLOG
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">博客(Blog)</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/about/">关于(About)</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://uogog.github.io/posts/design_pattern/">
+              
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2026-08-21T14:51:36&#43;08:00">
+                August 21, 2026
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              阅读时间：16 分钟
+            </span>
+          </div>
+          
+          
+          
+        </div>
+      </header>
+
+      
+
+
+      <div class="post-content">
+        
+        <h1 id="参考网站">
+  参考网站
+  <a class="heading-link" href="#%e5%8f%82%e8%80%83%e7%bd%91%e7%ab%99">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h1>
+<p><a href="https://refactoring.guru/store"  class="external-link" target="_blank" rel="noopener">https://refactoring.guru/store</a></p>
+<h1 id="分类">
+  分类
+  <a class="heading-link" href="#%e5%88%86%e7%b1%bb">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h1>
+<p>所有设计模式按目的分成3种</p>
+<ol>
+<li>行为模式：如何划分类的职责</li>
+<li>结构模式：如何用类来组成大类</li>
+<li>创造模式：如何创造新类，就是新类创造的准则</li>
+</ol>
+<p>这种分类有重叠的部分在，就是有的设计模式你说他是行为模式也行，说他是结构模式也行这种。
+有个大致概念就好。</p>
+<p>A pattern isn’t just a recipe for structuring your code in a specific way. It can also communicate to other developers the problem the pattern solves.</p>
+<p>假如一个类想用多个模式，就直接在抽象类里多列几个纯虚函数就好。
+prototype+Observer. 就是在subcriber那个抽象类里写clone和update两个纯虚函数。</p>
+<p>注意，抽象模式是为了大型项目开发中，人与人代码方法协作的，所以用法和写法都要懂，不要只懂怎么设计，却忘了怎么用(大部分的使用其实不用记，但有些模式的使用就是需要client配合)。</p>
+<p>有些一般原则，不一定对，但大部分是这样：要用谁就用一个成员指向相应对象。要细化谁就继承谁。e.g. facade里，要用子系统，就指向一个，要让人家（）用</p>
+<h1 id="template-pattern">
+  template pattern
+  <a class="heading-link" href="#template-pattern">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h1>
+<p>类别：行为模式（多是设计成员函数的）
+模板模式: 其实就是基本的虚函数，多态的应用，加入要实现动物叫唤函数，狗对象是狗叫，猫对象猫叫。</p>
+<h2 id="适用条件">
+  适用条件
+  <a class="heading-link" href="#%e9%80%82%e7%94%a8%e6%9d%a1%e4%bb%b6">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<p>设计时：
+Use the Template Method pattern when you want to let clients extend only particular steps of an algorithm, but not the whole algorithm or its structure.</p>
+<p>The Template Method lets you turn a monolithic algorithm into a series of individual steps which can be easily extended by subclasses while keeping intact the structure defined in a superclass.
+重构时：
+Use the pattern when you have several classes that contain almost identical algorithms with some minor differences. As a result, you might need to modify all classes when the algorithm changes.</p>
+<p>When you turn such an algorithm into a template method, you can also pull up the steps with similar implementations into a superclass, eliminating code duplication. Code that varies between subclasses can remain in subclasses.</p>
+<h1 id="strategy">
+  strategy
+  <a class="heading-link" href="#strategy">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h1>
+<p>类别：行为模式
+策略（模式）: 在一个context中，动态替换某个步骤，也是多态的应用，加入要实现动物叫唤函数，狗对象是狗叫，猫对象猫叫，和template 的不同在形式上是，template是继承，strategy是组合。组合就更灵活</p>
+<p>Template Method is based on inheritance: it lets you alter parts of an algorithm by extending those parts in subclasses. Strategy is based on composition: you can alter parts of the object’s behavior by supplying it with different strategies that correspond to that behavior. Template Method works at the class level, so it’s static. Strategy works on the object level, letting you switch behaviors at runtime.</p>
+<h2 id="适用条件-1">
+  适用条件
+  <a class="heading-link" href="#%e9%80%82%e7%94%a8%e6%9d%a1%e4%bb%b6-1">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<p>Use the Strategy pattern when you want to use different variants of an algorithm within an object and be able to switch from one algorithm to another during runtime.</p>
+<p>The Strategy pattern lets you indirectly alter the object’s behavior at runtime by associating it with different sub-objects which can perform specific sub-tasks in different ways.</p>
+<p>Use the Strategy when you have a lot of similar classes that only differ in the way they execute some behavior.</p>
+<p>The Strategy pattern lets you extract the varying behavior into a separate class hierarchy and combine the original classes into one, thereby reducing duplicate code.</p>
+<p>Use the pattern to isolate the business logic of a class from the implementation details of algorithms that may not be as important in the context of that logic.</p>
+<p>The Strategy pattern lets you isolate the code, internal data, and dependencies of various algorithms from the rest of the code. Various clients get a simple interface to execute the algorithms and switch them at runtime.</p>
+<p>Use the pattern when your class has a massive conditional statement that switches between different variants of the same algorithm.</p>
+<p>The Strategy pattern lets you do away with such a conditional by extracting all algorithms into separate classes, all of which implement the same interface. The original object delegates execution to one of these objects, instead of implementing all variants of the algorithm.</p>
+<h1 id="observer">
+  Observer
+  <a class="heading-link" href="#observer">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h1>
+<p>类别：行为模式
+观察者模式：也可以叫publisher+subscriber模式（和ros2中的差不多，但是不是一个层面的概念了）。就是有一个publish类，自己的变化需要让所有subscribe类知晓，那么这个模式就有用。</p>
+<p>subscriber要有一个update方法给publisher调用</p>
+<p>对于subject，要有notify，register，unregister方法
+对于observer，要有update方法给subject调用。</p>
+<h2 id="适用条件-2">
+  适用条件
+  <a class="heading-link" href="#%e9%80%82%e7%94%a8%e6%9d%a1%e4%bb%b6-2">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<p>Use the Observer pattern when changes to the state of one object may require changing other objects, and the actual set of objects is unknown beforehand or changes dynamically.</p>
+<p>You can often experience this problem when working with classes of the graphical user interface. For example, you created custom button classes, and you want to let the clients hook some custom code to your buttons so that it fires whenever a user presses a button.</p>
+<p>The Observer pattern lets any object that implements the subscriber interface subscribe for event notifications in publisher objects. You can add the subscription mechanism to your buttons, letting the clients hook up their custom code via custom subscriber classes.</p>
+<p>Use the pattern when some objects in your app must observe others, but only for a limited time or in specific cases.</p>
+<p>The subscription list is dynamic, so subscribers can join or leave the list whenever they need to.</p>
+<h1 id="decorator">
+  decorator
+  <a class="heading-link" href="#decorator">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h1>
+<p>类别：结构模式
+装饰模式：这个是一个比较难搞的模式，就是可以在不影响client的情况下，多加一些功能。这个功能一定得在原有功能上加。</p>
+<p>带码比较难理解，有一个base基类-&gt;concretebase
+base -&gt; decorator -&gt;concretedecorator</p>
+<p>这里decorater一定要有一个base指针，用于指向concretebase的原有对象</p>
+<h2 id="适用条件-3">
+  适用条件
+  <a class="heading-link" href="#%e9%80%82%e7%94%a8%e6%9d%a1%e4%bb%b6-3">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<p>Use the Decorator pattern when you need to be able to assign extra behaviors to objects at runtime without breaking the code that uses these objects.</p>
+<p>The Decorator lets you structure your business logic into layers, create a decorator for each layer and compose objects with various combinations of this logic at runtime. The client code can treat all these objects in the same way, since they all follow a common interface.</p>
+<p>Use the pattern when it’s awkward or not possible to extend an object’s behavior using inheritance.</p>
+<p>Many programming languages have the final keyword that can be used to prevent further extension of a class. For a final class, the only way to reuse the existing behavior would be to wrap the class with your own wrapper, using the Decorator pattern.</p>
+<h1 id="bridge">
+  bridge
+  <a class="heading-link" href="#bridge">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h1>
+<p>类别：结构模式</p>
+<p>桥模式：说是桥模式，其实整体的代码结构和策略模式差不多，主要讲究的是分层的含义，一部分类专门处理一部分，两个部分的联动用composite组织。</p>
+<p>Bridge, State, Strategy (and to some degree Adapter) have very similar structures. Indeed, all of these patterns are based on composition, which is delegating work to other objects. However, they all solve different problems. A pattern isn’t just a recipe for structuring your code in a specific way. It can also communicate to other developers the problem the pattern solves.</p>
+<h2 id="适用条件-4">
+  适用条件
+  <a class="heading-link" href="#%e9%80%82%e7%94%a8%e6%9d%a1%e4%bb%b6-4">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<p>Use the Bridge pattern when you want to divide and organize a monolithic class that has several variants of some functionality (for example, if the class can work with various database servers).</p>
+<p>The bigger a class becomes, the harder it is to figure out how it works, and the longer it takes to make a change. The changes made to one of the variations of functionality may require making changes across the whole class, which often results in making errors or not addressing some critical side effects.</p>
+<p>The Bridge pattern lets you split the monolithic class into several class hierarchies. After this, you can change the classes in each hierarchy independently of the classes in the others. This approach simplifies code maintenance and minimizes the risk of breaking existing code.</p>
+<p>Use the pattern when you need to extend a class in several orthogonal (independent) dimensions.</p>
+<p>The Bridge suggests that you extract a separate class hierarchy for each of the dimensions. The original class delegates the related work to the objects belonging to those hierarchies instead of doing everything on its own.</p>
+<p>Use the Bridge if you need to be able to switch implementations at runtime.</p>
+<p>Although it’s optional, the Bridge pattern lets you replace the implementation object inside the abstraction. It’s as easy as assigning a new value to a field.</p>
+<p>By the way, this last item is the main reason why so many people confuse the Bridge with the Strategy pattern. Remember that a pattern is more than just a certain way to structure your classes. It may also communicate intent and a problem being addressed.</p>
+<h1 id="factory">
+  factory
+  <a class="heading-link" href="#factory">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h1>
+<p>类别：创造模式
+工厂模式：要我说，其实是桥模式+模板模式的组装+简单的创建机制。这个简单的创建机制是对client说的，client用个create就好，实际在创建concreteproduct时可能会有很多依赖，导致创建时会要求调用很多东西，但有工厂就可以一个create就好。</p>
+<p>区别在于，桥模式中对于两个正交维度的东西还是组装的调用方法（就是A中含有B，然后用户调用A的时候只需要指定concreteB就好），工厂的话，对于concreteB的调用是需要用户知道B的调用方法的。也就是说可以通过A去弄一个新的B，所以是创建模式。</p>
+<h2 id="适用条件-5">
+  适用条件
+  <a class="heading-link" href="#%e9%80%82%e7%94%a8%e6%9d%a1%e4%bb%b6-5">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<p>Use the Factory Method when you don’t know beforehand the exact types and dependencies of the objects your code should work with.</p>
+<p>The Factory Method separates product construction code from the code that actually uses the product. Therefore it’s easier to extend the product construction code independently from the rest of the code.</p>
+<p>For example, to add a new product type to the app, you’ll only need to create a new creator subclass and override the factory method in it.</p>
+<p>Use the Factory Method when you want to provide users of your library or framework with a way to extend its internal components.</p>
+<p>Inheritance is probably the easiest way to extend the default behavior of a library or framework. But how would the framework recognize that your subclass should be used instead of a standard component?</p>
+<p>The solution is to reduce the code that constructs components across the framework into a single factory method and let anyone override this method in addition to extending the component itself.</p>
+<p>Let’s see how that would work. Imagine that you write an app using an open source UI framework. Your app should have round buttons, but the framework only provides square ones. You extend the standard Button class with a glorious RoundButton subclass. But now you need to tell the main UIFramework class to use the new button subclass instead of a default one.</p>
+<p>To achieve this, you create a subclass UIWithRoundButtons from a base framework class and override its createButton method. While this method returns Button objects in the base class, you make your subclass return RoundButton objects. Now use the UIWithRoundButtons class instead of UIFramework. And that’s about it!</p>
+<p>Use the Factory Method when you want to save system resources by reusing existing objects instead of rebuilding them each time.</p>
+<p>You often experience this need when dealing with large, resource-intensive objects such as database connections, file systems, and network resources.</p>
+<p>Let’s think about what has to be done to reuse an existing object:</p>
+<pre><code>First, you need to create some storage to keep track of all of the created objects.
+When someone requests an object, the program should look for a free object inside that pool.
+… and then return it to the client code.
+If there are no free objects, the program should create a new one (and add it to the pool).
+</code></pre>
+<p>That’s a lot of code! And it must all be put into a single place so that you don’t pollute the program with duplicate code.</p>
+<p>Probably the most obvious and convenient place where this code could be placed is the constructor of the class whose objects we’re trying to reuse. However, a constructor must always return new objects by definition. It can’t return existing instances.</p>
+<p>Therefore, you need to have a regular method capable of creating new objects as well as reusing existing ones. That sounds very much like a factory method.</p>
+<h1 id="abstract-factory">
+  abstract factory
+  <a class="heading-link" href="#abstract-factory">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h1>
+<p>类别：创造模式
+抽象工厂就是多个类的create弄到多个工厂中，多个工厂弄成多态的。</p>
+<h2 id="适用条件-6">
+  适用条件
+  <a class="heading-link" href="#%e9%80%82%e7%94%a8%e6%9d%a1%e4%bb%b6-6">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<p>Use the Abstract Factory when your code needs to work with various families of related products, but you don’t want it to depend on the concrete classes of those products—they might be unknown beforehand or you simply want to allow for future extensibility.</p>
+<p>The Abstract Factory provides you with an interface for creating objects from each class of the product family. As long as your code creates objects via this interface, you don’t have to worry about creating the wrong variant of a product which doesn’t match the products already created by your app.</p>
+<p>Consider implementing the Abstract Factory when you have a class with a set of Factory Methods that blur its primary responsibility.</p>
+<p>In a well-designed program each class is responsible only for one thing. When a class deals with multiple product types, it may be worth extracting its factory methods into a stand-alone factory class or a full-blown Abstract Factory implementation.</p>
+<h1 id="prototype">
+  prototype
+  <a class="heading-link" href="#prototype">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h1>
+<p>类别：创造模式
+原型设计模式：主要是解决第三方的代码中，一个类的构造过程超级难搞，那么不如用一个prototype来clone一个新对象，这里的构造函数要好好写。
+就是实现时要有clone抽象方法。</p>
+<p>然后具体实现需要练习，因为这个实现的方式还蛮反直觉的。他会直接用一个config来创建一些根本不用的对象，只是用于clone的。</p>
+<p>真正使用时，可能需要继承两次，先是prototype -&gt; concreteprototype -&gt; concreteclass<br>
+理解时要注意，比如：   按钮抽象类他是一个按钮prototype，则有prototype - &gt; 按钮类 -&gt; 圆形按钮类<br>
+实际中可有一个protoregister的类，这个类里包含item指向注册的配置</p>
+<h2 id="适用条件-7">
+  适用条件
+  <a class="heading-link" href="#%e9%80%82%e7%94%a8%e6%9d%a1%e4%bb%b6-7">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<p>Use the Prototype pattern when your code shouldn’t depend on the concrete classes of objects that you need to copy.</p>
+<p>This happens a lot when your code works with objects passed to you from 3rd-party code via some interface. The concrete classes of these objects are unknown, and you couldn’t depend on them even if you wanted to.</p>
+<p>The Prototype pattern provides the client code with a general interface for working with all objects that support cloning. This interface makes the client code independent from the concrete classes of objects that it clones.</p>
+<p>Use the pattern when you want to reduce the number of subclasses that only differ in the way they initialize their respective objects.</p>
+<p>Suppose you have a complex class that requires a laborious configuration before it can be used. There are several common ways to configure this class, and this code is scattered through your app. To reduce the duplication, you create several subclasses and put every common configuration code into their constructors. You solved the duplication problem, but now you have lots of dummy subclasses.</p>
+<p>The Prototype pattern lets you use a set of pre-built objects configured in various ways as prototypes. Instead of instantiating a subclass that matches some configuration, the client can simply look for an appropriate prototype and clone it.</p>
+<h1 id="builder">
+  builder
+  <a class="heading-link" href="#builder">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h1>
+<p>类别：创建模式</p>
+<p>建造者模式：主要是细化的构造方法，像是factory模式有时候会演化成这种模式。一个builder可以用于构建多种对象，就是builder -&gt; concreteA,builder -&gt;concreteB,这里的A和B又可以构建同一种对象的不同变种。解决复杂配置的对象的配置问题。</p>
+<p>就是细化的factory方法，有时会弄一个director来详细写构造方法来减少重复代码。（有意思的是，我一开始想的是这个director用友员来弄，但实际实现其实就是director里写一个builder的成员。）</p>
+<h2 id="适用条件-8">
+  适用条件
+  <a class="heading-link" href="#%e9%80%82%e7%94%a8%e6%9d%a1%e4%bb%b6-8">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<p>Use the Builder pattern to get rid of a “telescoping constructor”.</p>
+<p>Say you have a constructor with ten optional parameters. Calling such a beast is very inconvenient; therefore, you overload the constructor and create several shorter versions with fewer parameters. These constructors still refer to the main one, passing some default values into any omitted parameters.</p>
+<p>class Pizza {
+Pizza(int size) { &hellip; }
+Pizza(int size, boolean cheese) { &hellip; }
+Pizza(int size, boolean cheese, boolean pepperoni) { &hellip; }
+// &hellip;</p>
+<p>Creating such a monster is only possible in languages that support method overloading, such as C# or Java.</p>
+<p>The Builder pattern lets you build objects step by step, using only those steps that you really need. After implementing the pattern, you don’t have to cram dozens of parameters into your constructors anymore.</p>
+<p>Use the Builder pattern when you want your code to be able to create different representations of some product (for example, stone and wooden houses).</p>
+<p>The Builder pattern can be applied when construction of various representations of the product involves similar steps that differ only in the details.</p>
+<p>The base builder interface defines all possible construction steps, and concrete builders implement these steps to construct particular representations of the product. Meanwhile, the director class guides the order of construction.</p>
+<p>Use the Builder to construct Composite trees or other complex objects.</p>
+<p>The Builder pattern lets you construct products step-by-step. You could defer execution of some steps without breaking the final product. You can even call steps recursively, which comes in handy when you need to build an object tree.</p>
+<p>A builder doesn’t expose the unfinished product while running construction steps. This prevents the client code from fetching an incomplete result.</p>
+<h1 id="singleton">
+  singleton
+  <a class="heading-link" href="#singleton">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h1>
+<p>类别：创造模式
+单件设计模式：保证一个实体只有一个对象的方法。其实说是不是设计模式，而是一种编程trick啥的。</p>
+<p>class Singleton
+{
+private:
+static Singleton * pinstance_; //用于指向自身
+static std::mutex mutex_; //用于线程安全
+protected:
+Singleton(const std::string value): value_(value)
+{
+}
+~Singleton() {}
+std::string value_;
+public:
+std::string value() const{
+return value_;
+}
+};
+Singleton* Singleton::pinstance_{nullptr};
+std::mutex Singleton::mutex_;
+Singleton *Singleton::GetInstance(const std::string&amp; value)
+{
+std::lock_guard<a href="std::mutex" >std::mutex</a> lock(mutex_);
+if (pinstance_ == nullptr)
+{
+pinstance_ = new Singleton(value);
+}
+return pinstance_;
+}</p>
+<h2 id="适用条件-9">
+  适用条件
+  <a class="heading-link" href="#%e9%80%82%e7%94%a8%e6%9d%a1%e4%bb%b6-9">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<p>Use the Singleton pattern when a class in your program should have just a single instance available to all clients; for example, a single database object shared by different parts of the program.</p>
+<p>The Singleton pattern disables all other means of creating objects of a class except for the special creation method. This method either creates a new object or returns an existing one if it has already been created.</p>
+<p>Use the Singleton pattern when you need stricter control over global variables.</p>
+<p>Unlike global variables, the Singleton pattern guarantees that there’s just one instance of a class. Nothing, except for the Singleton class itself, can replace the cached instance.</p>
+<p>Note that you can always adjust this limitation and allow creating any number of Singleton instances. The only piece of code that needs changing is the body of the getInstance method.</p>
+<h1 id="flyweight">
+  flyweight
+  <a class="heading-link" href="#flyweight">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h1>
+<p>类别：结构模式
+享元设计模式：这个是为了解决有大量对象时的性能问题提出的。具体实现其实是复杂的。就是代码超级难理解，感觉还是client懂计算机内存知识，自己用指针写还方便些。</p>
+<p>这个模式要实现的是，让用户只管向程序里加对象，至于对象的那些部分需要共享，则是由设计者决定，并写好，让用户不需要管理内存相关的东西。</p>
+<p>具体实现中，抽像的unique一个类。抽象的share一个类，然后用flyweight来引用一个share，用具体函数传参来使用unique。然后还有一个flyweightfactory类来管理flyweight类，保证有可以share的就share，没有的就加入。</p>
+<p><del>这里就是需要添加用户用法学习的模式，我还不懂，第二次看的时候加上吧。</del></p>
+<h2 id="适用条件-10">
+  适用条件
+  <a class="heading-link" href="#%e9%80%82%e7%94%a8%e6%9d%a1%e4%bb%b6-10">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<p>Use the Flyweight pattern only when your program must support a huge number of objects which barely fit into available RAM.</p>
+<p>The benefit of applying the pattern depends heavily on how and where it’s used. It’s most useful when:</p>
+<pre><code>an application needs to spawn a huge number of similar objects
+this drains all available RAM on a target device
+the objects contain duplicate states which can be extracted and shared between multiple objects
+</code></pre>
+<h1 id="facade">
+  facade
+  <a class="heading-link" href="#facade">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h1>
+<p>类别：结构模式
+门面模式：就是最基础的，包一层的思想，有点想hal库和直接寄存器操作的关系。弄出来的类只有方法和指针，指向需要的子系统。</p>
+<p>其实蛮奇怪的，对于一个类到底应该怎么理解呢，我以前总感觉类里一定要有个成员，比如一个int这种，然后成员函数是围绕int来设计的，现在看设计模式，感觉类只是用于规划的一个东西，很难说是一个有成员的东西。</p>
+<h2 id="适用条件-11">
+  适用条件
+  <a class="heading-link" href="#%e9%80%82%e7%94%a8%e6%9d%a1%e4%bb%b6-11">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<p>Use the Facade pattern when you need to have a limited but straightforward interface to a complex subsystem.</p>
+<p>Often, subsystems get more complex over time. Even applying design patterns typically leads to creating more classes. A subsystem may become more flexible and easier to reuse in various contexts, but the amount of configuration and boilerplate code it demands from a client grows ever larger. The Facade attempts to fix this problem by providing a shortcut to the most-used features of the subsystem which fit most client requirements.</p>
+<p>Use the Facade when you want to structure a subsystem into layers.</p>
+<p>Create facades to define entry points to each level of a subsystem. You can reduce coupling between multiple subsystems by requiring them to communicate only through facades.</p>
+<p>For example, let’s return to our video conversion framework. It can be broken down into two layers: video- and audio-related. For each layer, you can create a facade and then make the classes of each layer communicate with each other via those facades. This approach looks very similar to the Mediator pattern.</p>
+<h1 id="adapterwrapper">
+  Adapter/Wrapper
+  <a class="heading-link" href="#adapterwrapper">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h1>
+<p>类别：创造模式
+适应器：要用3方lib，但结构和我想要的不一样，就搞个adapter，adapter里指向第3方lib，client用adapter提供的方法。</p>
+<h2 id="适用条件-12">
+  适用条件
+  <a class="heading-link" href="#%e9%80%82%e7%94%a8%e6%9d%a1%e4%bb%b6-12">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<p>Use the Adapter class when you want to use some existing class, but its interface isn’t compatible with the rest of your code.</p>
+<p>The Adapter pattern lets you create a middle-layer class that serves as a translator between your code and a legacy class, a 3rd-party class or any other class with a weird interface.</p>
+<p>Use the pattern when you want to reuse several existing subclasses that lack some common functionality that can’t be added to the superclass.</p>
+<p>You could extend each subclass and put the missing functionality into new child classes. However, you’ll need to duplicate the code across all of these new classes, which smells really bad.</p>
+<p>The much more elegant solution would be to put the missing functionality into an adapter class. Then you would wrap objects with missing features inside the adapter, gaining needed features dynamically. For this to work, the target classes must have a common interface, and the adapter’s field should follow that interface. This approach looks very similar to the Decorator pattern.</p>
+<h1 id="mediator">
+  Mediator
+  <a class="heading-link" href="#mediator">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h1>
+<p>类别：结构模式
+中介/调节者模式：其实如果看过黑马的linux网络编程的话，你会感觉反应堆模型和这个还蛮像的，但这个是代码协作的模式。就是希望用户用类A时，可以只用一个mediator，而不用好多其他类来实现一个功能。</p>
+<p>每个component要有指向mediator的指针，虚mediator要有一个notify虚函数给component用。concretemediator要指向所有component来调用他们，具体的调用代码就可以写在mediator里。</p>
+<h2 id="适用条件-13">
+  适用条件
+  <a class="heading-link" href="#%e9%80%82%e7%94%a8%e6%9d%a1%e4%bb%b6-13">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<p>Use the Mediator pattern when it’s hard to change some of the classes because they are tightly coupled to a bunch of other classes.</p>
+<p>The pattern lets you extract all the relationships between classes into a separate class, isolating any changes to a specific component from the rest of the components.</p>
+<p>Use the pattern when you can’t reuse a component in a different program because it’s too dependent on other components.</p>
+<p>After you apply the Mediator, individual components become unaware of the other components. They could still communicate with each other, albeit indirectly, through a mediator object. To reuse a component in a different app, you need to provide it with a new mediator class.</p>
+<p>Use the Mediator when you find yourself creating tons of component subclasses just to reuse some basic behavior in various contexts.</p>
+<p>Since all relations between components are contained within the mediator, it’s easy to define entirely new ways for these components to collaborate by introducing new mediator classes, without having to change the components themselves.</p>
+<h1 id="state">
+  State
+  <a class="heading-link" href="#state">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h1>
+<p>类别：结构模式
+状态模式：就是状态机的类设计的体现，整体架构很像strategy，但是在具体的状态里一般会引用调用状态类的类。</p>
+<p>实现时，要把所有状态的共同操作提取出来，弄成基类，然后一个个实现。
+<del>我应该把图都偷过来的</del></p>
+<h2 id="适用条件-14">
+  适用条件
+  <a class="heading-link" href="#%e9%80%82%e7%94%a8%e6%9d%a1%e4%bb%b6-14">
+    <i class="fa-solid fa-link" aria-hidden="true" title="链接到标题"></i>
+    <span class="sr-only">链接到标题</span>
+  </a>
+</h2>
+<p>Use the State pattern when you have an object that behaves differently depending on its current state, the number of states is enormous, and the state-specific code changes frequently.</p>
+<p>The pattern suggests that you extract all state-specific code into a set of distinct classes. As a result, you can add new states or change existing ones independently of each other, reducing the maintenance cost.</p>
+<p>Use the pattern when you have a class polluted with massive conditionals that alter how the class behaves according to the current values of the class’s fields.</p>
+<p>The State pattern lets you extract branches of these conditionals into methods of corresponding state classes. While doing so, you can also clean temporary fields and helper methods involved in state-specific code out of your main class.</p>
+<p>Use State when you have a lot of duplicate code across similar states and transitions of a condition-based state machine.</p>
+<p>The State pattern lets you compose hierarchies of state classes and reduce duplication by extracting common code into abstract base classes.</p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+    2026
+     UOGOG 
+    ·
+    
+    技术支持 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js" integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+
+</html>

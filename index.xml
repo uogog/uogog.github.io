@@ -10,9 +10,16 @@
 		
 		
 		
-			<lastBuildDate>Thu, 06 Aug 2026 21:09:25 +0800</lastBuildDate>
+			<lastBuildDate>Fri, 21 Aug 2026 14:51:36 +0800</lastBuildDate>
 		
 			<atom:link href="https://uogog.github.io/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title></title>
+				<link>https://uogog.github.io/posts/design_pattern/</link>
+				<pubDate>Fri, 21 Aug 2026 14:51:36 +0800</pubDate>
+				<guid>https://uogog.github.io/posts/design_pattern/</guid>
+				<description>&lt;h1 id=&#34;参考网站&#34;&gt;&#xA;  参考网站&#xA;  &lt;a class=&#34;heading-link&#34; href=&#34;#%e5%8f%82%e8%80%83%e7%bd%91%e7%ab%99&#34;&gt;&#xA;    &lt;i class=&#34;fa-solid fa-link&#34; aria-hidden=&#34;true&#34; title=&#34;链接到标题&#34;&gt;&lt;/i&gt;&#xA;    &lt;span class=&#34;sr-only&#34;&gt;链接到标题&lt;/span&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://refactoring.guru/store&#34;  class=&#34;external-link&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;https://refactoring.guru/store&lt;/a&gt;&lt;/p&gt;&#xA;&lt;h1 id=&#34;分类&#34;&gt;&#xA;  分类&#xA;  &lt;a class=&#34;heading-link&#34; href=&#34;#%e5%88%86%e7%b1%bb&#34;&gt;&#xA;    &lt;i class=&#34;fa-solid fa-link&#34; aria-hidden=&#34;true&#34; title=&#34;链接到标题&#34;&gt;&lt;/i&gt;&#xA;    &lt;span class=&#34;sr-only&#34;&gt;链接到标题&lt;/span&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;p&gt;所有设计模式按目的分成3种&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;行为模式：如何划分类的职责&lt;/li&gt;&#xA;&lt;li&gt;结构模式：如何用类来组成大类&lt;/li&gt;&#xA;&lt;li&gt;创造模式：如何创造新类，就是新类创造的准则&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;p&gt;这种分类有重叠的部分在，就是有的设计模式你说他是行为模式也行，说他是结构模式也行这种。&#xA;有个大致概念就好。&lt;/p&gt;&#xA;&lt;p&gt;A pattern isn’t just a recipe for structuring your code in a specific way. It can also communicate to other developers the problem the pattern solves.&lt;/p&gt;&#xA;&lt;p&gt;假如一个类想用多个模式，就直接在抽象类里多列几个纯虚函数就好。&#xA;prototype+Observer. 就是在subcriber那个抽象类里写clone和update两个纯虚函数。&lt;/p&gt;&#xA;&lt;p&gt;注意，抽象模式是为了大型项目开发中，人与人代码方法协作的，所以用法和写法都要懂，不要只懂怎么设计，却忘了怎么用(大部分的使用其实不用记，但有些模式的使用就是需要client配合)。&lt;/p&gt;&#xA;&lt;p&gt;有些一般原则，不一定对，但大部分是这样：要用谁就用一个成员指向相应对象。要细化谁就继承谁。e.g. facade里，要用子系统，就指向一个，要让人家（）用&lt;/p&gt;&#xA;&lt;h1 id=&#34;template-pattern&#34;&gt;&#xA;  template pattern&#xA;  &lt;a class=&#34;heading-link&#34; href=&#34;#template-pattern&#34;&gt;&#xA;    &lt;i class=&#34;fa-solid fa-link&#34; aria-hidden=&#34;true&#34; title=&#34;链接到标题&#34;&gt;&lt;/i&gt;&#xA;    &lt;span class=&#34;sr-only&#34;&gt;链接到标题&lt;/span&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;p&gt;类别：行为模式（多是设计成员函数的）&#xA;模板模式: 其实就是基本的虚函数，多态的应用，加入要实现动物叫唤函数，狗对象是狗叫，猫对象猫叫。&lt;/p&gt;&#xA;&lt;h2 id=&#34;适用条件&#34;&gt;&#xA;  适用条件&#xA;  &lt;a class=&#34;heading-link&#34; href=&#34;#%e9%80%82%e7%94%a8%e6%9d%a1%e4%bb%b6&#34;&gt;&#xA;    &lt;i class=&#34;fa-solid fa-link&#34; aria-hidden=&#34;true&#34; title=&#34;链接到标题&#34;&gt;&lt;/i&gt;&#xA;    &lt;span class=&#34;sr-only&#34;&gt;链接到标题&lt;/span&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;p&gt;设计时：&#xA;Use the Template Method pattern when you want to let clients extend only particular steps of an algorithm, but not the whole algorithm or its structure.&lt;/p&gt;</description>
+			</item>
 			<item>
 				<title></title>
 				<link>https://uogog.github.io/posts/ros2/</link>
